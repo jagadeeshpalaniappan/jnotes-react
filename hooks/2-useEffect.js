@@ -13,19 +13,18 @@ useEffect:
 
 // ---------------------------------------------------------------------------
 
-
 const MyComp1 = ({ state1, state2 }) => {
   // useEffect: accepts 'twoArgs'  arg1:fn, arg2:array
   useEffect(() => {
     console.log(
       "MyComp1:: like componentDidMount (calledOnlyOnce - during mount)"
     );
-    const myFn = () => {
+    const cleanUp = () => {
       console.log(
         "MyComp1:: like componentWillUnmount: (calledOnlyOnce - during unmount)"
       );
     };
-    return myFn;
+    return cleanUp;
   }, []); // NOTE: here 'arg2' is emptyArr
 
   return (
@@ -42,10 +41,10 @@ const MyComp2 = ({ state1, state2 }) => {
   // useEffect: accepts 'twoArgs'  arg1:fn, arg2:array
   useEffect(() => {
     console.log("MyComp2:: ~someState~ changed");
-    const myFn = () => {
+    const cleanUp = () => {
       console.log("MyComp2:: reset here");
     };
-    return myFn;
+    return cleanUp;
   }); // NOTE: here 'arg2' is undefined
 
   return (
@@ -59,14 +58,17 @@ const MyComp2 = ({ state1, state2 }) => {
 };
 
 const MyComp3 = ({ state1, state2 }) => {
-  // useEffect: accepts 'twoArgs'  arg1:fn, arg2:array
-  useEffect(() => {
+
+  const _state2Changed = () => {
     console.log("MyComp3:: 'state2' changed");
-    const myFn = () => {
+    const cleanUp = () => {
       console.log("MyComp3:: reset here (releated to 'state2') ");
     };
-    return myFn;
-  }, [state2]); // NOTE: here 'arg2' is [state2] // will called only when 'state2' chnages
+    return cleanUp;
+  };
+
+  // useEffect: accepts 'twoArgs'  arg1:fn, arg2:array | returns: cleanUp actitivity
+  useEffect(_state2Changed, [state2]);
 
   return (
     <span>
@@ -200,7 +202,6 @@ const Ex3 = () => {
 // ---------------------------------------------------------------------------
 
 const useFetchUser = userId => {
-
   const [fetchState, setFetchState] = useState({
     loading: false,
     error: null,
