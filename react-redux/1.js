@@ -4,9 +4,9 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import { v4 as uuidv4 } from "uuid";
 
-import { userReducer } from "../redux";
+import { userReducer, postReducer } from "./redux";
 import UserContainer from "./containers/UserContainer";
-
+import PostContainer from "./containers/PostContainer";
 
 // Example: Blog App (BlogPosts, Users)
 
@@ -14,16 +14,11 @@ import UserContainer from "./containers/UserContainer";
 
 const rootReducer = combineReducers({
   userState: userReducer,
-  // postState: postReducer
+  postState: postReducer
 });
 const store = createStore(rootReducer);
 
-//---------------------------------/ Redux -----------------------------------
-
 //--------------------------------- React -----------------------------------
-
-
-// --------------------------------
 
 const App = () => {
   return (
@@ -31,10 +26,9 @@ const App = () => {
       <div>
         My App
         <UserContainer />
+        <PostContainer />
       </div>
     </Provider>
   );
 };
 render(<App />, document.getElementById("root"));
-
-//--------------------------------- /React -----------------------------------

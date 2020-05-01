@@ -30,9 +30,10 @@ const addPost = post => {
 
 // ############### User: ###############
 
+
 // REDUCER:
-const initialStateForPosts = {
-  posts: []
+const initialStateForUsers = {
+  users: []
 };
 
 export const userReducer = (state = initialStateForUsers, action) => {
@@ -48,8 +49,8 @@ export const userReducer = (state = initialStateForUsers, action) => {
 // ############### Post: ###############
 
 // REDUCER:
-const initialStateForUsers = {
-  users: []
+const initialStateForPosts = {
+  posts: []
 };
 
 export const postReducer = (state = initialStateForPosts, action) => {

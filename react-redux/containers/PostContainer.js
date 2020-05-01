@@ -5,18 +5,18 @@ import { AddItemForm } from "../components";
 
 import { addPost } from "../redux";
 
-const UserContainer = ({ users, myAddPost }) => {
+const PostContainer = ({ posts, myAddUser }) => {
   const handleAdd = userName => {
     console.log("AddUser:", userName);
-    myAddPost(userName);
+    myAddUser(userName);
   };
   return (
     <div>
-      <h3> User Module: </h3>
+      <h3> Post Module: </h3>
       <AddItemForm onAdd={handleAdd} />
       <ul>
-        {users &&
-          users.map(user => (
+        {posts &&
+          posts.map(user => (
             <li key={user.id}>
               {user.name} [{user.id}]
             </li>
@@ -28,16 +28,16 @@ const UserContainer = ({ users, myAddPost }) => {
 
 const mapStateToProps = state => {
   return {
-    users: state.userState.users
+    posts: state.postState.posts
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    myAddPost: name => dispatch(addPost({ name: name }))
+    myPostUser: name => dispatch(addPost({ name: name }))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserContainer);
+)(PostContainer);
