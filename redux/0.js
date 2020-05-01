@@ -40,3 +40,29 @@ Reducer:
 
 
 */
+
+
+/*
+
+Redux Thunk: (to handle Asynchronous Action)
+
+
+With a plain basic Redux store, you can only do simple synchronous updates by dispatching an action. 
+Thunk Middleware extend the store's abilities, and let you write async logic that interacts with the store.
+
+````````````````````````````````````
+- Thunk middleware allows 'actionCreators' to return 'fn' instead of an 'actionObject'
+  -- this helps to handle async action
+  -- this helps to dispatch another actions inside action creators 
+````````````````````````````````````
+
+Basically thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. 
+The inner function receives the store methods dispatch and getState as parameters.
+
+
+
+Thunks are the recommended middleware for basic Redux side effects logic, 
+  - including complex synchronous logic that needs access to the store
+  - simple async logic like AJAX requests.
+
+*/
