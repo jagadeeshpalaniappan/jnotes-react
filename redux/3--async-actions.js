@@ -39,9 +39,8 @@ const fetchUsers = () => {
   return function(dispatch) {
     dispatch(fetchUsersRequest());
     axios
-      .get("https://jsonplaceholder.typicode.com/users")
+      .get("https://jsonplaceholder.typicode1.com/users")
       .then(response => {
-        // response.data is the users
         const users = response.data.map(user => ({
           id: user.id,
           name: user.name
@@ -49,7 +48,6 @@ const fetchUsers = () => {
         dispatch(fetchUsersSuccess(users));
       })
       .catch(error => {
-        // error.message is the error message
         dispatch(fetchUsersFailure(error.message));
       });
   };
@@ -105,18 +103,8 @@ const unsubscribeFn = store.subscribe(() =>
   console.log("#### Updated State: ", store.getState())
 );
 
-// ############## User [CRUD]
 
 // FETCH_USERS
 store.dispatch(fetchUsers());
-
-// store.dispatch(addUser({ name: "Sundar" }));
-
-// // UPDATE_USER:
-// const user1 = store.getState().userState.users[0];
-// store.dispatch(updateUser({ ...user1, name: "Jagadeesh Palaniappan" }));
-
-// // DELETE_USER:
-// store.dispatch(deleteUser(user1.id));
 
 // unsubscribeFn();
