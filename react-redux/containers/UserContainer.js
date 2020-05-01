@@ -3,12 +3,12 @@ import { connect } from "react-redux";
 
 import { AddItemForm } from "../components";
 
-import { addPost } from "../redux";
+import { addUser } from "../redux";
 
-const UserContainer = ({ users, myAddPost }) => {
+const UserContainer = ({ users, myAddUser }) => {
   const handleAdd = userName => {
     console.log("AddUser:", userName);
-    myAddPost(userName);
+    myAddUser(userName);
   };
   return (
     <div>
@@ -33,7 +33,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    myAddPost: name => dispatch(addPost({ name: name }))
+    myAddUser: name => dispatch(addUser({ name: name }))
   };
 };
 

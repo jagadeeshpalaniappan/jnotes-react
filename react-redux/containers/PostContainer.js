@@ -5,10 +5,10 @@ import { AddItemForm } from "../components";
 
 import { addPost } from "../redux";
 
-const PostContainer = ({ posts, myAddUser }) => {
+const PostContainer = ({ posts, myAddPost }) => {
   const handleAdd = userName => {
     console.log("AddUser:", userName);
-    myAddUser(userName);
+    myAddPost(userName);
   };
   return (
     <div>
@@ -33,7 +33,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    myPostUser: name => dispatch(addPost({ name: name }))
+    myAddPost: name => dispatch(addPost({ name: name }))
   };
 };
 

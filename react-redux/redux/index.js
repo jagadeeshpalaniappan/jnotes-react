@@ -21,7 +21,7 @@ export const addUser = user => {
 const ADD_POST = "ADD_POST";
 
 // ACTION-CREATORS:
-const addPost = post => {
+export const addPost = post => {
   return { type: ADD_POST, payload: { id: uuidv4(), ...post } };
 };
 
