@@ -10,14 +10,6 @@ import PostContainer from "./containers/PostContainer";
 
 // Example: Blog App (BlogPosts, Users)
 
-//--------------------------------- Redux: Store -----------------------------------
-
-const rootReducer = combineReducers({
-  userState: userReducer,
-  postState: postReducer
-});
-const store = createStore(rootReducer);
-
 //--------------------------------- React -----------------------------------
 
 const App = () => {
