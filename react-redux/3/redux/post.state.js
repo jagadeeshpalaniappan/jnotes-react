@@ -15,15 +15,15 @@ export const addPost = post => {
 //--------------------------------- Reducer -----------------------------------
 
 // REDUCER:
-const initialStateForPosts = {
+const initialPostState = {
   posts: []
 };
 
-export const postReducer = (state = initialStateForPosts, action) => {
+export const postReducer = (postState = initialPostState, action) => {
   switch (action.type) {
     case ADD_POST:
-      return { ...state, posts: [...state.posts, action.payload] };
+      return { ...postState, posts: [...postState.posts, action.payload] };
     default:
-      return state;
+      return postState;
   }
 };

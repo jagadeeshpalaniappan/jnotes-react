@@ -15,15 +15,15 @@ export const addUser = user => {
 //--------------------------------- Reducer -----------------------------------
 
 // REDUCER:
-const initialStateForUsers = {
+const initialUserState = {
   users: []
 };
 
-export const userReducer = (state = initialStateForUsers, action) => {
+export const userReducer = (userState = initialUserState, action) => {
   switch (action.type) {
     case ADD_USER:
-      return { ...state, users: [...state.users, action.payload] };
+      return { ...userState, users: [...userState.users, action.payload] };
     default:
-      return state;
+      return userState;
   }
 };

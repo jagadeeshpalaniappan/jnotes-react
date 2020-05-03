@@ -24,7 +24,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <div>
-        My App
+        <h2 style={{ textAlign: "center", borderBottom: "1px solid gray" }}>
+          My App 2
+        </h2>
         <UserContainer />
         <PostContainer />
       </div>

@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import { v4 as uuidv4 } from "uuid";
 
-import { userReducer, postReducer } from "./redux";
+import store from "./redux/app.store";
 import UserContainer from "./containers/UserContainer";
 import PostContainer from "./containers/PostContainer";
 
@@ -16,7 +16,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <div>
-        My App
+        <h2 style={{ textAlign: "center", borderBottom: "1px solid gray" }}> My App 3</h2>
         <UserContainer />
         <PostContainer />
       </div>

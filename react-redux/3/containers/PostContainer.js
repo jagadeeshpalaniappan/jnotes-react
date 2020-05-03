@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { AddItemForm } from "../../components";
 
-import { addPost } from "../redux";
+import { addPost } from "../redux/post.state";
 
 const PostContainer = ({ posts, myAddPost }) => {
   const handleAdd = userName => {

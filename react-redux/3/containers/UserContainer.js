@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { AddItemForm } from "../../components";
 
-import { addUser } from "../redux";
+import { addUser } from "../redux/user.state";
 
 const UserContainer = ({ users, myAddUser }) => {
   const handleAdd = userName => {
