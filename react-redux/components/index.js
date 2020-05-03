@@ -29,20 +29,18 @@ export const AddItemForm = ({ onAdd }) => {
   );
 };
 
-export const List = ({ children }) => {
-  return <ul>{children}</ul>;
-};
-
-
 export const ListItem = ({ item, onEdit, onDelete }) => {
   return (
     <li key={item.id}>
       <span>
         {item.name} -- [{item.id}]
       </span>
-      <button>Edit</button>
-      <button>Delete</button>
+      {onEdit && <button onClick={e => onEdit(e, item)}>Edit</button>}
+      {onDelete && <button onClick={e => onDelete(e, item)}>Delete</button>}
     </li>
   );
 };
 
+export const List = ({ children }) => {
+  return <ul>{children}</ul>;
+};

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { AddItemForm } from "../../components";
+import { AddItemForm, List, ListItem } from "../../components";
 
 import { addPost } from "../redux/post.state";
 
@@ -10,18 +10,31 @@ const PostContainer = ({ posts, myAddPost }) => {
     console.log("AddUser:", userName);
     myAddPost(userName);
   };
+
+  const handleEdit = (e, item) => {
+    console.log("EditUser:", item);
+    // myAddUser(userName);
+  };
+
+  const handleDelete = (e, item) => {
+    console.log("DeleteUser:", item);
+    // myAddUser(userName);
+  };
+
   return (
     <div>
-      <h3> Post Module: </h3>
+      <h3> PostContainer: </h3>
       <AddItemForm onAdd={handleAdd} />
-      <ul>
-        {posts &&
-          posts.map(user => (
-            <li key={user.id}>
-              {user.name} [{user.id}]
-            </li>
+
+      {posts && (
+        <List>
+          {posts.map(post => (
+            <ListItem item={post} onEdit={handleEdit} onDelete={handleDelete} />
           ))}
-      </ul>
+        </List>
+      )}
+
+      {!(posts && posts.length > 0) && "No posts found"}
     </div>
   );
 };

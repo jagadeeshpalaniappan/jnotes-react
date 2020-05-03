@@ -10,11 +10,29 @@ const UserContainer = ({ users, myAddUser }) => {
     console.log("AddUser:", userName);
     myAddUser(userName);
   };
+
+  const handleEdit = (e, item) => {
+    console.log("EditUser:", item);
+    // myAddUser(userName);
+  };
+
+  const handleDelete = (e, item) => {
+    console.log("DeleteUser:", item);
+    // myAddUser(userName);
+  };
+
   return (
     <div>
-      <h3> User Module: </h3>
+      <h3> UserContainer: </h3>
       <AddItemForm onAdd={handleAdd} />
-      
+      {users && (
+        <List>
+          {users.map(user => (
+            <ListItem item={user} onEdit={handleEdit} onDelete={handleDelete} />
+          ))}
+        </List>
+      )}
+      {!(users && users.length > 0) && "No users found"}
     </div>
   );
 };
