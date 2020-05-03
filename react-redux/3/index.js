@@ -8,6 +8,8 @@ import store from "./redux/app.store";
 import UserContainer from "./containers/UserContainer";
 import PostContainer from "./containers/PostContainer";
 
+import { AppHeader } from "../components";
+
 // Example: Blog App (BlogPosts, Users)
 
 //--------------------------------- React -----------------------------------
@@ -16,7 +18,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <div>
-        <h2 style={{ textAlign: "center", borderBottom: "1px solid gray" }}> My App 3</h2>
+        <AppHeader title="My App 3" />
         <UserContainer />
         <PostContainer />
       </div>

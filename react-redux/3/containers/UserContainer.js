@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { AddItemForm } from "../../components";
+import { AddItemForm, List, ListItem } from "../../components";
 
 import { addUser } from "../redux/user.state";
 
@@ -14,16 +14,7 @@ const UserContainer = ({ users, myAddUser }) => {
     <div>
       <h3> User Module: </h3>
       <AddItemForm onAdd={handleAdd} />
-      <ul>
-        {users &&
-          users.map(user => (
-            <li key={user.id}>
-              <span>{user.name} -- [{user.id}]</span>
-              <button>Edit</button>
-              <button>Delete</button>
-            </li>
-          ))}
-      </ul>
+      
     </div>
   );
 };

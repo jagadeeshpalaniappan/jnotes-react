@@ -57,7 +57,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <div>
-        <h2 style={{ textAlign: "center", borderBottom: "1px solid gray" }}> My App 1</h2>
+        <AppHeader title="My App 3" />
         <UserContainerRdxConnected />
       </div>
     </Provider>

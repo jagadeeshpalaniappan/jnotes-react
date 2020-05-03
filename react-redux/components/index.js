@@ -1,5 +1,13 @@
 import React, { useState } from "react";
 
+export const AppHeader = ({ title }) => {
+  return (
+    <h2 style={{ textAlign: "center", borderBottom: "1px solid gray" }}>
+      {title}
+    </h2>
+  );
+};
+
 export const AddItemForm = ({ onAdd }) => {
   const [value, setValue] = useState("");
   return (
@@ -20,3 +28,21 @@ export const AddItemForm = ({ onAdd }) => {
     </form>
   );
 };
+
+export const List = ({ children }) => {
+  return <ul>{children}</ul>;
+};
+
+
+export const ListItem = ({ item, onEdit, onDelete }) => {
+  return (
+    <li key={item.id}>
+      <span>
+        {item.name} -- [{item.id}]
+      </span>
+      <button>Edit</button>
+      <button>Delete</button>
+    </li>
+  );
+};
+
