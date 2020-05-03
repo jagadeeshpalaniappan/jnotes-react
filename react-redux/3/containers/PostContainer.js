@@ -3,22 +3,26 @@ import { connect } from "react-redux";
 
 import { AddItemForm, List, ListItem } from "../../components";
 
-import { addPost } from "../redux/post.state";
+import {
+  addPostAction,
+  editPostAction,
+  deletePostAction
+} from "../redux/post.state";
 
-const PostContainer = ({ posts, myAddPost }) => {
-  const handleAdd = userName => {
-    console.log("AddUser:", userName);
-    myAddPost(userName);
+const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
+  const handleAdd = name => {
+    console.log("AddPost:", name);
+    addPost({ name });
   };
 
-  const handleEdit = (e, item) => {
-    console.log("EditUser:", item);
-    // myAddUser(userName);
+  const handleEdit = (e, post) => {
+    console.log("EditPost:", post);
+    editPost(post);
   };
 
-  const handleDelete = (e, item) => {
-    console.log("DeleteUser:", item);
-    // myAddUser(userName);
+  const handleDelete = (e, post) => {
+    console.log("DeletePost:", post);
+    deletePost(post);
   };
 
   return (
@@ -46,7 +50,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    myAddPost: name => dispatch(addPost({ name: name }))
+    addPost: post => dispatch(addPostAction(post)),
+    editPost: post => dispatch(editPostAction(post)),
+    deletePost: post => dispatch(deletePostAction(post))
   };
 };
 

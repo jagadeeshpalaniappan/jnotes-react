@@ -3,22 +3,26 @@ import { connect } from "react-redux";
 
 import { AddItemForm, List, ListItem } from "../../components";
 
-import { addUser } from "../redux/user.state";
+import {
+  addUserAction,
+  editUserAction,
+  deleteUserAction
+} from "../redux/user.state";
 
-const UserContainer = ({ users, myAddUser }) => {
-  const handleAdd = userName => {
-    console.log("AddUser:", userName);
-    myAddUser(userName);
+const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
+  const handleAdd = name => {
+    console.log("AddUser:", name);
+    addUser({ name });
   };
 
-  const handleEdit = (e, item) => {
-    console.log("EditUser:", item);
-    // myAddUser(userName);
+  const handleEdit = (e, user) => {
+    console.log("EditUser:", user);
+    editUser(user);
   };
 
-  const handleDelete = (e, item) => {
-    console.log("DeleteUser:", item);
-    // myAddUser(userName);
+  const handleDelete = (e, user) => {
+    console.log("DeleteUser:", user);
+    deleteUser(user);
   };
 
   return (
@@ -44,7 +48,9 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    myAddUser: name => dispatch(addUser({ name: name }))
+    addUser: user => dispatch(addUserAction(user)),
+    editUser: user => dispatch(editUserAction(user)),
+    deleteUser: user => dispatch(deleteUserAction(user))
   };
 };
 
