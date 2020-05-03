@@ -16,11 +16,11 @@ export const addUser = user => {
 // ############### Reducer: ###############
 
 // REDUCER:
-const initialStateForUsers = {
+const initialUserState = {
   users: []
 };
 
-export const userReducer = (userState = initialStateForUsers, action) => {
+export const userReducer = (userState = initialUserState, action) => {
   switch (action.type) {
     case ADD_USER:
       return { ...userState, users: [...userState.users, action.payload] };
@@ -52,7 +52,7 @@ const initialPostState = {
   posts: []
 };
 
-export const postReducer = (postState = initialStateForPosts, action) => {
+export const postReducer = (postState = initialPostState, action) => {
   switch (action.type) {
     case ADD_POST:
       return { ...postState, posts: [...postState.posts, action.payload] };
