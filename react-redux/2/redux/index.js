@@ -1,9 +1,9 @@
 
 import { v4 as uuidv4 } from "uuid";
 
-//--------------------------------- Action -----------------------------------
+//--------------------------------- User -----------------------------------
 
-// ############### User: ###############
+// ############### Action: ###############
 
 // ACTION-TYPES:
 const ADD_USER = "ADD_USER";
@@ -13,9 +13,28 @@ export const addUser = user => {
   return { type: ADD_USER, payload: { id: uuidv4(), ...user } };
 };
 
+// ############### Reducer: ###############
+
+// REDUCER:
+const initialStateForUsers = {
+  users: []
+};
+
+export const userReducer = (userState = initialStateForUsers, action) => {
+  switch (action.type) {
+    case ADD_USER:
+      return { ...userState, users: [...userState.users, action.payload] };
+    default:
+      return userState;
+  }
+};
 
 
-// ############### Post: ###############
+//--------------------------------- Post -----------------------------------
+
+
+
+// ############### Action: ###############
 
 // ACTION-TYPES:
 const ADD_POST = "ADD_POST";
@@ -26,38 +45,18 @@ export const addPost = post => {
 };
 
 
-//--------------------------------- Reducer -----------------------------------
-
-// ############### User: ###############
-
+// ############### Reducer: ###############
 
 // REDUCER:
-const initialStateForUsers = {
-  users: []
-};
-
-export const userReducer = (state = initialStateForUsers, action) => {
-  switch (action.type) {
-    case ADD_USER:
-      return { ...state, users: [...state.users, action.payload] };
-    default:
-      return state;
-  }
-};
-
-
-// ############### Post: ###############
-
-// REDUCER:
-const initialStateForPosts = {
+const initialPostState = {
   posts: []
 };
 
-export const postReducer = (state = initialStateForPosts, action) => {
+export const postReducer = (postState = initialStateForPosts, action) => {
   switch (action.type) {
     case ADD_POST:
-      return { ...state, posts: [...state.posts, action.payload] };
+      return { ...postState, posts: [...postState.posts, action.payload] };
     default:
-      return state;
+      return postState;
   }
 };
