@@ -18,7 +18,7 @@ export const AddItemForm = ({ onAdd }) => {
         setValue("");
       }}
     >
-      <label for="name">Name:</label>
+      <label htmlFor="name">Name:</label>
       <input
         type="text"
         id="name"

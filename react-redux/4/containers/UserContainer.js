@@ -42,14 +42,7 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
     console.log("SearchUser: keyword:", keyword);
     const searchKey = keyword && keyword.toLowerCase();
     const searchResults = users.filter(user => {
-      const userValues = Object.values(user).map(item => item.toLowerCase());
-
-      console.log("SearchUser: userValues:", userValues);
-
-      const userValuesSet = new Set(userValues);
-
-      console.log("SearchUser: userValuesSet:", userValuesSet);
-      return userValuesSet.has(searchKey);
+      return Object.values(user).some(item => item.toLowerCase().startsWith(searchKey));
     });
 
     console.log("SearchUser: searchResults:", searchResults);
