@@ -7,8 +7,11 @@ import {
   ListItem,
   SearchInput,
   AppCard,
-  AppButton
+  AppButton,
+  AppModal
 } from "../../components";
+
+import { UserFormContainer } from "../../common/container";
 
 import {
   addUserAction,
@@ -17,21 +20,40 @@ import {
 } from "../redux/user.state";
 
 const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
+  // visibleUsers:
   const [visibleUsers, setVisibleUsers] = useState(null);
-
   useEffect(() => {
     console.log("users - changed", users);
     setVisibleUsers(users);
   }, [users, setVisibleUsers]);
 
-  const handleAdd = name => {
-    console.log("AddUser:", name);
-    addUser({ name });
+  // visibleUsers:
+  const [isModalOpen, setModal] = useState(false);
+  const openModal = () => {
+    setModal(true);
+  };
+  const closeModal = () => {
+    setModal(false);
+    setSelectedUser(null);
+  };
+
+  // selectedUser:
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleSave = (e, user) => {
+    console.log("AddUser:", user);
+    closeModal();
+    if (user && user.id) {
+      editUser(user);
+    } else {
+      addUser(user);
+    }
   };
 
   const handleEdit = (e, user) => {
-    console.log("EditUser:", user);
-    editUser(user);
+    console.log("handleEdit:", user);
+    setSelectedUser(user);
+    openModal();
   };
 
   const handleDelete = (e, user) => {
@@ -54,28 +76,38 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
 
   return (
     <div>
-      <h3> UserContainer: </h3>
-      <AppButton> Add User </AppButton>
-      <AppCard>
-        <AddItemForm onAdd={handleAdd} />
-      </AppCard>
+      <div className="d-flex mt-3">
+        <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
+        <AppButton color="primary" onClick={openModal}>
+          Add User
+        </AppButton>
+      </div>
 
-      <AppCard>
-        <SearchInput onSearch={handleSearch} />
-        {visibleUsers && (
-          <List>
-            {visibleUsers.map(user => (
-              <ListItem
-                item={user}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
-            ))}
-          </List>
-        )}
+      <AppModal isOpen={isModalOpen} toggle={closeModal}>
+        <AppCard>
+          <UserFormContainer
+            user={selectedUser}
+            onSave={handleSave}
+            onCancel={closeModal}
+          />
+        </AppCard>
+      </AppModal>
 
-        {!(users && users.length > 0) && "No users found"}
-      </AppCard>
+      <SearchInput onSearch={handleSearch} className="my-3" />
+      {visibleUsers && (
+        <List>
+          {visibleUsers.map(user => (
+            <ListItem
+              key={user.id}
+              item={user}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </List>
+      )}
+
+      {!(users && users.length > 0) && "No users found"}
     </div>
   );
 };

@@ -10,9 +10,9 @@ import {
 } from "../redux/post.state";
 
 const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
-  const handleAdd = name => {
-    console.log("AddPost:", name);
-    addPost({ name });
+  const handleAdd = (e, post) => {
+    console.log("AddPost:", post);
+    addPost(post);
   };
 
   const handleEdit = (e, post) => {

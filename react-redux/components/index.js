@@ -70,7 +70,7 @@ export const AppCard = ({ children }) => {
 
 export const AppContainer = ({ children }) => {
   return (
-    <Container body className="m-1">
+    <Container body className="mt-3">
       {children}
     </Container>
   );
@@ -82,42 +82,21 @@ export const AppButton = props => {
 
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 
-const AppModal = ({ buttonLabel, className }) => {
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
-  return (
-    <div>
-      <Button color="danger" onClick={toggle}>
-        {buttonLabel}
-      </Button>
-      <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-        <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Do Something
-          </Button>
-          <Button color="secondary" onClick={toggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </div>
-  );
+export const AppModal = props => {
+  return <Modal {...props} />;
 };
 
-export const AddItemForm = ({ onAdd }) => {
-  const [value, setValue] = useState("");
+export const AddItemForm = ({ toggle, onAdd }) => {
+  const [formVal, setFormVal] = useState({});
+
+  const handleSubmit = e => {
+    console.log("handleSubmit: formVal:", formVal);
+    e.preventDefault();
+    onAdd(e, formVal);
+  };
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <FormGroup>
         <label htmlFor="name">Name:</label>
         <Input
@@ -125,50 +104,65 @@ export const AddItemForm = ({ onAdd }) => {
           id="name"
           name="name"
           placeholder="Name"
-          value={value}
-          onChange={e => setValue(e.target.value)}
+          value={formVal.name}
+          onChange={e => setFormVal({ ...formVal, name: e.target.value })}
         />
       </FormGroup>
 
-      <Button type="submit" color="primary">
-        Add
-      </Button>
+      <div className="d-flex justify-content-end">
+        <Button
+          type="button"
+          color="secondary"
+          className="mr-2"
+          onClick={toggle}
+        >
+          Cancel
+        </Button>
+        <Button type="submit" color="primary">
+          Add
+        </Button>
+      </div>
     </Form>
   );
 };
 
-export const SearchInput = ({ onSearch }) => {
+export const SearchInput = ({ onSearch, ...rest }) => {
   const handleChange = e => {
     // TODO: handle debounce
     onSearch(e, e.target.value);
   };
   return (
-    <InputGroup>
-      <InputGroupAddon addonType="prepend">
-        <Button>oo</Button>
-      </InputGroupAddon>
-      <Input
-        type="text"
-        name="searchItem"
-        placeholder="Search..."
-        style={{ width: "100%" }}
-        onChange={handleChange}
-      />
-    </InputGroup>
+    <Input
+      type="text"
+      name="searchItem"
+      placeholder="Search..."
+      onChange={handleChange}
+      {...rest}
+    />
   );
 };
 
 export const ListItem = ({ item, onEdit, onDelete }) => {
   return (
     <ListGroupItem>
-      <ListGroupItemHeading>{item.name}</ListGroupItemHeading>
-      <ListGroupItemText>{item.id}</ListGroupItemText>
-      {
-        <div>
-          {onEdit && <button onClick={e => onEdit(e, item)}>Edit</button>}
-          {onDelete && <button onClick={e => onDelete(e, item)}>Delete</button>}
+      <div className="d-flex align-items-center">
+        <div className="flex-grow-1">
+          <ListGroupItemHeading>{item.name}</ListGroupItemHeading>
+          <ListGroupItemText>{item.id}</ListGroupItemText>
         </div>
-      }
+        <div>
+          {onEdit && (
+            <AppButton color="link" onClick={e => onEdit(e, item)}>
+              Edit
+            </AppButton>
+          )}
+          {onDelete && (
+            <AppButton color="link" onClick={e => onDelete(e, item)}>
+              Delete
+            </AppButton>
+          )}
+        </div>
+      </div>
     </ListGroupItem>
   );
 };
