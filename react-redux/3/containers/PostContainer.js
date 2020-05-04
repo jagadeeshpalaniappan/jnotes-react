@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { AddItemForm, List, ListItem } from "../../components";
+import { AddItemForm, List, ListItem, AppCard } from "../../components";
 
 import {
   addPostAction,
@@ -10,9 +10,9 @@ import {
 } from "../redux/post.state";
 
 const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
-  const handleAdd = name => {
-    console.log("AddPost:", name);
-    addPost({ name });
+  const handleAdd = (e, post) => {
+    console.log("AddPost:", post);
+    addPost(post);
   };
 
   const handleEdit = (e, post) => {
@@ -26,10 +26,15 @@ const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
   };
 
   return (
-    <div>
-      <h3> PostContainer: </h3>
-      <AddItemForm onAdd={handleAdd} />
+    <div className="mt-5">
+      <h2 className="my-3">PostContainer: </h2>
 
+      <h5 className="my-3">Add Post: </h5>
+      <AppCard>
+        <AddItemForm onAdd={handleAdd} />
+      </AppCard>
+
+      <h5 className="my-3">Posts List: </h5>
       {posts && (
         <List>
           {posts.map(post => (
