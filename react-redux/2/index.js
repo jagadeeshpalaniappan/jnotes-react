@@ -28,7 +28,7 @@ const store = createStore(rootReducer);
 const App = () => {
   return (
     <Provider store={store}>
-      <AppHeader title="My App 3" />
+      <AppHeader title="My App 2" />
       <AppContainer>
         <UserContainer />
         <PostContainer />
