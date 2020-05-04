@@ -6,7 +6,8 @@ import {
   List,
   ListItem,
   SearchInput,
-  Card
+  AppCard,
+  AppButton
 } from "../../components";
 
 import {
@@ -42,7 +43,9 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
     console.log("SearchUser: keyword:", keyword);
     const searchKey = keyword && keyword.toLowerCase();
     const searchResults = users.filter(user => {
-      return Object.values(user).some(item => item.toLowerCase().startsWith(searchKey));
+      return Object.values(user).some(item =>
+        item.toLowerCase().startsWith(searchKey)
+      );
     });
 
     console.log("SearchUser: searchResults:", searchResults);
@@ -52,11 +55,12 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
   return (
     <div>
       <h3> UserContainer: </h3>
-      <Card>
+      <AppButton> Add User </AppButton>
+      <AppCard>
         <AddItemForm onAdd={handleAdd} />
-      </Card>
+      </AppCard>
 
-      <Card>
+      <AppCard>
         <SearchInput onSearch={handleSearch} />
         {visibleUsers && (
           <List>
@@ -71,7 +75,7 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
         )}
 
         {!(users && users.length > 0) && "No users found"}
-      </Card>
+      </AppCard>
     </div>
   );
 };

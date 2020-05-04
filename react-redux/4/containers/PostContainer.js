@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { AddItemForm, List, ListItem, Card } from "../../components";
+import { AddItemForm, List, ListItem, AppCard } from "../../components";
 
 import {
   addPostAction,
@@ -29,11 +29,11 @@ const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
     <div>
       <h3> PostContainer: </h3>
 
-      <Card>
+      <AppCard>
         <AddItemForm onAdd={handleAdd} />
-      </Card>
+      </AppCard>
 
-      <Card>
+      <AppCard>
         {posts && (
           <List>
             {posts.map(post => (
@@ -47,7 +47,7 @@ const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
         )}
 
         {!(posts && posts.length > 0) && "No posts found"}
-      </Card>
+      </AppCard>
     </div>
   );
 };
