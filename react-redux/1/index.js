@@ -5,27 +5,35 @@ import { createStore, combineReducers } from "redux";
 import { v4 as uuidv4 } from "uuid";
 
 import { userReducer, addUser } from "./redux";
-import { AddItemForm } from "../components";
+import { AddItemForm, AppCard, AppHeader, AppContainer, List, ListItem } from "../components";
 
 // Example: Blog App (BlogPosts, Users)
 
 const UserContainer = ({ users, myAddUser }) => {
-  const handleAdd = userName => {
-    console.log("AddUser:", userName);
-    myAddUser(userName);
+  const handleAdd = (e, user) => {
+    console.log("AddUser:", user);
+    myAddUser(user);
   };
   return (
-    <div>
-      <h3> User Module: </h3>
-      <AddItemForm onAdd={handleAdd} />
-      <ul>
-        {users &&
-          users.map(user => (
-            <li key={user.id}>
-              {user.name} [{user.id}]
-            </li>
-          ))}
-      </ul>
+    <div className="mt-3">
+      <h2 className="my-3">UserContainer: </h2>
+
+      <h5 className="my-3">Add User: </h5>
+      <AppCard>
+        <AddItemForm onAdd={handleAdd} />
+      </AppCard>
+
+      <h5 className="my-3">User List: </h5>
+      <div className="mt-3">
+        {users && (
+          <List>
+            {users.map(user => (
+              <ListItem item={user} />
+            ))}
+          </List>
+        )}
+        {!(users && users.length > 0) && "No users found"}
+      </div>
     </div>
   );
 };
@@ -37,7 +45,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    myAddUser: name => dispatch(addUser({ name: name }))
+    myAddUser: user => dispatch(addUser(user))
   };
 };
 
@@ -56,10 +64,10 @@ const store = createStore(rootReducer);
 const App = () => {
   return (
     <Provider store={store}>
-      <div>
-        <AppHeader title="My App 3" />
+      <AppHeader title="My App 1" />
+      <AppContainer>
         <UserContainerRdxConnected />
-      </div>
+      </AppContainer>
     </Provider>
   );
 };

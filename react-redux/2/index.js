@@ -1,12 +1,17 @@
+
 import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
 import { v4 as uuidv4 } from "uuid";
 
-import { userReducer, postReducer } from "./redux";
 import UserContainer from "./containers/UserContainer";
 import PostContainer from "./containers/PostContainer";
+
+import { AppHeader, AppContainer } from "../components";
+
+
+import { userReducer, postReducer } from "./redux";
 
 // Example: Blog App (BlogPosts, Users)
 
@@ -23,14 +28,13 @@ const store = createStore(rootReducer);
 const App = () => {
   return (
     <Provider store={store}>
-      <div>
-        <h2 style={{ textAlign: "center", borderBottom: "1px solid gray" }}>
-          My App 2
-        </h2>
+      <AppHeader title="My App 3" />
+      <AppContainer>
         <UserContainer />
         <PostContainer />
-      </div>
+      </AppContainer>
     </Provider>
   );
 };
 render(<App />, document.getElementById("root"));
+
