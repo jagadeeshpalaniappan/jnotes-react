@@ -1,4 +1,7 @@
 
+import "./style.css";
+
+
 // LEARN: React Hooks
 // import './hooks/index';
 

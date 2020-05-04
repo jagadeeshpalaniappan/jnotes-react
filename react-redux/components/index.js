@@ -18,14 +18,32 @@ export const AddItemForm = ({ onAdd }) => {
         setValue("");
       }}
     >
+      <label for="name">Name:</label>
       <input
         type="text"
-        name="newItem"
+        id="name"
+        name="name"
+        placeholder="Name"
         value={value}
         onChange={e => setValue(e.target.value)}
       />
       <button type="submit">Add</button>
     </form>
+  );
+};
+
+export const SearchInput = ({ onSearch }) => {
+  const handleChange = e => {
+    // TODO: handle debounce
+    onSearch(e, e.target.value);
+  };
+  return (
+    <input
+      type="text"
+      name="searchItem"
+      placeholder="Search..."
+      onChange={e => handleChange}
+    />
   );
 };
 
@@ -43,4 +61,12 @@ export const ListItem = ({ item, onEdit, onDelete }) => {
 
 export const List = ({ children }) => {
   return <ul>{children}</ul>;
+};
+
+export const Card = ({ children }) => {
+  return (
+    <div style={{ margin: 10, padding: 10, border: "1px solid #eee" }}>
+      {children}
+    </div>
+  );
 };
