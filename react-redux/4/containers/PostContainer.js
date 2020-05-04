@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { AddItemForm, List, ListItem, AppCard } from "../../components";
+import {
+  AddItemForm,
+  List,
+  ListItem,
+  SearchInput,
+  AppCard,
+  AppButton,
+  AppModal
+} from "../../components";
+
+import { PostFormContainer } from "../../common/container";
 
 import {
   addPostAction,
@@ -10,14 +20,40 @@ import {
 } from "../redux/post.state";
 
 const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
-  const handleAdd = (e, post) => {
+  // visiblePosts:
+  const [visiblePosts, setVisiblePosts] = useState(null);
+  useEffect(() => {
+    console.log("posts - changed", posts);
+    setVisiblePosts(posts);
+  }, [posts, setVisiblePosts]);
+
+  // visiblePosts:
+  const [isModalOpen, setModal] = useState(false);
+  const openModal = () => {
+    setModal(true);
+  };
+  const closeModal = () => {
+    setModal(false);
+    setSelectedPost(null);
+  };
+
+  // selectedPost:
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handleSave = (e, post) => {
     console.log("AddPost:", post);
-    addPost(post);
+    closeModal();
+    if (post && post.id) {
+      editPost(post);
+    } else {
+      addPost(post);
+    }
   };
 
   const handleEdit = (e, post) => {
-    console.log("EditPost:", post);
-    editPost(post);
+    console.log("handleEdit:", post);
+    setSelectedPost(post);
+    openModal();
   };
 
   const handleDelete = (e, post) => {
@@ -25,29 +61,53 @@ const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
     deletePost(post);
   };
 
+  const handleSearch = (e, keyword) => {
+    console.log("SearchPost: keyword:", keyword);
+    const searchKey = keyword && keyword.toLowerCase();
+    const searchResults = posts.filter(post => {
+      return Object.values(post).some(item =>
+        item.toLowerCase().startsWith(searchKey)
+      );
+    });
+
+    console.log("SearchPost: searchResults:", searchResults);
+    setVisiblePosts(searchResults);
+  };
+
   return (
     <div>
-      <h3> PostContainer: </h3>
+      <div className="d-flex mt-3">
+        <h3 className="flex-grow-1 m-0"> PostContainer: </h3>
+        <AppButton color="primary" onClick={openModal}>
+          Add Post
+        </AppButton>
+      </div>
 
-      <AppCard>
-        <AddItemForm onAdd={handleAdd} />
-      </AppCard>
+      <AppModal isOpen={isModalOpen} toggle={closeModal}>
+        <AppCard>
+          <PostFormContainer
+            post={selectedPost}
+            onSave={handleSave}
+            onCancel={closeModal}
+          />
+        </AppCard>
+      </AppModal>
 
-      <AppCard>
-        {posts && (
-          <List>
-            {posts.map(post => (
-              <ListItem
-                item={post}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-              />
-            ))}
-          </List>
-        )}
+      <SearchInput onSearch={handleSearch} className="my-3" />
+      {visiblePosts && (
+        <List>
+          {visiblePosts.map(post => (
+            <ListItem
+              key={post.id}
+              item={post}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </List>
+      )}
 
-        {!(posts && posts.length > 0) && "No posts found"}
-      </AppCard>
+      {!(posts && posts.length > 0) && "No posts found"}
     </div>
   );
 };
