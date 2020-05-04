@@ -5,7 +5,7 @@ import { createStore, combineReducers } from "redux";
 import { v4 as uuidv4 } from "uuid";
 
 import { userReducer, addUser } from "./redux";
-import { AddItemForm, AppCard, AppHeader, AppContainer, List, ListItem } from "../components";
+import { AddItemForm, AppCard, AppHeader, AppContainer, List, ListItem } from "../common/components";
 
 // Example: Blog App (BlogPosts, Users)
 

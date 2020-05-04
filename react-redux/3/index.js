@@ -8,7 +8,7 @@ import store from "./redux/app.store";
 import UserContainer from "./containers/UserContainer";
 import PostContainer from "./containers/PostContainer";
 
-import { AppHeader, AppContainer } from "../components";
+import { AppHeader, AppContainer } from "../common/components";
 
 // Example: Blog App (BlogPosts, Users)
 

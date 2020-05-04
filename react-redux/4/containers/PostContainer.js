@@ -9,7 +9,7 @@ import {
   AppCard,
   AppButton,
   AppModal
-} from "../../components";
+} from "../../common/components";
 
 import { PostFormContainer } from "../../common/container";
 

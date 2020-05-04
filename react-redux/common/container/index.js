@@ -12,7 +12,7 @@ import {
   Container
 } from "reactstrap";
 
-import { AppModal, AppCard } from "../../components";
+import { AppModal, AppCard } from "../../common/components";
 
 export const ConfirmDeleteModal = ({ item, onOk, onCancel, ...rest }) => {
   return (

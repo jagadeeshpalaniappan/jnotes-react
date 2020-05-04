@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import UserContainer from "./containers/UserContainer";
 import PostContainer from "./containers/PostContainer";
 
-import { AppHeader, AppContainer } from "../components";
+import { AppHeader, AppContainer } from "../common/components";
 
 
 import { userReducer, postReducer } from "./redux";

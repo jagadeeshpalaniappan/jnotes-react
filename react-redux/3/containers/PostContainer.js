@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import { AddItemForm, List, ListItem, AppCard } from "../../components";
+import { AddItemForm, List, ListItem, AppCard } from "../../common/components";
 
 import {
   addPostAction,
