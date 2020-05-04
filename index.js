@@ -1,6 +1,7 @@
 
-import "./style.css";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "./style.css";
 
 // LEARN: React Hooks
 // import './hooks/index';

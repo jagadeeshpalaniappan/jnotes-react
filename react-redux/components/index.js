@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from 'reactstrap';
 
 export const AppHeader = ({ title }) => {
   return (
@@ -27,7 +28,7 @@ export const AddItemForm = ({ onAdd }) => {
         value={value}
         onChange={e => setValue(e.target.value)}
       />
-      <button type="submit">Add</button>
+      <Button type="submit">Add</Button>
     </form>
   );
 };
@@ -42,7 +43,7 @@ export const SearchInput = ({ onSearch }) => {
       type="text"
       name="searchItem"
       placeholder="Search..."
-      style={{ width: "100%"}}
+      style={{ width: "100%" }}
       onChange={handleChange}
     />
   );
@@ -50,12 +51,15 @@ export const SearchInput = ({ onSearch }) => {
 
 export const ListItem = ({ item, onEdit, onDelete }) => {
   return (
-    <li key={item.id}>
-      <span>
-        {item.name} -- [{item.id}]
-      </span>
-      {onEdit && <button onClick={e => onEdit(e, item)}>Edit</button>}
-      {onDelete && <button onClick={e => onDelete(e, item)}>Delete</button>}
+    <li key={item.id} style={{ display: "flex" }}>
+      <div>
+        <h3>{item.name}</h3>
+        <p>{item.id}</p>
+      </div>
+      <div>
+        {onEdit && <button onClick={e => onEdit(e, item)}>Edit</button>}
+        {onDelete && <button onClick={e => onDelete(e, item)}>Delete</button>}
+      </div>
     </li>
   );
 };
@@ -66,7 +70,14 @@ export const List = ({ children }) => {
 
 export const Card = ({ children }) => {
   return (
-    <div style={{ margin: 10, padding: "2rem 1rem", border: "1px solid #eee", backgroundColor: "#fff" }}>
+    <div
+      style={{
+        margin: 10,
+        padding: "2rem 1rem",
+        border: "1px solid #eee",
+        backgroundColor: "#fff"
+      }}
+    >
       {children}
     </div>
   );
