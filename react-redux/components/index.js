@@ -42,7 +42,8 @@ export const SearchInput = ({ onSearch }) => {
       type="text"
       name="searchItem"
       placeholder="Search..."
-      onChange={e => handleChange}
+      style={{ width: "100%"}}
+      onChange={handleChange}
     />
   );
 };
@@ -65,7 +66,7 @@ export const List = ({ children }) => {
 
 export const Card = ({ children }) => {
   return (
-    <div style={{ margin: 10, padding: 10, border: "1px solid #eee" }}>
+    <div style={{ margin: 10, padding: "2rem 1rem", border: "1px solid #eee", backgroundColor: "#fff" }}>
       {children}
     </div>
   );

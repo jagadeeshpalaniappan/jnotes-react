@@ -33,15 +33,21 @@ const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
         <AddItemForm onAdd={handleAdd} />
       </Card>
 
-      {posts && (
-        <List>
-          {posts.map(post => (
-            <ListItem item={post} onEdit={handleEdit} onDelete={handleDelete} />
-          ))}
-        </List>
-      )}
+      <Card>
+        {posts && (
+          <List>
+            {posts.map(post => (
+              <ListItem
+                item={post}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))}
+          </List>
+        )}
 
-      <Card>{!(posts && posts.length > 0) && "No posts found"}</Card>
+        {!(posts && posts.length > 0) && "No posts found"}
+      </Card>
     </div>
   );
 };
