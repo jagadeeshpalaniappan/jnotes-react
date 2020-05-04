@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -16,6 +16,13 @@ import {
 } from "../redux/user.state";
 
 const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
+  const [visibleUsers, setVisibleUsers] = useState(null);
+
+  useEffect(() => {
+    console.log("users - changed", users);
+    setVisibleUsers(users);
+  }, [users, setVisibleUsers]);
+
   const handleAdd = name => {
     console.log("AddUser:", name);
     addUser({ name });
@@ -32,7 +39,21 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
   };
 
   const handleSearch = (e, keyword) => {
-    console.log("SearchUser:", keyword);
+    console.log("SearchUser: keyword:", keyword);
+    const searchKey = keyword && keyword.toLowerCase();
+    const searchResults = users.filter(user => {
+      const userValues = Object.values(user).map(item => item.toLowerCase());
+
+      console.log("SearchUser: userValues:", userValues);
+
+      const userValuesSet = new Set(userValues);
+
+      console.log("SearchUser: userValuesSet:", userValuesSet);
+      return userValuesSet.has(searchKey);
+    });
+
+    console.log("SearchUser: searchResults:", searchResults);
+    setVisibleUsers(searchResults);
   };
 
   return (
@@ -44,9 +65,9 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
 
       <Card>
         <SearchInput onSearch={handleSearch} />
-        {users && (
+        {visibleUsers && (
           <List>
-            {users.map(user => (
+            {visibleUsers.map(user => (
               <ListItem
                 item={user}
                 onEdit={handleEdit}
