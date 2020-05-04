@@ -148,7 +148,16 @@ export const ListItem = ({ item, onEdit, onDelete }) => {
       <div className="d-flex align-items-center">
         <div className="flex-grow-1">
           <ListGroupItemHeading>{item.name}</ListGroupItemHeading>
-          <ListGroupItemText>{item.id}</ListGroupItemText>
+          <ListGroupItemText>
+            {Object.keys(item).map(
+              key =>
+                ["id", "name"].indexOf(key) === -1 && (
+                  <span>
+                     {" #"}{key}: {item[key]}
+                  </span>
+                )
+            )}
+          </ListGroupItemText>
         </div>
         <div>
           {onEdit && (

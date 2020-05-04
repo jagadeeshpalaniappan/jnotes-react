@@ -11,7 +11,7 @@ import {
   AppModal
 } from "../../components";
 
-import { UserFormContainer } from "../../common/container";
+import { UserFormContainer, ConfirmDeleteModal } from "../../common/container";
 
 import {
   addUserAction,
@@ -27,13 +27,24 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
     setVisibleUsers(users);
   }, [users, setVisibleUsers]);
 
-  // visibleUsers:
+  // isModalOpen:
   const [isModalOpen, setModal] = useState(false);
-  const openModal = () => {
+  const openModal = user => {
+    setSelectedUser(user);
     setModal(true);
   };
   const closeModal = () => {
     setModal(false);
+    setSelectedUser(null);
+  };
+
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const openDeleteModal = (e, user) => {
+    setSelectedUser(user);
+    setDeleteModalOpen(true);
+  };
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
     setSelectedUser(null);
   };
 
@@ -52,13 +63,13 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
 
   const handleEdit = (e, user) => {
     console.log("handleEdit:", user);
-    setSelectedUser(user);
-    openModal();
+    openModal(user);
   };
 
   const handleDelete = (e, user) => {
-    console.log("DeleteUser:", user);
-    deleteUser(user);
+    console.log("DeleteUser:", selectedUser);
+    deleteUser(selectedUser);
+    closeDeleteModal();
   };
 
   const handleSearch = (e, keyword) => {
@@ -78,10 +89,31 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
     <div>
       <div className="d-flex mt-3">
         <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
-        <AppButton color="primary" onClick={openModal}>
+        <AppButton color="primary" onClick={() => openModal()}>
           Add User
         </AppButton>
       </div>
+      <SearchInput onSearch={handleSearch} className="my-3" />
+      {visibleUsers && (
+        <List>
+          {visibleUsers.map(user => (
+            <ListItem
+              key={user.id}
+              item={user}
+              onEdit={handleEdit}
+              onDelete={openDeleteModal}
+            />
+          ))}
+        </List>
+      )}
+      {!(users && users.length > 0) && "No users found"}
+
+      <ConfirmDeleteModal
+        item={selectedUser}
+        isOpen={isDeleteModalOpen}
+        onOk={handleDelete}
+        onCancel={closeDeleteModal}
+      />
 
       <AppModal isOpen={isModalOpen} toggle={closeModal}>
         <AppCard>
@@ -92,22 +124,6 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
           />
         </AppCard>
       </AppModal>
-
-      <SearchInput onSearch={handleSearch} className="my-3" />
-      {visibleUsers && (
-        <List>
-          {visibleUsers.map(user => (
-            <ListItem
-              key={user.id}
-              item={user}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
-        </List>
-      )}
-
-      {!(users && users.length > 0) && "No users found"}
     </div>
   );
 };
