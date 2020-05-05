@@ -20,7 +20,16 @@ import {
   deleteUserAction
 } from "../redux/user.state";
 
-const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
+const UserContainer = ({
+  users,
+  addUser,
+  editUser,
+  deleteUser,
+  canUndo,
+  canRedo,
+  undoUserState,
+  redoUserState
+}) => {
   // visibleUsers:
   const [visibleUsers, setVisibleUsers] = useState(null);
   useEffect(() => {
@@ -89,13 +98,23 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
   return (
     <div>
       <div className="d-flex mt-3">
-      
-        <div className="d-flex mt-3">
-          <AppButton color="primary" onClick={() => openModal()}>
-            Add User
-          </AppButton>
-        </div>
-
+        <AppButton
+          color="success"
+          onClick={() => undoUserState()}
+          disabled={!canUndo}
+        >
+          Undo
+        </AppButton>
+        <AppButton
+          color="success"
+          onClick={() => redoUserState()}
+          className="ml-auto"
+          disabled={!canRedo}
+        >
+          Redo
+        </AppButton>
+      </div>
+      <div className="d-flex mt-3">
         <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
         <AppButton color="primary" onClick={() => openModal()}>
           Add User
@@ -137,8 +156,11 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
 };
 
 const mapStateToProps = state => {
+  console.log("mapStateToProps: userState:", state);
   return {
-    users: state.userState.users
+    users: state.userState.present.users,
+    canUndo: state.userState.past.length > 0,
+    canRedo: state.userState.future.length > 0
   };
 };
 const mapDispatchToProps = dispatch => {
@@ -146,7 +168,9 @@ const mapDispatchToProps = dispatch => {
     addUser: user => dispatch(addUserAction(user)),
     editUser: user => dispatch(editUserAction(user)),
     deleteUser: user => dispatch(deleteUserAction(user)),
+
     undoUserState: ActionCreators.undo,
+    // undoUserState: (...args)=> { console.log("ActionCreators.undo"); ActionCreators.undo(...args)},
     redoUserState: ActionCreators.redo
   };
 };
