@@ -152,7 +152,7 @@ export const ListItem = ({ item, onEdit, onDelete }) => {
             {Object.keys(item).map(
               key =>
                 ["id", "name"].indexOf(key) === -1 && (
-                  <span>
+                  <span key={key}>
                      {" #"}{key}: {item[key]}
                   </span>
                 )

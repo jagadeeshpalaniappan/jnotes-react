@@ -9,12 +9,8 @@ import { postReducer } from "./post.state";
 
 //--------------------------------- Redux: Store -----------------------------------
 
-
-const undoableTodos = undoable(userReducer)
-
 const rootReducer = combineReducers({
-  userState: undoableTodos,
-  // userState: undoable(userReducer),
+  userState: undoable(userReducer),
   postState: postReducer
 });
 const store = createStore(rootReducer);
