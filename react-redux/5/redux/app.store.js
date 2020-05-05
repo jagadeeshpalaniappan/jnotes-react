@@ -1,6 +1,7 @@
 
 
 import { createStore, combineReducers } from "redux";
+import undoable from "redux-undo";
 
 import { userReducer } from "./user.state";
 import { postReducer } from "./post.state";
@@ -9,7 +10,7 @@ import { postReducer } from "./post.state";
 //--------------------------------- Redux: Store -----------------------------------
 
 const rootReducer = combineReducers({
-  userState: userReducer,
+  userState: undoable(userReducer),
   postState: postReducer
 });
 const store = createStore(rootReducer);
