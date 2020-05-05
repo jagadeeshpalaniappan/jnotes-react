@@ -28,6 +28,7 @@ const initialUserState = {
 };
 
 export const userReducer = (userState = initialUserState, action) => {
+  console.log("userReducer: userState:", userState);
   switch (action.type) {
     case ADD_USER:
       return { ...userState, users: [...userState.users, action.payload] };

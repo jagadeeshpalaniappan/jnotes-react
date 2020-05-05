@@ -100,7 +100,7 @@ const UserContainer = ({
       <div className="d-flex mt-3">
         <AppButton
           color="success"
-          onClick={() => undoUserState()}
+          onClick={undoUserState}
           disabled={!canUndo}
         >
           Undo
