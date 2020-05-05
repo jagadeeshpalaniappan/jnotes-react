@@ -11,7 +11,7 @@ import { postReducer } from "./post.state";
 
 const rootReducer = combineReducers({
   userState: undoable(userReducer),
-  postState: postReducer
+  postState: undoable(postReducer)
 });
 const store = createStore(rootReducer);
 

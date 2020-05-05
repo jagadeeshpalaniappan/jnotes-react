@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
   <div className="d-flex mt-3">
     <button onClick={onUndo} disabled={!canUndo}>
-      Undo
+      Undo All
     </button>
     <button onClick={onRedo} disabled={!canRedo} className="ml-auto">
-      Redo
+      Redo All
     </button>
   </div>
 );
@@ -16,8 +16,9 @@ let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
 const mapStateToProps = state => {
   console.log("UndoRedo: mapStateToProps", state);
   return {
-    canUndo: state.userState.past.length > 0,
-    canRedo: state.userState.future.length > 0
+    canUndo: state.userState.past.length > 0 || state.postState.past.length > 0,
+    canRedo:
+      state.userState.future.length > 0 || state.postState.future.length > 0
   };
 };
 

@@ -114,7 +114,7 @@ const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
 
 const mapStateToProps = state => {
   return {
-    posts: state.postState.posts
+    posts: state.postState.present.posts
   };
 };
 const mapDispatchToProps = dispatch => {
