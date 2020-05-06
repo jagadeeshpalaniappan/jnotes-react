@@ -2,6 +2,9 @@ import React from "react";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 import { connect } from "react-redux";
 
+import { undoUserAction, redoUserAction } from "../redux/user.state";
+import { undoPostAction, redoPostAction } from "../redux/post.state";
+
 let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
   <div className="d-flex mt-3">
     <button onClick={onUndo} disabled={!canUndo}>
@@ -22,9 +25,24 @@ const mapStateToProps = state => {
   };
 };
 
+/*
 const mapDispatchToProps = {
   onUndo: UndoActionCreators.undo,
   onRedo: UndoActionCreators.redo
+};
+*/
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onUndo: user => {
+      dispatch(undoUserAction());
+      dispatch(redoPostAction());
+    },
+    onRedo: user => {
+      dispatch(redoUserAction());
+      dispatch(redoPostAction());
+    }
+  };
 };
 
 UndoRedo = connect(

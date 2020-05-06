@@ -8,6 +8,10 @@ const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
+
+export const UNDO_POST = "UNDO_POST";
+export const REDO_POST = "REDO_POST";
+
 // ACTION-CREATORS:
 export const addPostAction = post => {
   return { type: ADD_POST, payload: { id: uuidv4(), ...post } };
@@ -21,6 +25,16 @@ export const editPostAction = post => {
 export const deletePostAction = post => {
   return { type: DELETE_POST, payload: { id: uuidv4(), ...post } };
 };
+
+
+export const undoPostAction = user => {
+  return { type: UNDO_POST };
+};
+
+export const redoPostAction = user => {
+  return { type: REDO_POST };
+};
+
 
 
 //--------------------------------- Reducer -----------------------------------
