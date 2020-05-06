@@ -22,11 +22,11 @@ export const deleteUserAction = user => {
   return { type: DELETE_USER, payload: { id: uuidv4(), ...user } };
 };
 
-export const undoUserAction = user => {
+export const undoUserAction = () => {
   return { type: UNDO_USER };
 };
 
-export const redoUserAction = user => {
+export const redoUserAction = () => {
   return { type: REDO_USER };
 };
 

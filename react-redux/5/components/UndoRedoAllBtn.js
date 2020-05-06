@@ -32,11 +32,14 @@ const mapDispatchToProps = {
 };
 */
 
+// Not a good idea, to dispatch to multiple action here,
+// instead create a one action 'undoAllAction' and attach redux-thunk middleware to accept a function
+
 const mapDispatchToProps = dispatch => {
   return {
     onUndo: user => {
       dispatch(undoUserAction());
-      dispatch(redoPostAction());
+      dispatch(undoPostAction());
     },
     onRedo: user => {
       dispatch(redoUserAction());

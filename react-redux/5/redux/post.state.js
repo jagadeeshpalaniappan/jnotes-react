@@ -27,11 +27,11 @@ export const deletePostAction = post => {
 };
 
 
-export const undoPostAction = user => {
+export const undoPostAction = () => {
   return { type: UNDO_POST };
 };
 
-export const redoPostAction = user => {
+export const redoPostAction = () => {
   return { type: REDO_POST };
 };
 

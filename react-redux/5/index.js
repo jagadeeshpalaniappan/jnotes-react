@@ -8,6 +8,7 @@ import store from "./redux/app.store";
 import UserContainer from "./containers/UserContainer";
 import PostContainer from "./containers/PostContainer";
 
+import UndoRedoAllBtn from "./components/UndoRedoAllBtn";
 import { AppHeader, AppContainer } from "../common/components";
 
 // Example: Blog App (BlogPosts, Users)
@@ -19,6 +20,7 @@ const App = () => {
     <Provider store={store}>
       <AppHeader title="My App 5" />
       <AppContainer>
+        <UndoRedoAllBtn />
         <UserContainer />
         <PostContainer />
       </AppContainer>

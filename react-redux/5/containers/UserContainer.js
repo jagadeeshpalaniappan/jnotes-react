@@ -14,8 +14,7 @@ import {
 
 import { UserFormContainer, ConfirmDeleteModal } from "../../common/container";
 
-import UndoRedoBtn from "../components/UndoRedoBtn";
-import UndoUserRedoUserActionBtn from "../components/UndoUserRedoUserActionBtn";
+import UndoRedoUserActionBtn from "../components/UndoRedoUserActionBtn";
 
 import {
   addUserAction,
@@ -92,8 +91,7 @@ const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
 
   return (
     <div>
-      <UndoRedoBtn />
-      <UndoUserRedoUserActionBtn />
+      <UndoRedoUserActionBtn />
       <div className="d-flex mt-3">
         <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
         <AppButton color="primary" onClick={() => openModal()}>
