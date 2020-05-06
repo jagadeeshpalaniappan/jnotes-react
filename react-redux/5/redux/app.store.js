@@ -15,7 +15,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 //--------------------------------- Redux: Reducer -----------------------------------
 
-// Default Undo Config: if we wanted to do undo/redo everything
+// Default 'redux-undo' Config: if we wanted to do undo/redo everything
 /*
 const rootReducer = combineReducers({
   userState: undoable(userReducer),
@@ -23,7 +23,7 @@ const rootReducer = combineReducers({
 });
 */
 
-// Advanced Undo Config: if we wanted to do specific undo/redo, use: 'undoType' & 'redoType'
+// Advanced 'redux-undo' Config: if we wanted to do specific undo/redo, use: 'undoType' & 'redoType'
 const rootReducer = combineReducers({
   userState: undoable(userReducer, {
     undoType: UNDO_USER,
