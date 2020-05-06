@@ -151,9 +151,11 @@ export const ListItem = ({ item, onEdit, onDelete }) => {
           <ListGroupItemText>
             {Object.keys(item).map(
               key =>
-                ["id", "name"].indexOf(key) === -1 && (
+                ["id", "name"].indexOf(key) === -1 &&
+                typeof item[key] === "string" && (
                   <span key={key}>
-                     {" #"}{key}: {item[key]}
+                    {" #"}
+                    {key}: {item[key]}
                   </span>
                 )
             )}

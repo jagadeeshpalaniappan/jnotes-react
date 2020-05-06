@@ -16,7 +16,8 @@ import { UserFormContainer, ConfirmDeleteModal } from "../../common/container";
 import {
   addUserAction,
   editUserAction,
-  deleteUserAction
+  deleteUserAction,
+  fetchUsers
 } from "../redux/user.state";
 
 const UserContainer = ({ users, addUser, editUser, deleteUser }) => {
@@ -141,7 +142,42 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+function UsersContainer({ loading, error, users, fetchUsers }) {
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  return loading ? (
+    <h2>Loading...</h2>
+  ) : error ? (
+    <h2>{error}</h2>
+  ) : (
+    <div>
+      <h2>Users List</h2>
+      {users && (
+        <List>
+          {users.map(user => (
+            <ListItem key={user.id} item={user} />
+          ))}
+        </List>
+      )}
+    </div>
+  );
+}
+
+const mapStateToProps = state => {
+  return {
+    loading: state.userState.loading,
+    error: state.userState.error,
+    users: state.userState.users
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUsers: () => dispatch(fetchUsers())
+  };
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UserContainer);
+)(UsersContainer);

@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import logger from "redux-logger";
+import thunk from 'redux-thunk'
 
 import { userReducer } from "./user.state";
 import { postReducer } from "./post.state";
@@ -13,7 +14,7 @@ const rootReducer = combineReducers({
   postState: postReducer
 });
 
-const middleware = [logger];
+const middleware = [logger, thunk];
 const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(...middleware))
