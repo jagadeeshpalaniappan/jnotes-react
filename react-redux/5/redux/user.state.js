@@ -6,6 +6,9 @@ const ADD_USER = "ADD_USER";
 const EDIT_USER = "EDIT_USER";
 const DELETE_USER = "DELETE_USER";
 
+export const UNDO_USER = "UNDO_USER";
+export const REDO_USER = "REDO_USER";
+
 // ACTION-CREATORS:
 export const addUserAction = user => {
   return { type: ADD_USER, payload: { id: uuidv4(), ...user } };
@@ -17,6 +20,14 @@ export const editUserAction = user => {
 
 export const deleteUserAction = user => {
   return { type: DELETE_USER, payload: { id: uuidv4(), ...user } };
+};
+
+export const undoUserAction = user => {
+  return { type: UNDO_USER };
+};
+
+export const redoUserAction = user => {
+  return { type: REDO_USER };
 };
 
 //--------------------------------- Reducer -----------------------------------
