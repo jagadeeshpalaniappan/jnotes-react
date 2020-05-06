@@ -181,3 +181,19 @@ export const ListItem = ({ item, onEdit, onDelete }) => {
 export const List = ({ children }) => {
   return <ListGroup>{children}</ListGroup>;
 };
+
+export const Loading = ({ children }) => {
+  return (
+    <div className="text-center text-primary">
+      <span>{children}</span>
+    </div>
+  );
+};
+
+export const Error = ({ children }) => {
+  return (
+    <div className="text-center text-danger">
+      <span>{children}</span>
+    </div>
+  );
+};

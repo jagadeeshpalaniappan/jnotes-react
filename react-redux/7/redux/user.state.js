@@ -35,7 +35,7 @@ export const fetchUsers = () => {
   return dispatch => {
     dispatch(fetchUsersRequest());
     axios
-      .get("https://jsonplaceholder.typicode.com/users")
+      .get("https://jsonplaceholder.typicode.com/use1rs")
       .then(response => {
         // response.data is the users
         const users = response.data;
