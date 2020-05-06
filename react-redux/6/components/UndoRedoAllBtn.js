@@ -2,8 +2,7 @@ import React from "react";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
 import { connect } from "react-redux";
 
-import { undoUserAction, redoUserAction } from "../redux/user.state";
-import { undoPostAction, redoPostAction } from "../redux/post.state";
+import { undoAction, redoAction } from "../redux/undoable-jag-impl";
 
 let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
   <div className="d-flex mt-3">
@@ -25,25 +24,13 @@ const mapStateToProps = state => {
   };
 };
 
-/*
-const mapDispatchToProps = {
-  onUndo: UndoActionCreators.undo,
-  onRedo: UndoActionCreators.redo
-};
-*/
-
-// Not a good idea, to dispatch to multiple action here,
-// instead create a one action 'undoAllAction' and attach redux-thunk middleware to accept a function
-
 const mapDispatchToProps = dispatch => {
   return {
-    onUndo: user => {
-      dispatch(undoUserAction());
-      dispatch(undoPostAction());
+    onUndo: () => {
+      dispatch(undoAction());
     },
-    onRedo: user => {
-      dispatch(redoUserAction());
-      dispatch(redoPostAction());
+    onRedo: () => {
+      dispatch(redoAction());
     }
   };
 };

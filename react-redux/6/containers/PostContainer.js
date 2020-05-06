@@ -12,7 +12,6 @@ import {
 } from "../../common/components";
 
 import { PostFormContainer } from "../../common/container";
-import UndoRedoPostBtn from "../components/UndoRedoPostBtn";
 
 import {
   addPostAction,
@@ -77,8 +76,6 @@ const PostContainer = ({ posts, addPost, editPost, deletePost }) => {
 
   return (
     <div>
-
-    <UndoRedoPostBtn />
 
       <div className="d-flex mt-3">
         <h3 className="flex-grow-1 m-0"> PostContainer: </h3>
