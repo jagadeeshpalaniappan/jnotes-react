@@ -71,7 +71,7 @@ export const AppCard = ({ children }) => {
 export const AppContainer = ({ children }) => {
   return (
     <Container body className="mt-3">
-      {children}
+      <div class="row">{children}</div>
     </Container>
   );
 };

@@ -22,7 +22,7 @@ function UsersContainer({ loading, error, users, fetchUsers }) {
   }, []);
 
   return (
-    <div>
+    <div className="col-sm">
       <div className="d-flex my-3">
         <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
       </div>

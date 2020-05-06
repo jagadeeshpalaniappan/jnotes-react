@@ -22,7 +22,7 @@ function PostsContainer({ loading, error, posts, fetchPosts }) {
   }, []);
 
   return (
-    <div>
+    <div className="col-sm">
       <div className="d-flex my-3">
         <h3 className="flex-grow-1 m-0"> PostContainer: </h3>
       </div>
