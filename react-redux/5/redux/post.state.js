@@ -4,9 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 //--------------------------------- Action -----------------------------------
 
 // ACTION-TYPES:
-const ADD_POST = "ADD_POST";
-const EDIT_POST = "EDIT_POST";
-const DELETE_POST = "DELETE_POST";
+export const ADD_POST = "ADD_POST";
+export const EDIT_POST = "EDIT_POST";
+export const DELETE_POST = "DELETE_POST";
 
 
 export const UNDO_POST = "UNDO_POST";
