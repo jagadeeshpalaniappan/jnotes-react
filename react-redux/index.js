@@ -5,4 +5,5 @@ console.log(":: React Redux ::");
 // import './2';
 // import './3';
 // import './4';
-import './5';   // redux-undo, redux-logger, redux-devtools-extension
+// import './5';   // redux-undo, redux-logger, redux-devtools-extension
+import './6';   // my-undo-impln
