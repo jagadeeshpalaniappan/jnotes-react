@@ -8,10 +8,10 @@ import { undoPostAction, redoPostAction } from "../redux/post.state";
 let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
   <div className="d-flex mt-3">
     <button onClick={onUndo} disabled={!canUndo}>
-      Undo All
+      Undo All Modules
     </button>
     <button onClick={onRedo} disabled={!canRedo} className="ml-auto">
-      Redo All
+      Redo All Modules
     </button>
   </div>
 );

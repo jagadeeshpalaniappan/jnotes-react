@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { undoUserAction, redoUserAction } from "../redux/user.state";
 
 let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
-  <div className="d-flex mt-3">
+  <div className="d-flex mt-5">
     <button onClick={onUndo} disabled={!canUndo}>
       Undo User
     </button>

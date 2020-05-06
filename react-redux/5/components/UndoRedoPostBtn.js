@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { undoPostAction, redoPostAction } from "../redux/post.state";
 
 let UndoRedo = ({ canUndo, canRedo, onUndo, onRedo }) => (
-  <div className="d-flex mt-3">
+  <div className="d-flex mt-5">
     <button onClick={onUndo} disabled={!canUndo}>
       Undo Post
     </button>
