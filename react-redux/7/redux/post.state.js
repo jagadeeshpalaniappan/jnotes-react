@@ -5,49 +5,58 @@ import axios from "axios";
 
 // ACTION-TYPES:
 
-const FETCH_POSTS_REQUEST = "FETCH_POSTS_REQUEST";
-const FETCH_POSTS_SUCCESS = "FETCH_POSTS_SUCCESS";
-const FETCH_POSTS_FAILURE = "FETCH_POSTS_FAILURE";
+const API_GET_POSTS_START = "API_GET_POSTS_START";
+const API_GET_POSTS_SUCCESS = "API_GET_POSTS_SUCCESS";
+const API_GET_POSTS_FAILURE = "API_GET_POSTS_FAILURE";
 
 // ACTION-CREATORS:
-export const fetchPostsRequest = () => {
+export const apiGetPostsStartAction = () => {
   return {
-    type: FETCH_POSTS_REQUEST
+    type: API_GET_POSTS_START
   };
 };
 
-export const fetchPostsSuccess = posts => {
+export const apiGetPostsSuccessAction = posts => {
   return {
-    type: FETCH_POSTS_SUCCESS,
+    type: API_GET_POSTS_SUCCESS,
     payload: posts
   };
 };
 
-export const fetchPostsFailure = error => {
+export const apiGetPostsFailureAction = error => {
   return {
-    type: FETCH_POSTS_FAILURE,
+    type: API_GET_POSTS_FAILURE,
     payload: error
   };
 };
 
 // ASYCN-ACTION-CREATORS:
-export const fetchPosts = () => {
+export const apiGetPosts = () => {
   return dispatch => {
-    dispatch(fetchPostsRequest());
+    dispatch(apiGetPostsStartAction());
     axios
       .get("https://jsonplaceholder.typicode.com/posts")
       .then(response => {
         // response.data is the posts
         const posts = response.data;
-        dispatch(fetchPostsSuccess(posts));
+        dispatch(apiGetPostsSuccessAction(posts));
       })
       .catch(error => {
         // error.message is the error message
-        dispatch(fetchPostsFailure(error.message));
+        dispatch(apiGetPostsFailureAction(error.message));
       });
   };
 };
 
+export const getPosts = () => {
+  /* getPosts: can call any source (just keep it abstract)
+      -getPosts (from API) 
+      -getPosts (from IndexDB) 
+      -getPosts (from Local Memory) 
+  */
+
+  return apiGetPosts();
+};
 //--------------------------------- Reducer -----------------------------------
 
 // REDUCER:
@@ -59,18 +68,18 @@ const initialPostState = {
 
 export const postReducer = (postState = initialPostState, action) => {
   switch (action.type) {
-    case FETCH_POSTS_REQUEST:
+    case API_GET_POSTS_START:
       return {
         ...postState,
         loading: true
       };
-    case FETCH_POSTS_SUCCESS:
+    case API_GET_POSTS_SUCCESS:
       return {
         loading: false,
         posts: action.payload,
         error: ""
       };
-    case FETCH_POSTS_FAILURE:
+    case API_GET_POSTS_FAILURE:
       return {
         loading: false,
         posts: [],

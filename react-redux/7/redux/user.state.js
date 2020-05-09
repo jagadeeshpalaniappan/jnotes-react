@@ -5,48 +5,60 @@ import axios from "axios";
 
 // ACTION-TYPES:
 
-const FETCH_USERS_REQUEST = "FETCH_USERS_REQUEST";
-const FETCH_USERS_SUCCESS = "FETCH_USERS_SUCCESS";
-const FETCH_USERS_FAILURE = "FETCH_USERS_FAILURE";
+const API_GET_USERS_START = "API_GET_USERS_START";
+const API_GET_USERS_SUCCESS = "API_GET_USERS_SUCCESS";
+const API_GET_USERS_FAILURE = "API_GET_USERS_FAILURE";
 
 // ACTION-CREATORS:
-export const fetchUsersRequest = () => {
+export const apiGetUsersStartAction = () => {
   return {
-    type: FETCH_USERS_REQUEST
+    type: API_GET_USERS_START
   };
 };
 
-export const fetchUsersSuccess = users => {
+export const apiGetUsersSuccessAction = users => {
   return {
-    type: FETCH_USERS_SUCCESS,
+    type: API_GET_USERS_SUCCESS,
     payload: users
   };
 };
 
-export const fetchUsersFailure = error => {
+export const apiGetUsersFailureAction = error => {
   return {
-    type: FETCH_USERS_FAILURE,
+    type: API_GET_USERS_FAILURE,
     payload: error
   };
 };
 
 // ASYCN-ACTION-CREATORS:
-export const fetchUsers = () => {
+
+export const apiGetUsers = () => {
   return dispatch => {
-    dispatch(fetchUsersRequest());
+    dispatch(apiGetUsersStartAction());
     axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then(response => {
         // response.data is the users
         const users = response.data;
-        dispatch(fetchUsersSuccess(users));
+        dispatch(apiGetUsersSuccessAction(users));
       })
       .catch(error => {
         // error.message is the error message
-        dispatch(fetchUsersFailure(error.message));
+        dispatch(apiGetUsersFailureAction(error.message));
       });
   };
 };
+
+export const getUsers = () => {
+  /* getUsers: can call any source (just keep it abstract)
+      -getUsers (from API) 
+      -getUsers (from IndexDB) 
+      -getUsers (from Local Memory) 
+  */
+
+  return apiGetUsers();
+};
+
 
 //--------------------------------- Reducer -----------------------------------
 
@@ -59,18 +71,18 @@ const initialUserState = {
 
 export const userReducer = (userState = initialUserState, action) => {
   switch (action.type) {
-    case FETCH_USERS_REQUEST:
+    case API_GET_USERS_START:
       return {
         ...userState,
         loading: true
       };
-    case FETCH_USERS_SUCCESS:
+    case API_GET_USERS_SUCCESS:
       return {
         loading: false,
         users: action.payload,
         error: ""
       };
-    case FETCH_USERS_FAILURE:
+    case API_GET_USERS_FAILURE:
       return {
         loading: false,
         users: [],

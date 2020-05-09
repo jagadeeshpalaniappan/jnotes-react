@@ -13,35 +13,38 @@ import {
   Error
 } from "../../common/components";
 
-import { fetchUsers } from "../redux/user.state";
+import { getUsers } from "../redux/user.state";
 
-function UsersContainer({ loading, error, users, fetchUsers }) {
+function UsersContainer({ loading, error, users, getUsers }) {
   useEffect(() => {
     // onInit:
-    fetchUsers();
+    getUsers();
   }, []);
+
 
   return (
     <div className="col-sm">
       <div className="d-flex my-3">
         <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
       </div>
-      {loading ? (
-        <Loading>Loading Users...</Loading>
-      ) : error ? (
-        <Error>{error}</Error>
-      ) : (
-        <div>
-          {users && (
+
+      {(() => {
+        if (loading) {
+          return <Loading>Loading Users...</Loading>;
+        } else if (error) {
+          return <Error>{error}</Error>;
+        } else if (users && users.length > 0) {
+          return (
             <List>
               {users.map(user => (
                 <ListItem key={user.id} item={user} />
               ))}
             </List>
-          )}
-          {!(users && users.length > 0) && "No users found"}
-        </div>
-      )}
+          );
+        } else {
+          return "No users found";
+        }
+      })()}
     </div>
   );
 }
@@ -55,7 +58,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchUsers: () => dispatch(fetchUsers())
+    getUsers: () => dispatch(getUsers())
   };
 };
 

@@ -13,35 +13,38 @@ import {
   Error
 } from "../../common/components";
 
-import { fetchPosts } from "../redux/post.state";
+import { getPosts } from "../redux/post.state";
 
-function PostsContainer({ loading, error, posts, fetchPosts }) {
+function PostsContainer({ loading, error, posts, getPosts }) {
   useEffect(() => {
     // onInit:
-    fetchPosts();
+    getPosts();
   }, []);
+
 
   return (
     <div className="col-sm">
       <div className="d-flex my-3">
         <h3 className="flex-grow-1 m-0"> PostContainer: </h3>
       </div>
-      {loading ? (
-        <Loading>Loading Posts...</Loading>
-      ) : error ? (
-        <Error>{error}</Error>
-      ) : (
-        <div>
-          {posts && (
+
+      {(() => {
+        if (loading) {
+          return <Loading>Loading Posts...</Loading>;
+        } else if (error) {
+          return <Error>{error}</Error>;
+        } else if (posts && posts.length > 0) {
+          return (
             <List>
               {posts.map(post => (
                 <ListItem key={post.id} item={post} />
               ))}
             </List>
-          )}
-          {!(posts && posts.length > 0) && "No posts found"}
-        </div>
-      )}
+          );
+        } else {
+          return "No posts found";
+        }
+      })()}
     </div>
   );
 }
@@ -55,7 +58,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchPosts: () => dispatch(fetchPosts())
+    getPosts: () => dispatch(getPosts())
   };
 };
 
