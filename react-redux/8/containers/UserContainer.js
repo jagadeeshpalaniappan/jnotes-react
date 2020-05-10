@@ -16,10 +16,11 @@ import {
 import { UserFormContainer } from "../../common/container/UserFormContainer";
 
 import {
+  setModalUserAction,
   getUsers,
   createUserAction,
   updateUserAction,
-  setModalUserAction
+  deleteUserAction
 } from "../redux/user/user.action";
 
 function UserList({ loading, error, users, openModal }) {
@@ -49,10 +50,11 @@ function UserList({ loading, error, users, openModal }) {
 function UsersContainer({
   users,
   modalUser,
+  setModalUser,
   getUsers,
   createUser,
   updateUser,
-  setModalUser
+  deleteUser
 }) {
   console.log("UserFormContainer:", users);
 
@@ -143,7 +145,7 @@ const mapDispatchToProps = dispatch => {
     getUsers: () => dispatch(getUsers()),
     createUser: user => dispatch(createUserAction(user)),
     updateUser: user => dispatch(updateUserAction(user)),
-    deleteUser: user => dispatch(updateUserAction(user))
+    deleteUser: user => dispatch(deleteUserAction(user))
   };
 };
 

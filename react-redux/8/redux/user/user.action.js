@@ -33,6 +33,15 @@ export const updateUserAction = user => {
   return apiUpdateUser(user);
 };
 
+export const deleteUserAction = user => {
+  /* updateUser: can call any source (just keep it abstract)
+      -updateUser (in API) 
+      -updateUser (in IndexDB) 
+      -updateUser (in Local Memory) 
+  */
+  return apiUpdateUser(user);
+};
+
 export const setModalUserAction = user => {
   return { type: SET_MODAL_USER, payload: user };
 };
