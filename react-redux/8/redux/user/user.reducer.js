@@ -1,4 +1,8 @@
-import {API_GET_USERS_START, API_GET_USERS_SUCCESS, API_GET_USERS_FAILURE} from './user.action'
+import {
+  API_GET_USERS_START,
+  API_GET_USERS_SUCCESS,
+  API_GET_USERS_FAILURE
+} from "./user.actionTypes";
 
 // REDUCER:
 const initialUserState = {
