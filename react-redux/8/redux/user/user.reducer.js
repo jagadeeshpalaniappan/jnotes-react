@@ -55,7 +55,10 @@ export const userReducer = (userState = initialUserState, action) => {
           ...userState.users,
           status: {
             type: STATUS_TYPES.LOADING,
-            msg: "Getting Users..."
+            msg:
+              action.payload.config && action.payload.config.reload
+                ? "Reloading Users.."
+                : "Loading Users..."
           }
         }
       };
@@ -64,7 +67,7 @@ export const userReducer = (userState = initialUserState, action) => {
         ...userState,
         users: {
           ...userState.users,
-          data: action.payload,
+          data: action.payload.users,
           status: {
             type: STATUS_TYPES.SUCCESS
           }
@@ -79,7 +82,7 @@ export const userReducer = (userState = initialUserState, action) => {
           status: {
             type: STATUS_TYPES.FAILURE,
             msg: "Problem while getting users",
-            more: action.payload
+            more: action.payload.error
           }
         }
       };

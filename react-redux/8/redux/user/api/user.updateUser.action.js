@@ -5,6 +5,8 @@ import {
   API_UPDATE_USER_FAILURE
 } from "../user.actionTypes";
 
+import { apiGetUsers } from "./user.getUsers.action";
+
 // ACTION-CREATORS:
 export const apiUpdateUserStartAction = () => {
   return {
@@ -47,6 +49,7 @@ export const apiUpdateUser = user => {
         console.log("apiUpdateUserSuccessAction:", response);
         const user = response.data;
         dispatch(apiUpdateUserSuccessAction(user));
+        dispatch(apiGetUsers({ reload: true }));
       })
       .catch(error => {
         // FAILURE:

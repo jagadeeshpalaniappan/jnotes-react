@@ -6,40 +6,41 @@ import {
 } from "../user.actionTypes";
 
 // ACTION-CREATORS:
-export const apiGetUsersStartAction = () => {
+export const apiGetUsersStartAction = config => {
   return {
-    type: API_GET_USERS_START
+    type: API_GET_USERS_START,
+    payload: { config }
   };
 };
 
-export const apiGetUsersSuccessAction = users => {
+export const apiGetUsersSuccessAction = (config, users) => {
   return {
     type: API_GET_USERS_SUCCESS,
-    payload: users
+    payload: { config, users }
   };
 };
 
 export const apiGetUsersFailureAction = error => {
   return {
     type: API_GET_USERS_FAILURE,
-    payload: error
+    payload: { config, error }
   };
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiGetUsers = () => {
+export const apiGetUsers = config => {
   return dispatch => {
-    dispatch(apiGetUsersStartAction());
+    dispatch(apiGetUsersStartAction(config));
     axios
       .get("https://jsonplaceholder.typicode.com/users")
       .then(response => {
         // response.data is the users
         const users = response.data;
-        dispatch(apiGetUsersSuccessAction(users));
+        dispatch(apiGetUsersSuccessAction(config, users));
       })
       .catch(error => {
         // error.message is the error message
-        dispatch(apiGetUsersFailureAction(error.message));
+        dispatch(apiGetUsersFailureAction(config, error.message));
       });
   };
 };

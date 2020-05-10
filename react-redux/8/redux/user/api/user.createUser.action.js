@@ -5,6 +5,8 @@ import {
   API_CREATE_USER_FAILURE
 } from "../user.actionTypes";
 
+import { apiGetUsers } from "./user.getUsers.action";
+
 // ACTION-CREATORS:
 export const apiCreateUserStartAction = () => {
   return {
@@ -46,6 +48,7 @@ export const apiCreateUser = user => {
         console.log("apiCreateUserSuccessAction:", response);
         const user = response.data;
         dispatch(apiCreateUserSuccessAction(user));
+        
       })
       .catch(error => {
         // FAILURE:

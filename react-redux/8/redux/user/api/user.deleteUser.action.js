@@ -5,6 +5,8 @@ import {
   API_DELETE_USER_FAILURE
 } from "../user.actionTypes";
 
+import { apiGetUsers } from "./user.getUsers.action";
+
 // ACTION-CREATORS:
 export const apiDeleteUserStartAction = () => {
   return {
@@ -40,6 +42,7 @@ export const apiDeleteUser = user => {
         console.log("apiDeleteUserSuccessAction:", response);
         const user = response.data;
         dispatch(apiDeleteUserSuccessAction(user));
+        dispatch(apiGetUsers({ reload: true }));
       })
       .catch(error => {
         // FAILURE:
