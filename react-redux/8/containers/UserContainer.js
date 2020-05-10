@@ -70,8 +70,12 @@ function UsersContainer({
     setModalUser(user || null);
     setModalOpen(true);
   };
-  const closeModal = () => {
+
+
+  const handleCancel = () => {
+    console.log("handleCancel:");
     setModalOpen(false);
+    setEditMode(false);
     setModalUser(null);
   };
 
@@ -90,7 +94,7 @@ function UsersContainer({
     setEditMode(true);
     openModal(null);
   };
-  const handleEdit = (e,user) => {
+  const handleEdit = (user) => {
     console.log("handleEdit:", user);
     setEditMode(true);
   };
@@ -114,14 +118,14 @@ function UsersContainer({
         openModal={openModal}
       />
 
-      <AppModal isOpen={isModalOpen} toggle={closeModal}>
+      <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
           <UserFormContainer
             status={modalUser.status}
             user={modalUser.data}
             editMode={editMode}
             onSave={handleSave}
-            onCancel={closeModal}
+            onCancel={handleCancel}
             onEdit={handleEdit}
             onDelete={handleDelete}
           />
