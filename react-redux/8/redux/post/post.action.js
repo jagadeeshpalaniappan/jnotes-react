@@ -1,48 +1,48 @@
 import axios from "axios";
-import { apiGetUsers } from "./api/user.getUsers.action";
-import { apiCreateUser } from "./api/user.createUser.action";
-import { apiUpdateUser } from "./api/user.updateUser.action";
-import { apiDeleteUser } from "./api/user.deleteUser.action";
+import { apiGetPosts } from "./api/post.getPosts.action";
+import { apiCreatePost } from "./api/post.createPost.action";
+import { apiUpdatePost } from "./api/post.updatePost.action";
+import { apiDeletePost } from "./api/post.deletePost.action";
 
-import { SET_MODAL_USER } from "./user.actionTypes";
+import { SET_MODAL_POST } from "./post.actionTypes";
 
-export const getUsers = () => {
-  /* getUsers: can call any source (just keep it abstract)
-      -getUsers (from API) 
-      -getUsers (from IndexDB) 
-      -getUsers (from Local Memory) 
+export const getPosts = () => {
+  /* getPosts: can call any source (just keep it abstract)
+      -getPosts (from API) 
+      -getPosts (from IndexDB) 
+      -getPosts (from Local Memory) 
   */
 
-  return apiGetUsers();
+  return apiGetPosts();
 };
 
-export const createUserAction = user => {
-  /* createUser: can call any source (just keep it abstract)
-      -createUser (in API) 
-      -createUser (in IndexDB) 
-      -createUser (in Local Memory) 
+export const createPostAction = post => {
+  /* createPost: can call any source (just keep it abstract)
+      -createPost (in API) 
+      -createPost (in IndexDB) 
+      -createPost (in Local Memory) 
   */
-  return apiCreateUser(user);
+  return apiCreatePost(post);
 };
 
-export const updateUserAction = user => {
-  /* updateUser: can call any source (just keep it abstract)
-      -updateUser (in API) 
-      -updateUser (in IndexDB) 
-      -updateUser (in Local Memory) 
+export const updatePostAction = post => {
+  /* updatePost: can call any source (just keep it abstract)
+      -updatePost (in API) 
+      -updatePost (in IndexDB) 
+      -updatePost (in Local Memory) 
   */
-  return apiUpdateUser(user);
+  return apiUpdatePost(post);
 };
 
-export const deleteUserAction = user => {
-  /* deleteUser: can call any source (just keep it abstract)
-      -deleteUser (in API) 
-      -deleteUser (in IndexDB) 
-      -deleteUser (in Local Memory) 
+export const deletePostAction = post => {
+  /* deletePost: can call any source (just keep it abstract)
+      -deletePost (in API) 
+      -deletePost (in IndexDB) 
+      -deletePost (in Local Memory) 
   */
-  return apiDeleteUser(user);
+  return apiDeletePost(post);
 };
 
-export const setModalUserAction = user => {
-  return { type: SET_MODAL_USER, payload: user };
+export const setModalPostAction = post => {
+  return { type: SET_MODAL_POST, payload: post };
 };

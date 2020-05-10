@@ -1,60 +1,60 @@
 import axios from "axios";
 import {
-  API_UPDATE_USER_START,
-  API_UPDATE_USER_SUCCESS,
-  API_UPDATE_USER_FAILURE
-} from "../user.actionTypes";
+  API_UPDATE_POST_START,
+  API_UPDATE_POST_SUCCESS,
+  API_UPDATE_POST_FAILURE
+} from "../post.actionTypes";
 
-import { apiGetUsers } from "./user.getUsers.action";
+import { apiGetPosts } from "./post.getPosts.action";
 
 // ACTION-CREATORS:
-export const apiUpdateUserStartAction = () => {
+export const apiUpdatePostStartAction = () => {
   return {
-    type: API_UPDATE_USER_START
+    type: API_UPDATE_POST_START
   };
 };
 
-export const apiUpdateUserSuccessAction = users => {
+export const apiUpdatePostSuccessAction = posts => {
   return {
-    type: API_UPDATE_USER_SUCCESS,
-    payload: users
+    type: API_UPDATE_POST_SUCCESS,
+    payload: posts
   };
 };
 
-export const apiUpdateUserFailureAction = error => {
+export const apiUpdatePostFailureAction = error => {
   return {
-    type: API_UPDATE_USER_FAILURE,
+    type: API_UPDATE_POST_FAILURE,
     payload: error
   };
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiUpdateUser = user => {
+export const apiUpdatePost = post => {
   return dispatch => {
-    console.log("apiUpdateUserStartAction:", user);
+    console.log("apiUpdatePostStartAction:", post);
 
-    dispatch(apiUpdateUserStartAction());
+    dispatch(apiUpdatePostStartAction());
 
     const reqBody = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      age: user.age
+      id: post.id,
+      name: post.name,
+      email: post.email,
+      age: post.age
     };
 
     axios
-      .put(`https://jsonplaceholder.typicode.com/users/${user.id}`, reqBody)
+      .put(`https://jsonplaceholder.typicode.com/posts/${post.id}`, reqBody)
       .then(response => {
         // SUCCESS:
-        console.log("apiUpdateUserSuccessAction:", response);
-        const user = response.data;
-        dispatch(apiUpdateUserSuccessAction(user));
-        dispatch(apiGetUsers({ reload: true }));
+        console.log("apiUpdatePostSuccessAction:", response);
+        const post = response.data;
+        dispatch(apiUpdatePostSuccessAction(post));
+        dispatch(apiGetPosts({ reload: true }));
       })
       .catch(error => {
         // FAILURE:
-        console.log("apiUpdateUserFailureAction:", error);
-        dispatch(apiUpdateUserFailureAction(error.message));
+        console.log("apiUpdatePostFailureAction:", error);
+        dispatch(apiUpdatePostFailureAction(error.message));
       });
   };
 };

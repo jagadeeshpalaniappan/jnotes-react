@@ -1,47 +1,47 @@
 import axios from "axios";
 import {
-  API_GET_USERS_START,
-  API_GET_USERS_SUCCESS,
-  API_GET_USERS_FAILURE
-} from "../user.actionTypes";
+  API_GET_POSTS_START,
+  API_GET_POSTS_SUCCESS,
+  API_GET_POSTS_FAILURE
+} from "../post.actionTypes";
 
 // ACTION-CREATORS:
-export const apiGetUsersStartAction = config => {
+export const apiGetPostsStartAction = config => {
   return {
-    type: API_GET_USERS_START,
+    type: API_GET_POSTS_START,
     payload: { config }
   };
 };
 
-export const apiGetUsersSuccessAction = (config, users) => {
+export const apiGetPostsSuccessAction = (config, posts) => {
   return {
-    type: API_GET_USERS_SUCCESS,
-    payload: { config, users }
+    type: API_GET_POSTS_SUCCESS,
+    payload: { config, posts }
   };
 };
 
-export const apiGetUsersFailureAction = (config, error) => {
+export const apiGetPostsFailureAction = (config, error) => {
   return {
-    type: API_GET_USERS_FAILURE,
+    type: API_GET_POSTS_FAILURE,
     payload: { config, error }
   };
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiGetUsers = config => {
+export const apiGetPosts = config => {
   return dispatch => {
-    dispatch(apiGetUsersStartAction(config));
-    const url = `https://jsonplaceholder.typicode.com/users`;
+    dispatch(apiGetPostsStartAction(config));
+    const url = `https://jsonplaceholder.typicode.com/posts`;
     axios
       .get(url)
       .then(response => {
-        // response.data is the users
-        const users = response.data;
-        dispatch(apiGetUsersSuccessAction(config, users));
+        // response.data is the posts
+        const posts = response.data;
+        dispatch(apiGetPostsSuccessAction(config, posts));
       })
       .catch(error => {
         // error.message is the error message
-        dispatch(apiGetUsersFailureAction(config, error.message));
+        dispatch(apiGetPostsFailureAction(config, error.message));
       });
   };
 };

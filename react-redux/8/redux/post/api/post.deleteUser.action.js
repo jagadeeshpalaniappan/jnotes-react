@@ -1,53 +1,53 @@
 import axios from "axios";
 import {
-  API_DELETE_USER_START,
-  API_DELETE_USER_SUCCESS,
-  API_DELETE_USER_FAILURE
-} from "../user.actionTypes";
+  API_DELETE_POST_START,
+  API_DELETE_POST_SUCCESS,
+  API_DELETE_POST_FAILURE
+} from "../post.actionTypes";
 
-import { apiGetUsers } from "./user.getUsers.action";
+import { apiGetPosts } from "./post.getPosts.action";
 
 // ACTION-CREATORS:
-export const apiDeleteUserStartAction = () => {
+export const apiDeletePostStartAction = () => {
   return {
-    type: API_DELETE_USER_START
+    type: API_DELETE_POST_START
   };
 };
 
-export const apiDeleteUserSuccessAction = users => {
+export const apiDeletePostSuccessAction = posts => {
   return {
-    type: API_DELETE_USER_SUCCESS,
-    payload: users
+    type: API_DELETE_POST_SUCCESS,
+    payload: posts
   };
 };
 
-export const apiDeleteUserFailureAction = error => {
+export const apiDeletePostFailureAction = error => {
   return {
-    type: API_DELETE_USER_FAILURE,
+    type: API_DELETE_POST_FAILURE,
     payload: error
   };
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiDeleteUser = user => {
+export const apiDeletePost = post => {
   return dispatch => {
-    console.log("apiDeleteUserStartAction:", user);
+    console.log("apiDeletePostStartAction:", post);
 
-    dispatch(apiDeleteUserStartAction());
+    dispatch(apiDeletePostStartAction());
 
     axios
-      .delete(`https://jsonplaceholder.typicode.com/users/${user.id}`)
+      .delete(`https://jsonplaceholder.typicode.com/posts/${post.id}`)
       .then(response => {
         // SUCCESS:
-        console.log("apiDeleteUserSuccessAction:", response);
-        const user = response.data;
-        dispatch(apiDeleteUserSuccessAction(user));
-        dispatch(apiGetUsers({ reload: true }));
+        console.log("apiDeletePostSuccessAction:", response);
+        const post = response.data;
+        dispatch(apiDeletePostSuccessAction(post));
+        dispatch(apiGetPosts({ reload: true }));
       })
       .catch(error => {
         // FAILURE:
-        console.log("apiDeleteUserFailureAction:", error);
-        dispatch(apiDeleteUserFailureAction(error.message));
+        console.log("apiDeletePostFailureAction:", error);
+        dispatch(apiDeletePostFailureAction(error.message));
       });
   };
 };

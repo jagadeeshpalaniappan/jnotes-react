@@ -1,31 +1,31 @@
 import {
-  API_GET_USERS_START,
-  API_GET_USERS_SUCCESS,
-  API_GET_USERS_FAILURE,
-  API_CREATE_USER_START,
-  API_CREATE_USER_SUCCESS,
-  API_CREATE_USER_FAILURE,
-  API_UPDATE_USER_START,
-  API_UPDATE_USER_SUCCESS,
-  API_UPDATE_USER_FAILURE,
-  API_DELETE_USER_START,
-  API_DELETE_USER_SUCCESS,
-  API_DELETE_USER_FAILURE,
-  SET_MODAL_USER
-} from "./user.actionTypes";
+  API_GET_POSTS_START,
+  API_GET_POSTS_SUCCESS,
+  API_GET_POSTS_FAILURE,
+  API_CREATE_POST_START,
+  API_CREATE_POST_SUCCESS,
+  API_CREATE_POST_FAILURE,
+  API_UPDATE_POST_START,
+  API_UPDATE_POST_SUCCESS,
+  API_UPDATE_POST_FAILURE,
+  API_DELETE_POST_START,
+  API_DELETE_POST_SUCCESS,
+  API_DELETE_POST_FAILURE,
+  SET_MODAL_POST
+} from "./post.actionTypes";
 
 import { STATUS_TYPES } from "../../types";
 
 // REDUCER:
-const initialUserState = {
-  users: {
+const initialPostState = {
+  posts: {
     data: [],
     status: {
       type: null,
       msg: ""
     }
   },
-  modalUser: {
+  modalPost: {
     data: {},
     status: {
       type: null,
@@ -34,13 +34,13 @@ const initialUserState = {
   }
 };
 
-export const userReducer = (userState = initialUserState, action) => {
+export const postReducer = (postState = initialPostState, action) => {
   switch (action.type) {
-    case SET_MODAL_USER:
+    case SET_MODAL_POST:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           data: action.payload,
           status: {
             type: null,
@@ -48,153 +48,153 @@ export const userReducer = (userState = initialUserState, action) => {
           }
         }
       };
-    case API_GET_USERS_START:
+    case API_GET_POSTS_START:
       return {
-        ...userState,
-        users: {
-          ...userState.users,
+        ...postState,
+        posts: {
+          ...postState.posts,
           status: {
             type: STATUS_TYPES.LOADING,
             msg:
               action.payload.config && action.payload.config.reload
-                ? "Reloading Users.."
-                : "Loading Users..."
+                ? "Reloading Posts.."
+                : "Loading Posts..."
           }
         }
       };
-    case API_GET_USERS_SUCCESS:
+    case API_GET_POSTS_SUCCESS:
       return {
-        ...userState,
-        users: {
-          ...userState.users,
-          data: action.payload.users,
+        ...postState,
+        posts: {
+          ...postState.posts,
+          data: action.payload.posts,
           status: {
             type: STATUS_TYPES.SUCCESS
           }
         }
       };
-    case API_GET_USERS_FAILURE:
+    case API_GET_POSTS_FAILURE:
       return {
-        ...userState,
-        users: {
-          ...userState.users,
+        ...postState,
+        posts: {
+          ...postState.posts,
           status: {
             type: STATUS_TYPES.FAILURE,
             msg:
               action.payload.config && action.payload.config.reload
-                ? "Problem while reloading users."
-                : "Problem while getting users",
+                ? "Problem while reloading posts."
+                : "Problem while getting posts",
             more: action.payload.error
           }
         }
       };
-    case API_CREATE_USER_START:
+    case API_CREATE_POST_START:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           status: {
             type: STATUS_TYPES.LOADING,
-            msg: "Creating User..."
+            msg: "Creating Post..."
           }
         }
       };
-    case API_CREATE_USER_SUCCESS:
+    case API_CREATE_POST_SUCCESS:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
-            msg: "User Created Successfully"
+            msg: "Post Created Successfully"
           }
         }
       };
-    case API_CREATE_USER_FAILURE:
+    case API_CREATE_POST_FAILURE:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           data: null,
           status: {
             type: STATUS_TYPES.FAILURE,
-            msg: "User Creation Failed",
+            msg: "Post Creation Failed",
             more: action.payload
           }
         }
       };
-    case API_UPDATE_USER_START:
+    case API_UPDATE_POST_START:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           status: {
             type: STATUS_TYPES.LOADING,
-            msg: "Updating User..."
+            msg: "Updating Post..."
           }
         }
       };
-    case API_UPDATE_USER_SUCCESS:
+    case API_UPDATE_POST_SUCCESS:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
-            msg: "User Updated Successfully"
+            msg: "Post Updated Successfully"
           }
         }
       };
-    case API_UPDATE_USER_FAILURE:
+    case API_UPDATE_POST_FAILURE:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           status: {
             type: STATUS_TYPES.FAILURE,
-            msg: "User Updation Failed",
+            msg: "Post Updation Failed",
             more: action.payload
           }
         }
       };
-    case API_DELETE_USER_START:
+    case API_DELETE_POST_START:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           status: {
             type: STATUS_TYPES.LOADING,
-            msg: "Deleting User..."
+            msg: "Deleting Post..."
           }
         }
       };
-    case API_DELETE_USER_SUCCESS:
+    case API_DELETE_POST_SUCCESS:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
-            msg: "User Deleted Successfully"
+            msg: "Post Deleted Successfully"
           }
         }
       };
-    case API_DELETE_USER_FAILURE:
+    case API_DELETE_POST_FAILURE:
       return {
-        ...userState,
-        modalUser: {
-          ...userState.modalUser,
+        ...postState,
+        modalPost: {
+          ...postState.modalPost,
           status: {
             type: STATUS_TYPES.FAILURE,
-            msg: "User Deletion Failed",
+            msg: "Post Deletion Failed",
             more: action.payload
           }
         }
       };
     default:
-      return userState;
+      return postState;
   }
 };
