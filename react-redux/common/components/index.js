@@ -142,9 +142,9 @@ export const SearchInput = ({ onSearch, ...rest }) => {
   );
 };
 
-export const ListItem = ({ item, onEdit, onDelete }) => {
+export const ListItem = ({ item, onEdit, onDelete, ...rest }) => {
   return (
-    <ListGroupItem>
+    <ListGroupItem {...rest}>
       <div className="d-flex align-items-center">
         <div className="flex-grow-1">
           <ListGroupItemHeading>{item.name}</ListGroupItemHeading>

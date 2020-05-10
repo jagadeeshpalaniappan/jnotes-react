@@ -22,7 +22,7 @@ import {
   setModalUserAction
 } from "../redux/user/user.action";
 
-function UserList({ loading, error, users }) {
+function UserList({ loading, error, users, openModal }) {
   if (loading) {
     return <Loading>Loading Users...</Loading>;
   } else if (error) {
@@ -31,7 +31,13 @@ function UserList({ loading, error, users }) {
     return (
       <List>
         {users.map(user => (
-          <ListItem key={user.id} item={user} />
+          <ListItem
+            key={user.id}
+            item={user}
+            tag="button"
+            action
+            onClick={() => openModal(user)}
+          />
         ))}
       </List>
     );
@@ -89,6 +95,7 @@ function UsersContainer({
         loading={users.loading}
         error={users.error}
         users={users.data}
+        openModal={openModal}
       />
 
       <AppModal isOpen={isModalOpen} toggle={closeModal}>
