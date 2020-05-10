@@ -4,13 +4,14 @@ import {
   API_GET_USERS_FAILURE,
   API_CREATE_USER_START,
   API_CREATE_USER_SUCCESS,
-  API_CREATE_USER_FAILURE
+  API_CREATE_USER_FAILURE,
+  SET_MODAL_USER
 } from "./user.actionTypes";
 
 // REDUCER:
 const initialUserState = {
   users: { loading: false, error: null, data: [] },
-  updatedUser: { loading: false, error: null, data: {} }
+  modalUser: { loading: false, error: null, data: {} }
 };
 
 export const userReducer = (userState = initialUserState, action) => {
@@ -43,13 +44,13 @@ export const userReducer = (userState = initialUserState, action) => {
     case API_CREATE_USER_START:
       return {
         ...userState,
-        updatedUser: { ...userState.updatedUser, loading: true, error: null }
+        modalUser: { ...userState.modalUser, loading: true, error: null }
       };
     case API_CREATE_USER_SUCCESS:
       return {
         ...userState,
-        updatedUser: {
-          ...userState.updatedUser,
+        modalUser: {
+          ...userState.modalUser,
           loading: false,
           error: null,
           data: action.payload
@@ -58,11 +59,21 @@ export const userReducer = (userState = initialUserState, action) => {
     case API_CREATE_USER_FAILURE:
       return {
         ...userState,
-        updatedUser: {
-          ...userState.updatedUser,
+        modalUser: {
+          ...userState.modalUser,
           loading: false,
           error: action.payload,
           data: null
+        }
+      };
+    case SET_MODAL_USER:
+      return {
+        ...userState,
+        modalUser: {
+          ...userState.modalUser,
+          loading: false,
+          error: null,
+          data: action.payload
         }
       };
     default:

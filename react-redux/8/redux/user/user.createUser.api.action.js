@@ -32,12 +32,15 @@ export const apiCreateUser = user => {
     console.log("apiCreateUserStartAction:", user);
 
     dispatch(apiCreateUserStartAction());
+
+    const reqBody = {
+      name: user.name,
+      email: user.email,
+      age: user.age
+    };
+
     axios
-      .post("https://jsonplaceholder.typicode.com/users", {
-        title: "foo",
-        body: "bar",
-        userId: 1
-      })
+      .post("https://jsonplaceholder.typicode.com/users", reqBody)
       .then(response => {
         // SUCCESS:
         console.log("apiCreateUserSuccessAction:", response);

@@ -15,7 +15,12 @@ import {
 
 import { UserFormContainer } from "../../common/container/UserFormContainer";
 
-import { getUsers, createUserAction } from "../redux/user/user.action";
+import {
+  getUsers,
+  createUserAction,
+  updateUserAction,
+  setModalUserAction
+} from "../redux/user/user.action";
 
 function UserList({ loading, error, users }) {
   if (loading) {
@@ -37,10 +42,11 @@ function UserList({ loading, error, users }) {
 
 function UsersContainer({
   users,
-  updatedUser,
+  modalUser,
   getUsers,
-  createUser
-  // updateUser
+  createUser,
+  updateUser,
+  setModalUser
 }) {
   console.log("UserFormContainer:", users);
 
@@ -49,14 +55,11 @@ function UsersContainer({
     getUsers();
   }, []);
 
-  // modalUser:
-  // const [modalUser, setModalUser] = useState(null);
-
   // isModalOpen:
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = user => {
-    setModalUser(user);
+    setModalUser(user || null);
     setModalOpen(true);
   };
   const closeModal = () => {
@@ -91,9 +94,9 @@ function UsersContainer({
       <AppModal isOpen={isModalOpen} toggle={closeModal}>
         <AppCard>
           <UserFormContainer
-            loading={updatedUser.loading}
-            error={updatedUser.error}
-            user={updatedUser.data}
+            loading={modalUser.loading}
+            error={modalUser.error}
+            user={modalUser.data}
             onSave={handleSave}
             onCancel={closeModal}
           />
@@ -106,14 +109,15 @@ function UsersContainer({
 const mapStateToProps = state => {
   return {
     users: state.userState.users,
-    updatedUser: state.userState.updatedUser
+    modalUser: state.userState.modalUser
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     getUsers: () => dispatch(getUsers()),
-    createUser: user => dispatch(createUserAction(user))
-    // updateUser: user => dispatch(updateUserAction(user))
+    createUser: user => dispatch(createUserAction(user)),
+    updateUser: user => dispatch(updateUserAction(user)),
+    setModalUser: user => dispatch(setModalUserAction(user))
   };
 };
 
