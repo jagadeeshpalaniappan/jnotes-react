@@ -31,7 +31,7 @@ export const apiGetUsersFailureAction = (config, error) => {
 export const apiGetUsers = config => {
   return dispatch => {
     dispatch(apiGetUsersStartAction(config));
-    const url = `https://jsonplaceholder.typicode.com/users${config && config.reload ? "404": ""}`
+    const url = `https://jsonplaceholder.typicode.com/users`;
     axios
       .get(url)
       .then(response => {

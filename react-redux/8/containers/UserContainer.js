@@ -27,11 +27,11 @@ import {
 import { STATUS_TYPES } from "../types";
 
 function UserList({ status, users, openModal }) {
-  const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
+  // const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
   return (
     <>
       <StatusBar status={status} />
-      {!isLoading() && users && users.length > 0 && (
+      {users && users.length > 0 && (
         <List>
           {users.map(user => (
             <ListItem

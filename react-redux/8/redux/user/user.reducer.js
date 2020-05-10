@@ -82,7 +82,7 @@ export const userReducer = (userState = initialUserState, action) => {
             type: STATUS_TYPES.FAILURE,
             msg:
               action.payload.config && action.payload.config.reload
-                ? "Problem while reloadi users."
+                ? "Problem while reloading users."
                 : "Problem while getting users",
             more: action.payload.error
           }
