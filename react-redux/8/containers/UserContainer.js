@@ -70,7 +70,7 @@ function UsersContainer({
   const handleSave = (e, user) => {
     console.log("AddUser:", user);
     if (user && user.id) {
-      // updateUser(user);
+      updateUser(user);
     } else {
       createUser(user);
     }

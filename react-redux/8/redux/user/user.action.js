@@ -23,13 +23,13 @@ export const createUserAction = user => {
   return apiCreateUser(user);
 };
 
-export const updateeUserAction = user => {
-  /* createUser: can call any source (just keep it abstract)
-      -createUser (in API) 
-      -createUser (in IndexDB) 
-      -createUser (in Local Memory) 
+export const updateUserAction = user => {
+  /* updateUser: can call any source (just keep it abstract)
+      -updateUser (in API) 
+      -updateUser (in IndexDB) 
+      -updateUser (in Local Memory) 
   */
-  return apiCreateUser(user);
+  return apiUpdateUser(user);
 };
 
 export const setModalUserAction = user => {
