@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiGetUsers } from "./user.getAll.api.action.js";
+import { apiGetUsers } from "./user.getUsers.api.action";
 
 export const getUsers = () => {
   /* getUsers: can call any source (just keep it abstract)
