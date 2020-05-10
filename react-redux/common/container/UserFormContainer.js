@@ -14,15 +14,21 @@ import {
 
 import { Loading, Error } from "../../common/components";
 
-export const UserFormContainer = ({ user, userStatus, onCancel, onSave }) => {
-  console.log("UserFormContainer:", userStatus);
-  const { loading, error, data } = userStatus;
+export const UserFormContainer = ({
+  loading,
+  error,
+  user,
+  onCancel,
+  onSave
+}) => {
+
+  console.log("UserFormContainer:", { loading, error, user });
   const [formVal, setFormVal] = useState({});
 
   useEffect(() => {
-    console.log("data - changed", data);
-    setFormVal(data || {});
-  }, [data]);
+    console.log("user - changed", user);
+    setFormVal(user || {});
+  }, [user]);
 
   const handleSubmit = useCallback(
     e => {
@@ -45,7 +51,7 @@ export const UserFormContainer = ({ user, userStatus, onCancel, onSave }) => {
       {loading && <Loading>Creating User...</Loading>}
       {error && <Error> {error} </Error>}
 
-      {data ? <h3>Edit User</h3> : <h3>Create User</h3>}
+      {user ? <h3>Edit User</h3> : <h3>Create User</h3>}
       <Form onSubmit={handleSubmit}>
         <p> {JSON.stringify(formVal)} </p>
         <FormGroup>

@@ -17,14 +17,31 @@ import { UserFormContainer } from "../../common/container/UserFormContainer";
 
 import { getUsers, createUserAction } from "../redux/user/user.action";
 
+function UserList({ loading, error, users }) {
+  if (loading) {
+    return <Loading>Loading Users...</Loading>;
+  } else if (error) {
+    return <Error>{error}</Error>;
+  } else if (users && users.length > 0) {
+    return (
+      <List>
+        {users.map(user => (
+          <ListItem key={user.id} item={user} />
+        ))}
+      </List>
+    );
+  } else {
+    return "No users found";
+  }
+}
+
 function UsersContainer({
   users,
-  createdUser,
+  updatedUser,
   getUsers,
-  createUser,
+  createUser
   // updateUser
 }) {
-  
   console.log("UserFormContainer:", users);
 
   useEffect(() => {
@@ -32,19 +49,19 @@ function UsersContainer({
     getUsers();
   }, []);
 
-  // selectedUser:
-  const [selectedUser, setSelectedUser] = useState(null);
+  // modalUser:
+  // const [modalUser, setModalUser] = useState(null);
 
   // isModalOpen:
-  const [isModalOpen, setModal] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = user => {
-    setSelectedUser(user);
-    setModal(true);
+    setModalUser(user);
+    setModalOpen(true);
   };
   const closeModal = () => {
-    setModal(false);
-    setSelectedUser(null);
+    setModalOpen(false);
+    setModalUser(null);
   };
 
   const handleSave = (e, user) => {
@@ -65,29 +82,18 @@ function UsersContainer({
         </AppButton>
       </div>
 
-      {(() => {
-        if (users.loading) {
-          return <Loading>Loading Users...</Loading>;
-        } else if (users.error) {
-          return <Error>{users.error}</Error>;
-        } else if (users.data && users.data.length > 0) {
-          return (
-            <List>
-              {users.data.map(user => (
-                <ListItem key={user.id} item={user} />
-              ))}
-            </List>
-          );
-        } else {
-          return "No users found";
-        }
-      })()}
+      <UserList
+        loading={users.loading}
+        error={users.error}
+        users={users.data}
+      />
 
       <AppModal isOpen={isModalOpen} toggle={closeModal}>
         <AppCard>
           <UserFormContainer
-            user={selectedUser}
-            userStatus={createdUser}
+            loading={updatedUser.loading}
+            error={updatedUser.error}
+            user={updatedUser.data}
             onSave={handleSave}
             onCancel={closeModal}
           />
@@ -97,17 +103,16 @@ function UsersContainer({
   );
 }
 
-
 const mapStateToProps = state => {
   return {
     users: state.userState.users,
-    createdUser: state.userState.createdUser
+    updatedUser: state.userState.updatedUser
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     getUsers: () => dispatch(getUsers()),
-    createUser: user => dispatch(createUserAction(user)),
+    createUser: user => dispatch(createUserAction(user))
     // updateUser: user => dispatch(updateUserAction(user))
   };
 };

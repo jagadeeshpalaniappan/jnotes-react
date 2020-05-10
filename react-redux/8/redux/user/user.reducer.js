@@ -10,7 +10,7 @@ import {
 // REDUCER:
 const initialUserState = {
   users: { loading: false, error: null, data: [] },
-  createdUser: { loading: false, error: null, data: {} }
+  updatedUser: { loading: false, error: null, data: {} }
 };
 
 export const userReducer = (userState = initialUserState, action) => {
@@ -43,13 +43,13 @@ export const userReducer = (userState = initialUserState, action) => {
     case API_CREATE_USER_START:
       return {
         ...userState,
-        createdUser: { ...userState.createdUser, loading: true, error: null }
+        updatedUser: { ...userState.updatedUser, loading: true, error: null }
       };
     case API_CREATE_USER_SUCCESS:
       return {
         ...userState,
-        createdUser: {
-          ...userState.createdUser,
+        updatedUser: {
+          ...userState.updatedUser,
           loading: false,
           error: null,
           data: action.payload
@@ -58,8 +58,8 @@ export const userReducer = (userState = initialUserState, action) => {
     case API_CREATE_USER_FAILURE:
       return {
         ...userState,
-        createdUser: {
-          ...userState.createdUser,
+        updatedUser: {
+          ...userState.updatedUser,
           loading: false,
           error: action.payload,
           data: null
