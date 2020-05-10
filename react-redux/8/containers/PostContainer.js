@@ -10,59 +10,148 @@ import {
   AppButton,
   AppModal,
   Loading,
-  Error
+  Error,
+  StatusBar
 } from "../../common/components";
 
-import { getPosts } from "../redux/post/post.action";
+import { UserFormContainer } from "../../common/container/UserFormContainer";
 
-function PostsContainer({ loading, error, posts, getPosts }) {
+import {
+  setModalUserAction,
+  getUsers,
+  createUserAction,
+  updateUserAction,
+  deleteUserAction
+} from "../redux/user/user.action";
+
+import { STATUS_TYPES } from "../types";
+
+function UserList({ status, users, openModal }) {
+  // const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
+  return (
+    <>
+      <StatusBar status={status} />
+      {users && users.length > 0 && (
+        <List>
+          {users.map(user => (
+            <ListItem
+              key={user.id}
+              item={user}
+              tag="button"
+              action
+              onClick={() => openModal(user)}
+            />
+          ))}
+        </List>
+      )}
+    </>
+  );
+}
+
+function UsersContainer({
+  users,
+  modalUser,
+  setModalUser,
+  getUsers,
+  createUser,
+  updateUser,
+  deleteUser
+}) {
+  console.log("UserFormContainer:", users);
+
   useEffect(() => {
     // onInit:
-    getPosts();
+    getUsers();
   }, []);
 
+  const [isModalOpen, setModalOpen] = useState(false); // state: modal is opened or not
+  const [editMode, setEditMode] = useState(false); // state: editMode or not
+
+  const openModal = user => {
+    setModalUser(user || null);
+    setModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    console.log("handleCancel:");
+    setModalOpen(false);
+    setEditMode(false);
+    setModalUser(null);
+  };
+
+  const handleSave = (e, user) => {
+    console.log("AddUser:", user);
+    if (user && user.id) {
+      updateUser(user);
+      setEditMode(false);
+    } else {
+      createUser(user);
+      setEditMode(false);
+    }
+  };
+  const handleAdd = () => {
+    console.log("handleAdd:");
+    setEditMode(true);
+    openModal(null);
+  };
+  const handleEdit = user => {
+    console.log("handleEdit:", user);
+    setEditMode(true);
+  };
+  const handleDelete = user => {
+    console.log("handleDelete:", user);
+    deleteUser(user);
+  };
 
   return (
     <div className="col-sm">
       <div className="d-flex my-3">
-        <h3 className="flex-grow-1 m-0"> PostContainer: </h3>
+        <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
+        <AppButton color="primary" onClick={handleAdd}>
+          Add User
+        </AppButton>
       </div>
 
-      {(() => {
-        if (loading) {
-          return <Loading>Loading Posts...</Loading>;
-        } else if (error) {
-          return <Error>{error}</Error>;
-        } else if (posts && posts.length > 0) {
-          return (
-            <List>
-              {posts.map(post => (
-                <ListItem key={post.id} item={post} />
-              ))}
-            </List>
-          );
-        } else {
-          return "No posts found";
-        }
-      })()}
+      <UserList
+        status={users.status}
+        users={users.data}
+        openModal={openModal}
+      />
+
+      <AppModal isOpen={isModalOpen} toggle={handleCancel}>
+        <AppCard>
+          <UserFormContainer
+            status={modalUser.status}
+            user={modalUser.data}
+            editMode={editMode}
+            onSave={handleSave}
+            onCancel={handleCancel}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        </AppCard>
+      </AppModal>
     </div>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    loading: state.postState.loading,
-    error: state.postState.error,
-    posts: state.postState.posts
+    users: state.userState.users,
+    modalUser: state.userState.modalUser
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getPosts: () => dispatch(getPosts())
+    setModalUser: user => dispatch(setModalUserAction(user)),
+    getUsers: () => dispatch(getUsers()),
+    createUser: user => dispatch(createUserAction(user)),
+    updateUser: user => dispatch(updateUserAction(user)),
+    deleteUser: user => dispatch(deleteUserAction(user))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PostsContainer);
+)(UsersContainer);

@@ -1,58 +1,48 @@
-
-
 import axios from "axios";
+import { apiGetUsers } from "./api/user.getUsers.action";
+import { apiCreateUser } from "./api/user.createUser.action";
+import { apiUpdateUser } from "./api/user.updateUser.action";
+import { apiDeleteUser } from "./api/user.deleteUser.action";
 
-// ACTION-TYPES:
-export const API_GET_POSTS_START = "API_GET_POSTS_START";
-export const API_GET_POSTS_SUCCESS = "API_GET_POSTS_SUCCESS";
-export const API_GET_POSTS_FAILURE = "API_GET_POSTS_FAILURE";
+import { SET_MODAL_USER } from "./user.actionTypes";
 
-// ACTION-CREATORS:
-export const apiGetPostsStartAction = () => {
-  return {
-    type: API_GET_POSTS_START
-  };
-};
-
-export const apiGetPostsSuccessAction = posts => {
-  return {
-    type: API_GET_POSTS_SUCCESS,
-    payload: posts
-  };
-};
-
-export const apiGetPostsFailureAction = error => {
-  return {
-    type: API_GET_POSTS_FAILURE,
-    payload: error
-  };
-};
-
-// ASYCN-ACTION-CREATORS:
-
-export const apiGetPosts = () => {
-  return dispatch => {
-    dispatch(apiGetPostsStartAction());
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then(response => {
-        // response.data is the posts
-        const posts = response.data;
-        dispatch(apiGetPostsSuccessAction(posts));
-      })
-      .catch(error => {
-        // error.message is the error message
-        dispatch(apiGetPostsFailureAction(error.message));
-      });
-  };
-};
-
-export const getPosts = () => {
-  /* getPosts: can call any source (just keep it abstract)
-      -getPosts (from API) 
-      -getPosts (from IndexDB) 
-      -getPosts (from Local Memory) 
+export const getUsers = () => {
+  /* getUsers: can call any source (just keep it abstract)
+      -getUsers (from API) 
+      -getUsers (from IndexDB) 
+      -getUsers (from Local Memory) 
   */
 
-  return apiGetPosts();
+  return apiGetUsers();
+};
+
+export const createUserAction = user => {
+  /* createUser: can call any source (just keep it abstract)
+      -createUser (in API) 
+      -createUser (in IndexDB) 
+      -createUser (in Local Memory) 
+  */
+  return apiCreateUser(user);
+};
+
+export const updateUserAction = user => {
+  /* updateUser: can call any source (just keep it abstract)
+      -updateUser (in API) 
+      -updateUser (in IndexDB) 
+      -updateUser (in Local Memory) 
+  */
+  return apiUpdateUser(user);
+};
+
+export const deleteUserAction = user => {
+  /* deleteUser: can call any source (just keep it abstract)
+      -deleteUser (in API) 
+      -deleteUser (in IndexDB) 
+      -deleteUser (in Local Memory) 
+  */
+  return apiDeleteUser(user);
+};
+
+export const setModalUserAction = user => {
+  return { type: SET_MODAL_USER, payload: user };
 };
