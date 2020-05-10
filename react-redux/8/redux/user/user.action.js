@@ -2,6 +2,7 @@ import axios from "axios";
 import { apiGetUsers } from "./user.getUsers.api.action";
 import { apiCreateUser } from "./user.createUser.api.action";
 import { apiUpdateUser } from "./user.updateUser.api.action";
+import { apiDeleteUser } from "./user.deleteUser.api.action";
 
 import { SET_MODAL_USER } from "./user.actionTypes";
 
@@ -34,12 +35,12 @@ export const updateUserAction = user => {
 };
 
 export const deleteUserAction = user => {
-  /* updateUser: can call any source (just keep it abstract)
-      -updateUser (in API) 
-      -updateUser (in IndexDB) 
-      -updateUser (in Local Memory) 
+  /* deleteUser: can call any source (just keep it abstract)
+      -deleteUser (in API) 
+      -deleteUser (in IndexDB) 
+      -deleteUser (in Local Memory) 
   */
-  return apiUpdateUser(user);
+  return apiDeleteUser(user);
 };
 
 export const setModalUserAction = user => {

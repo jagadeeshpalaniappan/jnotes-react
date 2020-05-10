@@ -90,11 +90,11 @@ function UsersContainer({
     setEditMode(true);
     openModal(null);
   };
-  const handleEdit = (e, user) => {
+  const handleEdit = (e,user) => {
     console.log("handleEdit:", user);
     setEditMode(true);
   };
-  const handleDelete = (e, user) => {
+  const handleDelete = (user) => {
     console.log("handleDelete:", user);
     deleteUser(user);
   };
