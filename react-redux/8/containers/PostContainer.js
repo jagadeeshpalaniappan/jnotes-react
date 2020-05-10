@@ -14,32 +14,32 @@ import {
   StatusBar
 } from "../../common/components";
 
-import { UserFormContainer } from "../../common/container/UserFormContainer";
+import { PostFormContainer } from "../../common/container/PostFormContainer";
 
 import {
-  setModalUserAction,
-  getUsers,
-  createUserAction,
-  updateUserAction,
-  deleteUserAction
-} from "../redux/user/user.action";
+  setModalPostAction,
+  getPosts,
+  createPostAction,
+  updatePostAction,
+  deletePostAction
+} from "../redux/post/post.action";
 
 import { STATUS_TYPES } from "../types";
 
-function UserList({ status, users, openModal }) {
+function PostList({ status, posts, openModal }) {
   // const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
   return (
     <>
       <StatusBar status={status} />
-      {users && users.length > 0 && (
+      {posts && posts.length > 0 && (
         <List>
-          {users.map(user => (
+          {posts.map(post => (
             <ListItem
-              key={user.id}
-              item={user}
+              key={post.id}
+              item={post}
               tag="button"
               action
-              onClick={() => openModal(user)}
+              onClick={() => openModal(post)}
             />
           ))}
         </List>
@@ -48,27 +48,27 @@ function UserList({ status, users, openModal }) {
   );
 }
 
-function UsersContainer({
-  users,
-  modalUser,
-  setModalUser,
-  getUsers,
-  createUser,
-  updateUser,
-  deleteUser
+function PostsContainer({
+  posts,
+  modalPost,
+  setModalPost,
+  getPosts,
+  createPost,
+  updatePost,
+  deletePost
 }) {
-  console.log("UserFormContainer:", users);
+  console.log("PostFormContainer:", posts);
 
   useEffect(() => {
     // onInit:
-    getUsers();
+    getPosts();
   }, []);
 
   const [isModalOpen, setModalOpen] = useState(false); // state: modal is opened or not
   const [editMode, setEditMode] = useState(false); // state: editMode or not
 
-  const openModal = user => {
-    setModalUser(user || null);
+  const openModal = post => {
+    setModalPost(post || null);
     setModalOpen(true);
   };
 
@@ -76,16 +76,16 @@ function UsersContainer({
     console.log("handleCancel:");
     setModalOpen(false);
     setEditMode(false);
-    setModalUser(null);
+    setModalPost(null);
   };
 
-  const handleSave = (e, user) => {
-    console.log("AddUser:", user);
-    if (user && user.id) {
-      updateUser(user);
+  const handleSave = (e, post) => {
+    console.log("AddPost:", post);
+    if (post && post.id) {
+      updatePost(post);
       setEditMode(false);
     } else {
-      createUser(user);
+      createPost(post);
       setEditMode(false);
     }
   };
@@ -94,35 +94,35 @@ function UsersContainer({
     setEditMode(true);
     openModal(null);
   };
-  const handleEdit = user => {
-    console.log("handleEdit:", user);
+  const handleEdit = post => {
+    console.log("handleEdit:", post);
     setEditMode(true);
   };
-  const handleDelete = user => {
-    console.log("handleDelete:", user);
-    deleteUser(user);
+  const handleDelete = post => {
+    console.log("handleDelete:", post);
+    deletePost(post);
   };
 
   return (
     <div className="col-sm">
       <div className="d-flex my-3">
-        <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
+        <h3 className="flex-grow-1 m-0"> PostContainer: </h3>
         <AppButton color="primary" onClick={handleAdd}>
-          Add User
+          Add Post
         </AppButton>
       </div>
 
-      <UserList
-        status={users.status}
-        users={users.data}
+      <PostList
+        status={posts.status}
+        posts={posts.data}
         openModal={openModal}
       />
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
-          <UserFormContainer
-            status={modalUser.status}
-            user={modalUser.data}
+          <PostFormContainer
+            status={modalPost.status}
+            post={modalPost.data}
             editMode={editMode}
             onSave={handleSave}
             onCancel={handleCancel}
@@ -137,21 +137,21 @@ function UsersContainer({
 
 const mapStateToProps = state => {
   return {
-    users: state.userState.users,
-    modalUser: state.userState.modalUser
+    posts: state.postState.posts,
+    modalPost: state.postState.modalPost
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
-    setModalUser: user => dispatch(setModalUserAction(user)),
-    getUsers: () => dispatch(getUsers()),
-    createUser: user => dispatch(createUserAction(user)),
-    updateUser: user => dispatch(updateUserAction(user)),
-    deleteUser: user => dispatch(deleteUserAction(user))
+    setModalPost: post => dispatch(setModalPostAction(post)),
+    getPosts: () => dispatch(getPosts()),
+    createPost: post => dispatch(createPostAction(post)),
+    updatePost: post => dispatch(updatePostAction(post)),
+    deletePost: post => dispatch(deletePostAction(post))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(UsersContainer);
+)(PostsContainer);
