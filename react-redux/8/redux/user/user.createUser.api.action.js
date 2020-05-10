@@ -41,13 +41,13 @@ export const apiCreateUser = user => {
       .then(response => {
         // SUCCESS:
         console.log("apiCreateUserSuccessAction:", response);
-        // const users = response.data;
-        // dispatch(apiCreateUserSuccessAction(users));
+        const user = response.data;
+        dispatch(apiCreateUserSuccessAction(user));
       })
       .catch(error => {
         // FAILURE:
         console.log("apiCreateUserFailureAction:", error);
-        // dispatch(apiCreateUserFailureAction(error.message));
+        dispatch(apiCreateUserFailureAction(error.message));
       });
   };
 };
