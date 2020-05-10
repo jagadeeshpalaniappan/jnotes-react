@@ -21,7 +21,6 @@ export const UserFormContainer = ({
   onCancel,
   onSave
 }) => {
-
   console.log("UserFormContainer:", { loading, error, user });
   const [formVal, setFormVal] = useState({});
 
@@ -50,10 +49,22 @@ export const UserFormContainer = ({
     <div>
       {loading && <Loading>Creating User...</Loading>}
       {error && <Error> {error} </Error>}
-
-      {user ? <h3>Edit User</h3> : <h3>Create User</h3>}
+      {user && user.id ? <h3>Edit User</h3> : <h3>Create User</h3>}
       <Form onSubmit={handleSubmit}>
         <p> {JSON.stringify(formVal)} </p>
+
+        {user && user.id && (
+          <FormGroup>
+            <label htmlFor="userId">ID:</label>
+            <Input
+              type="text"
+              id="userId"
+              name="id"
+              value={formVal.id}
+              disabled
+            />
+          </FormGroup>
+        )}
         <FormGroup>
           <label htmlFor="name">Name:</label>
           <Input
