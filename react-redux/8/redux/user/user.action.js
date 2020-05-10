@@ -12,7 +12,7 @@ export const getUsers = () => {
   return apiGetUsers();
 };
 
-export const createUser = (user) => {
+export const createUserAction = (user) => {
   /* createUser: can call any source (just keep it abstract)
       -createUser (in API) 
       -createUser (in IndexDB) 

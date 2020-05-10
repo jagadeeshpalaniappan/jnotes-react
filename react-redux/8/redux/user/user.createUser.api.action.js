@@ -27,8 +27,10 @@ export const apiCreateUserFailureAction = error => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiCreateUser = (user) => {
+export const apiCreateUser = user => {
   return dispatch => {
+    console.log("apiCreateUserStartAction:", user);
+
     dispatch(apiCreateUserStartAction());
     axios
       .post("https://jsonplaceholder.typicode.com/users", {
