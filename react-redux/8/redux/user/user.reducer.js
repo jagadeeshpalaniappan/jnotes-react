@@ -78,10 +78,12 @@ export const userReducer = (userState = initialUserState, action) => {
         ...userState,
         users: {
           ...userState.users,
-          data: [],
           status: {
             type: STATUS_TYPES.FAILURE,
-            msg: "Problem while getting users",
+            msg:
+              action.payload.config && action.payload.config.reload
+                ? "Problem while reloadi users."
+                : "Problem while getting users",
             more: action.payload.error
           }
         }

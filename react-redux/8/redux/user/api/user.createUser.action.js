@@ -48,7 +48,7 @@ export const apiCreateUser = user => {
         console.log("apiCreateUserSuccessAction:", response);
         const user = response.data;
         dispatch(apiCreateUserSuccessAction(user));
-        
+        dispatch(apiGetUsers({ reload: true }));
       })
       .catch(error => {
         // FAILURE:
