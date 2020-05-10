@@ -3,7 +3,7 @@ import {
   API_CREATE_USER_START,
   API_CREATE_USER_SUCCESS,
   API_CREATE_USER_FAILURE
-} from "./user.actionTypes";
+} from "../user.actionTypes";
 
 // ACTION-CREATORS:
 export const apiCreateUserStartAction = () => {

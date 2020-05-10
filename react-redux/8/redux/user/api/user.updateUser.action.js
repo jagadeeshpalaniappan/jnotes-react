@@ -3,7 +3,7 @@ import {
   API_UPDATE_USER_START,
   API_UPDATE_USER_SUCCESS,
   API_UPDATE_USER_FAILURE
-} from "./user.actionTypes";
+} from "../user.actionTypes";
 
 // ACTION-CREATORS:
 export const apiUpdateUserStartAction = () => {

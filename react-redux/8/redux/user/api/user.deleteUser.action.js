@@ -3,7 +3,7 @@ import {
   API_DELETE_USER_START,
   API_DELETE_USER_SUCCESS,
   API_DELETE_USER_FAILURE
-} from "./user.actionTypes";
+} from "../user.actionTypes";
 
 // ACTION-CREATORS:
 export const apiDeleteUserStartAction = () => {
