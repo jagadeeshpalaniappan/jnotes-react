@@ -21,7 +21,7 @@ export const PostFormHeader = ({ mode, post, onEdit, onDelete }) => {
     case MODE.READ:
       return (
         <div className="d-flex my-3">
-          <h3 className="flex-grow-1 m-0">{post.title}</h3>
+          <h3 className="flex-grow-1 m-0">{post && post.title}</h3>
           <AppButton outline color="primary" onClick={() => onEdit(post)}>
             Edit
           </AppButton>
