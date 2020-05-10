@@ -31,6 +31,8 @@ import {
   NavbarText
 } from "reactstrap";
 
+import { STATUS_TYPES, MODE } from "../types";
+
 export const AppHeader = ({ title }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -197,3 +199,27 @@ export const Error = ({ children }) => {
     </div>
   );
 };
+
+export const Success = ({ children }) => {
+  return (
+    <div className="text-center text-success">
+      <span>{children}</span>
+    </div>
+  );
+};
+
+export function StatusBar({ status }) {
+  if (status && status.type === STATUS_TYPES.LOADING) {
+    return <Loading>{status.msg}</Loading>;
+  } else if (status && status.type === STATUS_TYPES.FAILURE) {
+    return (
+      <Error>
+        {status.msg} :: {status.more}
+      </Error>
+    );
+  } else if (status && status.type === STATUS_TYPES.SUCCESS) {
+    return <Success>{status.msg}</Success>;
+  } else {
+    return null;
+  }
+}

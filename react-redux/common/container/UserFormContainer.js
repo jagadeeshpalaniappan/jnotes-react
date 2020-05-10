@@ -12,13 +12,8 @@ import {
   Container
 } from "reactstrap";
 
-import { AppButton, Loading, Error } from "../../common/components";
-
-const MODE = {
-  READ: "READ",
-  EDIT: "EDIT",
-  CREATE: "CREATE"
-};
+import { AppButton, StatusBar } from "../../common/components";
+import { STATUS_TYPES, MODE } from "../types";
 
 export const UserFormHeader = ({ mode, user, onEdit, onDelete }) => {
   switch (mode) {
@@ -46,8 +41,7 @@ export const UserFormHeader = ({ mode, user, onEdit, onDelete }) => {
 };
 
 export const UserFormContainer = ({
-  loading,
-  error,
+  status,
   user,
   editMode,
   onCancel,
@@ -55,7 +49,7 @@ export const UserFormContainer = ({
   onEdit,
   onDelete
 }) => {
-  console.log("UserFormContainer:", { loading, error, user });
+  console.log("UserFormContainer:", { status, user });
   const [formVal, setFormVal] = useState({});
 
   useEffect(() => {
@@ -81,8 +75,7 @@ export const UserFormContainer = ({
 
   return (
     <div>
-      {loading && <Loading>Creating User...</Loading>}
-      {error && <Error> {error} </Error>}
+      <StatusBar status={status} />
 
       <UserFormHeader
         mode={

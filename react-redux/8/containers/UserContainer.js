@@ -10,7 +10,8 @@ import {
   AppButton,
   AppModal,
   Loading,
-  Error
+  Error,
+  StatusBar
 } from "../../common/components";
 
 import { UserFormContainer } from "../../common/container/UserFormContainer";
@@ -26,31 +27,24 @@ import {
 import { STATUS_TYPES } from "../types";
 
 function UserList({ status, users, openModal }) {
-  if (status && status.type === STATUS_TYPES.LOADING) {
-    return <Loading>{status.msg}</Loading>;
-  } else if (status && status.type === STATUS_TYPES.FAILURE) {
-    return (
-      <Error>
-        {status.msg} :: {status.more}
-      </Error>
-    );
-  } else if (users && users.length > 0) {
-    return (
-      <List>
-        {users.map(user => (
-          <ListItem
-            key={user.id}
-            item={user}
-            tag="button"
-            action
-            onClick={() => openModal(user)}
-          />
-        ))}
-      </List>
-    );
-  } else {
-    return "No users found";
-  }
+  return (
+    <>
+      <StatusBar status={status} />
+      {users && users.length > 0 && (
+        <List>
+          {users.map(user => (
+            <ListItem
+              key={user.id}
+              item={user}
+              tag="button"
+              action
+              onClick={() => openModal(user)}
+            />
+          ))}
+        </List>
+      )}
+    </>
+  );
 }
 
 function UsersContainer({
@@ -123,8 +117,7 @@ function UsersContainer({
       <AppModal isOpen={isModalOpen} toggle={closeModal}>
         <AppCard>
           <UserFormContainer
-            loading={modalUser.loading}
-            error={modalUser.error}
+            status={modalUser.status}
             user={modalUser.data}
             editMode={editMode}
             onSave={handleSave}
