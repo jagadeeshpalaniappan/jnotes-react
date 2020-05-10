@@ -33,7 +33,7 @@ export const apiCreateUser = user => {
 
     dispatch(apiCreateUserStartAction());
     axios
-      .post("https://jsonplaceholder.typicode.com/users", {
+      .post("https://jsonplaceholder.typicode.com/users1", {
         title: "foo",
         body: "bar",
         userId: 1

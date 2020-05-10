@@ -13,11 +13,17 @@ import {
   Error
 } from "../../common/components";
 
-import { UserFormContainer } from "../../common/container";
+import { UserFormContainer } from "../../common/container/UserFormContainer";
 
 import { getUsers, createUserAction } from "../redux/user/user.action";
 
-function UsersContainer({ loading, error, users, getUsers, createUser, updateUser }) {
+function UsersContainer({
+  users,
+  createdUser,
+  getUsers,
+  createUser,
+  // updateUser
+}) {
   useEffect(() => {
     // onInit:
     getUsers();
@@ -40,9 +46,8 @@ function UsersContainer({ loading, error, users, getUsers, createUser, updateUse
 
   const handleSave = (e, user) => {
     console.log("AddUser:", user);
-    closeModal();
     if (user && user.id) {
-      updateUser(user);
+      // updateUser(user);
     } else {
       createUser(user);
     }
@@ -58,14 +63,14 @@ function UsersContainer({ loading, error, users, getUsers, createUser, updateUse
       </div>
 
       {(() => {
-        if (loading) {
+        if (users.loading) {
           return <Loading>Loading Users...</Loading>;
-        } else if (error) {
+        } else if (users.error) {
           return <Error>{error}</Error>;
-        } else if (users && users.length > 0) {
+        } else if (users.data && users.data.length > 0) {
           return (
             <List>
-              {users.map(user => (
+              {users.data.map(user => (
                 <ListItem key={user.id} item={user} />
               ))}
             </List>
@@ -79,6 +84,7 @@ function UsersContainer({ loading, error, users, getUsers, createUser, updateUse
         <AppCard>
           <UserFormContainer
             user={selectedUser}
+            userStatus={createdUser}
             onSave={handleSave}
             onCancel={closeModal}
           />
@@ -90,16 +96,15 @@ function UsersContainer({ loading, error, users, getUsers, createUser, updateUse
 
 const mapStateToProps = state => {
   return {
-    loading: state.userState.loading,
-    error: state.userState.error,
-    users: state.userState.users
+    users: state.userState.users,
+    createdUser: state.userState.createdUser
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     getUsers: () => dispatch(getUsers()),
     createUser: user => dispatch(createUserAction(user)),
-    updateUser: user => dispatch(updateUserAction(user))
+    // updateUser: user => dispatch(updateUserAction(user))
   };
 };
 
