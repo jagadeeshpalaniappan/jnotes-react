@@ -25,7 +25,7 @@ export const PostFormHeader = ({ mode, post, onEdit, onDelete }) => {
           <AppButton outline color="primary" onClick={() => onEdit(post)}>
             Edit
           </AppButton>
-          <AppButton outline color="danger" onClick={() => onDelete(post)}>
+          <AppButton outline color="danger" onClick={() => onDelete(post)} className="ml-2">
             Delete
           </AppButton>
         </div>
