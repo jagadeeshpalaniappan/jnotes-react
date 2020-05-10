@@ -23,11 +23,17 @@ import {
   deleteUserAction
 } from "../redux/user/user.action";
 
-function UserList({ loading, error, users, openModal }) {
-  if (loading) {
-    return <Loading>Loading Users...</Loading>;
-  } else if (error) {
-    return <Error>{error}</Error>;
+import { STATUS_TYPES } from "../types";
+
+function UserList({ status, users, openModal }) {
+  if (status && status.type === STATUS_TYPES.LOADING) {
+    return <Loading>{status.msg}</Loading>;
+  } else if (status && status.type === STATUS_TYPES.FAILURE) {
+    return (
+      <Error>
+        {status.msg} :: {status.more}
+      </Error>
+    );
   } else if (users && users.length > 0) {
     return (
       <List>
@@ -109,8 +115,7 @@ function UsersContainer({
       </div>
 
       <UserList
-        loading={users.loading}
-        error={users.error}
+        status={users.status}
         users={users.data}
         openModal={openModal}
       />

@@ -14,11 +14,7 @@ import {
   SET_MODAL_USER
 } from "./user.actionTypes";
 
-const STATUS_TYPES = {
-  LOADING: "LOADING",
-  SUCCESS: "SUCCESS",
-  FAILURE: "FAILURE"
-};
+import { STATUS_TYPES } from "../../types";
 
 // REDUCER:
 const initialUserState = {
