@@ -27,10 +27,11 @@ import {
 import { STATUS_TYPES } from "../types";
 
 function UserList({ status, users, openModal }) {
+  const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
   return (
     <>
       <StatusBar status={status} />
-      {users && users.length > 0 && (
+      {!isLoading() && users && users.length > 0 && (
         <List>
           {users.map(user => (
             <ListItem
@@ -71,7 +72,6 @@ function UsersContainer({
     setModalOpen(true);
   };
 
-
   const handleCancel = () => {
     console.log("handleCancel:");
     setModalOpen(false);
@@ -94,11 +94,11 @@ function UsersContainer({
     setEditMode(true);
     openModal(null);
   };
-  const handleEdit = (user) => {
+  const handleEdit = user => {
     console.log("handleEdit:", user);
     setEditMode(true);
   };
-  const handleDelete = (user) => {
+  const handleDelete = user => {
     console.log("handleDelete:", user);
     deleteUser(user);
   };
