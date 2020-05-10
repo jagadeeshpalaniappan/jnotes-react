@@ -25,7 +25,7 @@ export const UserFormHeader = ({ mode, user, onEdit, onDelete }) => {
           <AppButton outline color="primary" onClick={() => onEdit(user)}>
             Edit
           </AppButton>
-          <AppButton outline color="danger" onClick={() => onDelete(user)} 
+          <AppButton outline color="danger" onClick={() => onDelete(user)} className="ml-2">
             Delete
           </AppButton>
         </div>
