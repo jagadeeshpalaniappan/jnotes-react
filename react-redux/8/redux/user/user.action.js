@@ -1,6 +1,7 @@
 import axios from "axios";
 import { apiGetUsers } from "./user.getUsers.api.action";
 import { apiCreateUser } from "./user.createUser.api.action";
+import { apiUpdateUser } from "./user.updateUser.api.action";
 
 import { SET_MODAL_USER } from "./user.actionTypes";
 

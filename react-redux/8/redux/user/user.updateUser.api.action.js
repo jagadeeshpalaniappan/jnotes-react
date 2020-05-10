@@ -34,13 +34,14 @@ export const apiUpdateUser = user => {
     dispatch(apiUpdateUserStartAction());
 
     const reqBody = {
+      id: user.id,
       name: user.name,
       email: user.email,
       age: user.age
     };
 
     axios
-      .put("https://jsonplaceholder.typicode.com/users", reqBody)
+      .put(`https://jsonplaceholder.typicode.com/users/${user.id}`, reqBody)
       .then(response => {
         // SUCCESS:
         console.log("apiUpdateUserSuccessAction:", response);
