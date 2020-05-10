@@ -61,8 +61,8 @@ function UsersContainer({
     getUsers();
   }, []);
 
-  // isModalOpen:
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false); // state: modal is opened or not
+  const [editMode, setEditMode] = useState(false); // state: editMode or not
 
   const openModal = user => {
     setModalUser(user || null);
@@ -77,16 +77,31 @@ function UsersContainer({
     console.log("AddUser:", user);
     if (user && user.id) {
       updateUser(user);
+      setEditMode(false);
     } else {
       createUser(user);
+      setEditMode(false);
     }
+  };
+  const handleAdd = () => {
+    console.log("handleAdd:");
+    setEditMode(true);
+    openModal(null);
+  };
+  const handleEdit = (e, user) => {
+    console.log("handleEdit:", user);
+    setEditMode(true);
+  };
+  const handleDelete = (e, user) => {
+    console.log("handleDelete:", user);
+    deleteUser(user);
   };
 
   return (
     <div className="col-sm">
       <div className="d-flex my-3">
         <h3 className="flex-grow-1 m-0"> UserContainer: </h3>
-        <AppButton color="primary" onClick={() => openModal()}>
+        <AppButton color="primary" onClick={handleAdd}>
           Add User
         </AppButton>
       </div>
@@ -104,8 +119,11 @@ function UsersContainer({
             loading={modalUser.loading}
             error={modalUser.error}
             user={modalUser.data}
+            editMode={editMode}
             onSave={handleSave}
             onCancel={closeModal}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
           />
         </AppCard>
       </AppModal>
@@ -121,10 +139,11 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
+    setModalUser: user => dispatch(setModalUserAction(user)),
     getUsers: () => dispatch(getUsers()),
     createUser: user => dispatch(createUserAction(user)),
     updateUser: user => dispatch(updateUserAction(user)),
-    setModalUser: user => dispatch(setModalUserAction(user))
+    deleteUser: user => dispatch(updateUserAction(user))
   };
 };
 

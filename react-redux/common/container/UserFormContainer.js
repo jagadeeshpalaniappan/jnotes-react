@@ -12,14 +12,48 @@ import {
   Container
 } from "reactstrap";
 
-import { Loading, Error } from "../../common/components";
+import { AppButton, Loading, Error } from "../../common/components";
+
+const MODE = {
+  READ: "READ",
+  EDIT: "EDIT",
+  CREATE: "CREATE"
+};
+
+export const UserFormHeader = ({ mode, user, onEdit, onDelete }) => {
+  switch (mode) {
+    case MODE.READ:
+      return (
+        <div className="d-flex my-3">
+          <h3 className="flex-grow-1 m-0">User</h3>
+          <AppButton outline color="primary" onClick={() => onEdit(user)}>
+            Edit
+          </AppButton>
+          <AppButton outline color="danger" onClick={() => onDelete(user)}>
+            Delete
+          </AppButton>
+        </div>
+      );
+    case MODE.EDIT:
+      return (
+        <div className="d-flex my-3">
+          <h3 className="flex-grow-1 m-0">Edit User</h3>
+        </div>
+      );
+    default:
+      return <h3 className="flex-grow-1 m-0">Create User</h3>;
+  }
+};
 
 export const UserFormContainer = ({
   loading,
   error,
   user,
+  editMode,
   onCancel,
-  onSave
+  onSave,
+  onEdit,
+  onDelete
 }) => {
   console.log("UserFormContainer:", { loading, error, user });
   const [formVal, setFormVal] = useState({});
@@ -49,9 +83,18 @@ export const UserFormContainer = ({
     <div>
       {loading && <Loading>Creating User...</Loading>}
       {error && <Error> {error} </Error>}
-      {user && user.id ? <h3>Edit User</h3> : <h3>Create User</h3>}
+
+      <UserFormHeader
+        mode={
+          editMode ? (user && user.id ? MODE.EDIT : MODE.CREATE) : MODE.READ
+        }
+        user={user}
+        onEdit={onEdit}
+        onDelete={onDelete}
+      />
+
       <Form onSubmit={handleSubmit}>
-        <p> {JSON.stringify(formVal)} </p>
+        {/* <p> {JSON.stringify(formVal)} </p> */}
 
         {user && user.id && (
           <FormGroup>
@@ -73,6 +116,7 @@ export const UserFormContainer = ({
             name="name"
             placeholder="Name"
             value={formVal.name}
+            disabled={!editMode}
             onChange={e => setFormVal({ ...formVal, name: e.target.value })}
           />
         </FormGroup>
@@ -84,6 +128,7 @@ export const UserFormContainer = ({
             name="email"
             placeholder="Email"
             value={formVal.email}
+            disabled={!editMode}
             onChange={e => setFormVal({ ...formVal, email: e.target.value })}
           />
         </FormGroup>
@@ -95,23 +140,26 @@ export const UserFormContainer = ({
             name="age"
             placeholder="Age"
             value={formVal.age}
+            disabled={!editMode}
             onChange={e => setFormVal({ ...formVal, age: e.target.value })}
           />
         </FormGroup>
 
-        <div className="d-flex justify-content-end">
-          <Button
-            type="button"
-            color="secondary"
-            className="mr-2"
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-          <Button type="submit" color="primary">
-            Add
-          </Button>
-        </div>
+        {editMode && (
+          <div className="d-flex justify-content-end">
+            <Button
+              type="button"
+              color="secondary"
+              className="mr-2"
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" color="primary">
+              {user && user.id ? "Update User" : "Create User"}
+            </Button>
+          </div>
+        )}
       </Form>
     </div>
   );
