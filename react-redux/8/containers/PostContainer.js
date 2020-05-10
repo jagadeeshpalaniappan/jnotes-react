@@ -13,7 +13,8 @@ import {
   Error
 } from "../../common/components";
 
-import { getPosts } from "../redux/post.state";
+
+import { getPosts } from "../redux/post/post.action";
 
 function PostsContainer({ loading, error, posts, getPosts }) {
   useEffect(() => {
