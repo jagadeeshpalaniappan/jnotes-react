@@ -43,7 +43,7 @@ export const userReducer = (userState = initialUserState, action) => {
     case API_CREATE_USER_START:
       return {
         ...userState,
-        createdUser: { ...userState.createdUser, loading: true, error: "" }
+        createdUser: { ...userState.createdUser, loading: true, error: null }
       };
     case API_CREATE_USER_SUCCESS:
       return {
@@ -51,7 +51,7 @@ export const userReducer = (userState = initialUserState, action) => {
         createdUser: {
           ...userState.createdUser,
           loading: false,
-          error: "",
+          error: null,
           data: action.payload
         }
       };

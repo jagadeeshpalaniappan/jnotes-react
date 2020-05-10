@@ -24,6 +24,9 @@ function UsersContainer({
   createUser,
   // updateUser
 }) {
+  
+  console.log("UserFormContainer:", users);
+
   useEffect(() => {
     // onInit:
     getUsers();
@@ -66,7 +69,7 @@ function UsersContainer({
         if (users.loading) {
           return <Loading>Loading Users...</Loading>;
         } else if (users.error) {
-          return <Error>{error}</Error>;
+          return <Error>{users.error}</Error>;
         } else if (users.data && users.data.length > 0) {
           return (
             <List>
@@ -93,6 +96,7 @@ function UsersContainer({
     </div>
   );
 }
+
 
 const mapStateToProps = state => {
   return {
