@@ -1,5 +1,6 @@
 import axios from "axios";
 import { apiGetUsers } from "./user.getUsers.api.action";
+import { apiCreateUser } from "./user.createUser.api.action";
 
 export const getUsers = () => {
   /* getUsers: can call any source (just keep it abstract)
@@ -9,4 +10,13 @@ export const getUsers = () => {
   */
 
   return apiGetUsers();
+};
+
+export const createUser = (user) => {
+  /* createUser: can call any source (just keep it abstract)
+      -createUser (in API) 
+      -createUser (in IndexDB) 
+      -createUser (in Local Memory) 
+  */
+  return apiCreateUser(user);
 };
