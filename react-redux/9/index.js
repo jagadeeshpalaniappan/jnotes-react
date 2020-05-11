@@ -17,7 +17,7 @@ import { AppHeader, AppContainer } from "../common/components";
 const App = () => {
   return (
     <Provider store={store}>
-      <AppHeader title="My App " />
+      <AppHeader title="My App 9" />
       <AppContainer>
         <UserContainer />
         <PostContainer />
