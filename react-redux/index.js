@@ -9,5 +9,5 @@ console.log(":: React Redux ::");
 // import './6';   // my-undo-impln
 
 // import './7';   // asyncActionCreators, api [GET]
-// import './8';   // asyncActionCreators, api [CRUD
+// import './8';   // asyncActionCreators, api [CRUD]
 import './9';   // React Router Dom

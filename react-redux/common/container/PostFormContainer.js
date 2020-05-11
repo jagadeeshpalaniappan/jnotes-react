@@ -21,7 +21,7 @@ export const PostFormHeader = ({ mode, post, onEdit, onDelete }) => {
     case MODE.READ:
       return (
         <div className="d-flex my-3">
-          <h3 className="flex-grow-1 m-0">{post && post.title}</h3>
+          <h5 className="flex-grow-1 m-0">{post && post.title}</h5>
           <AppButton outline color="primary" onClick={() => onEdit(post)}>
             Edit
           </AppButton>
@@ -136,7 +136,7 @@ export const PostFormContainer = ({
             <FormGroup>
               <label htmlFor="body">Body:</label>
               <Input
-                type="text"
+                type="textarea"
                 id="body"
                 name="body"
                 placeholder="Email"
