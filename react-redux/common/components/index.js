@@ -110,7 +110,7 @@ export const AppCard = ({ children }) => {
 export const AppContainer = ({ children }) => {
   return (
     <Container body className="mt-3">
-      <div class="row">{children}</div>
+      <div className="row">{children}</div>
     </Container>
   );
 };

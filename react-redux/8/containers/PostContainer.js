@@ -57,7 +57,7 @@ function PostsContainer({
   updatePost,
   deletePost
 }) {
-  console.log("PostFormContainer:", posts);
+  console.log("PostsContainer: posts:", posts);
 
   useEffect(() => {
     // onInit:
