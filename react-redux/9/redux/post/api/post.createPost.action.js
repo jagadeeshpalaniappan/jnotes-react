@@ -5,9 +5,7 @@ import {
   API_CREATE_POST_FAILURE
 } from "../post.actionTypes";
 
-
 import { apiGetPosts } from "./post.getPosts.action";
-
 
 // ACTION-CREATORS:
 export const apiCreatePostStartAction = () => {
@@ -33,7 +31,7 @@ export const apiCreatePostFailureAction = error => {
 // ASYCN-ACTION-CREATORS:
 export const apiCreatePost = post => {
   return dispatch => {
-    console.log("apiCreatePostStartAction1:", post);
+    console.log("apiCreatePostStartAction:", post);
 
     dispatch(apiCreatePostStartAction());
 
