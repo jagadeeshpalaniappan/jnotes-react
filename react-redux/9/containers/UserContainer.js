@@ -182,7 +182,6 @@ const getFilteredUsers = (users, keyword) => {
     return searchResults;
   }
 
-
   console.log("getFilteredUsers: nokeyword or users:", { users, keyword });
   return users;
 };

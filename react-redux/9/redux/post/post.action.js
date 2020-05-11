@@ -4,7 +4,7 @@ import { apiCreatePost } from "./api/post.createPost.action";
 import { apiUpdatePost } from "./api/post.updatePost.action";
 import { apiDeletePost } from "./api/post.deletePost.action";
 
-import { SET_MODAL_POST } from "./post.actionTypes";
+import { SET_MODAL_POST, SET_POST_SEARCH_KEYWORD } from "./post.actionTypes";
 
 export const getPosts = () => {
   /* getPosts: can call any source (just keep it abstract)
@@ -45,4 +45,8 @@ export const deletePostAction = post => {
 
 export const setModalPostAction = post => {
   return { type: SET_MODAL_POST, payload: post };
+};
+
+export const setPostSearchKeywordAction = keyword => {
+  return { type: SET_POST_SEARCH_KEYWORD, payload: keyword };
 };

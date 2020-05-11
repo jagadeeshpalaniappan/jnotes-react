@@ -17,6 +17,7 @@ import {
 import { PostFormContainer } from "../../common/container/PostFormContainer";
 
 import {
+  setPostSearchKeywordAction,
   setModalPostAction,
   getPosts,
   createPostAction,
@@ -49,15 +50,18 @@ function PostList({ status, posts, openModal }) {
 }
 
 function PostsContainer({
+  status,
   posts,
   modalPost,
+  searchKeyword,
   setModalPost,
+  searchPost,
   getPosts,
   createPost,
   updatePost,
   deletePost
 }) {
-  console.log("PostsContainer: posts:", posts);
+  console.log("PostsContainer: posts,searchKeyword:", { posts, searchKeyword });
 
   useEffect(() => {
     // onInit:
@@ -103,6 +107,21 @@ function PostsContainer({
     deletePost(post);
   };
 
+  const handleSearch = (e, keyword) => {
+    console.log("SearchPost: keyword:", keyword);
+    searchPost(keyword);
+
+    // const searchKey = keyword && keyword.toLowerCase();
+    // const searchResults = posts.filter(post => {
+    //   return Object.values(post).some(item =>
+    //     item.toLowerCase().startsWith(searchKey)
+    //   );
+    // });
+
+    // console.log("SearchPost: searchResults:", searchResults);
+    // setVisiblePosts(searchResults);
+  };
+
   return (
     <div className="col-sm">
       <div className="d-flex my-3">
@@ -112,11 +131,9 @@ function PostsContainer({
         </AppButton>
       </div>
 
-      <PostList
-        status={posts.status}
-        posts={posts.data}
-        openModal={openModal}
-      />
+      <SearchInput onSearch={handleSearch} className="my-3" />
+
+      <PostList status={status} posts={posts} openModal={openModal} />
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
@@ -135,15 +152,56 @@ function PostsContainer({
   );
 }
 
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case VisibilityFilters.SHOW_ALL:
+      return todos;
+    case VisibilityFilters.SHOW_COMPLETED:
+      return todos.filter(t => t.completed);
+    case VisibilityFilters.SHOW_ACTIVE:
+      return todos.filter(t => !t.completed);
+    default:
+      throw new Error("Unknown filter: " + filter);
+  }
+};
+
+const getFilteredPosts = (posts, keyword) => {
+  console.log("getFilteredPosts:", { posts, keyword });
+
+  if (keyword && keyword.length > 0 && posts && posts.length > 0) {
+    const searchKey = keyword && keyword.toLowerCase();
+    const searchResults = posts.filter(post => {
+      return Object.values(post).some(
+        item =>
+          item &&
+          typeof item === "string" &&
+          item.toLowerCase().startsWith(searchKey)
+      );
+    });
+    console.log("getFilteredPosts: searchResults:", searchResults);
+    return searchResults;
+  }
+
+  console.log("getFilteredPosts: nokeyword or posts:", { posts, keyword });
+  return posts;
+};
+
 const mapStateToProps = state => {
   return {
-    posts: state.postState.posts,
-    modalPost: state.postState.modalPost
+    status: state.postState.posts.status,
+    // posts: state.postState.posts.data,
+    posts: getFilteredPosts(
+      state.postState.posts.data,
+      state.postState.searchKeyword
+    ),
+    modalPost: state.postState.modalPost,
+    searchKeyword: state.postState.searchKeyword
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     setModalPost: post => dispatch(setModalPostAction(post)),
+    searchPost: post => dispatch(setPostSearchKeywordAction(post)),
     getPosts: () => dispatch(getPosts()),
     createPost: post => dispatch(createPostAction(post)),
     updatePost: post => dispatch(updatePostAction(post)),

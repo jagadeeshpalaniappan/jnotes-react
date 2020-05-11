@@ -11,7 +11,8 @@ import {
   API_DELETE_POST_START,
   API_DELETE_POST_SUCCESS,
   API_DELETE_POST_FAILURE,
-  SET_MODAL_POST
+  SET_MODAL_POST,
+  SET_POST_SEARCH_KEYWORD
 } from "./post.actionTypes";
 
 import { STATUS_TYPES } from "../../types";
@@ -47,6 +48,11 @@ export const postReducer = (postState = initialPostState, action) => {
             msg: ""
           }
         }
+      };
+    case SET_POST_SEARCH_KEYWORD:
+      return {
+        ...postState,
+        searchKeyword: action.payload
       };
     case API_GET_POSTS_START:
       return {
