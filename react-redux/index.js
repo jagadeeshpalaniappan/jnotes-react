@@ -8,8 +8,9 @@ console.log(":: React Redux ::");
 // import './5';   // redux-undo
 // import './6';   // my-undo-impln
 
-// API:
-
+// REST-API:
 // import './7';   // asyncActionCreators, api [GET]
 // import './8';   // asyncActionCreators, api [CRUD]
 import './9';   // React Router Dom, reduxLocalSearch
+
+// GRAPHQL-API: TODO
