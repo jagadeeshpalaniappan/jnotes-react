@@ -17,6 +17,7 @@ import {
 import { UserFormContainer } from "../../common/container/UserFormContainer";
 
 import {
+  setUserSearchKeywordAction,
   setModalUserAction,
   getUsers,
   createUserAction,
@@ -49,15 +50,18 @@ function UserList({ status, users, openModal }) {
 }
 
 function UsersContainer({
+  status,
   users,
   modalUser,
+  searchKeyword,
   setModalUser,
+  searchUser,
   getUsers,
   createUser,
   updateUser,
   deleteUser
 }) {
-  console.log("UsersContainer: users", users);
+  console.log("UsersContainer: users,searchKeyword:", { users, searchKeyword });
 
   useEffect(() => {
     // onInit:
@@ -103,6 +107,21 @@ function UsersContainer({
     deleteUser(user);
   };
 
+  const handleSearch = (e, keyword) => {
+    console.log("SearchUser: keyword:", keyword);
+    searchUser(keyword);
+
+    // const searchKey = keyword && keyword.toLowerCase();
+    // const searchResults = users.filter(user => {
+    //   return Object.values(user).some(item =>
+    //     item.toLowerCase().startsWith(searchKey)
+    //   );
+    // });
+
+    // console.log("SearchUser: searchResults:", searchResults);
+    // setVisibleUsers(searchResults);
+  };
+
   return (
     <div className="col-sm">
       <div className="d-flex my-3">
@@ -112,11 +131,9 @@ function UsersContainer({
         </AppButton>
       </div>
 
-      <UserList
-        status={users.status}
-        users={users.data}
-        openModal={openModal}
-      />
+      <SearchInput onSearch={handleSearch} className="my-3" />
+
+      <UserList status={status} users={users} openModal={openModal} />
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
@@ -135,15 +152,57 @@ function UsersContainer({
   );
 }
 
+const getVisibleTodos = (todos, filter) => {
+  switch (filter) {
+    case VisibilityFilters.SHOW_ALL:
+      return todos;
+    case VisibilityFilters.SHOW_COMPLETED:
+      return todos.filter(t => t.completed);
+    case VisibilityFilters.SHOW_ACTIVE:
+      return todos.filter(t => !t.completed);
+    default:
+      throw new Error("Unknown filter: " + filter);
+  }
+};
+
+const getFilteredUsers = (users, keyword) => {
+  console.log("getFilteredUsers:", { users, keyword });
+
+  if (keyword && keyword.length > 0 && users && users.length > 0) {
+    const searchKey = keyword && keyword.toLowerCase();
+    const searchResults = users.filter(user => {
+      return Object.values(user).some(
+        item =>
+          item &&
+          typeof item === "string" &&
+          item.toLowerCase().startsWith(searchKey)
+      );
+    });
+    console.log("getFilteredUsers: searchResults:", searchResults);
+    return searchResults;
+  }
+
+
+  console.log("getFilteredUsers: nokeyword or users:", { users, keyword });
+  return users;
+};
+
 const mapStateToProps = state => {
   return {
-    users: state.userState.users,
-    modalUser: state.userState.modalUser
+    status: state.userState.users.status,
+    // users: state.userState.users.data,
+    users: getFilteredUsers(
+      state.userState.users.data,
+      state.userState.searchKeyword
+    ),
+    modalUser: state.userState.modalUser,
+    searchKeyword: state.userState.searchKeyword
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     setModalUser: user => dispatch(setModalUserAction(user)),
+    searchUser: user => dispatch(setUserSearchKeywordAction(user)),
     getUsers: () => dispatch(getUsers()),
     createUser: user => dispatch(createUserAction(user)),
     updateUser: user => dispatch(updateUserAction(user)),

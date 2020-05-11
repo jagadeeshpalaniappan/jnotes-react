@@ -11,7 +11,8 @@ import {
   API_DELETE_USER_START,
   API_DELETE_USER_SUCCESS,
   API_DELETE_USER_FAILURE,
-  SET_MODAL_USER
+  SET_MODAL_USER,
+  SET_USER_SEARCH_KEYWORD
 } from "./user.actionTypes";
 
 import { STATUS_TYPES } from "../../types";
@@ -47,6 +48,11 @@ export const userReducer = (userState = initialUserState, action) => {
             msg: ""
           }
         }
+      };
+    case SET_USER_SEARCH_KEYWORD:
+      return {
+        ...userState,
+        searchKeyword: action.payload
       };
     case API_GET_USERS_START:
       return {

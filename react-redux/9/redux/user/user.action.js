@@ -4,7 +4,7 @@ import { apiCreateUser } from "./api/user.createUser.action";
 import { apiUpdateUser } from "./api/user.updateUser.action";
 import { apiDeleteUser } from "./api/user.deleteUser.action";
 
-import { SET_MODAL_USER } from "./user.actionTypes";
+import { SET_MODAL_USER, SET_USER_SEARCH_KEYWORD } from "./user.actionTypes";
 
 export const getUsers = () => {
   /* getUsers: can call any source (just keep it abstract)
@@ -45,4 +45,8 @@ export const deleteUserAction = user => {
 
 export const setModalUserAction = user => {
   return { type: SET_MODAL_USER, payload: user };
+};
+
+export const setUserSearchKeywordAction = keyword => {
+  return { type: SET_USER_SEARCH_KEYWORD, payload: keyword };
 };
