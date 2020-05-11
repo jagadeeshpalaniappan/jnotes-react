@@ -28,7 +28,7 @@ export const apiGetUsersFailureAction = (config, error) => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiGetUsers = config => {
+export const apiGetUsersAction = config => {
   return dispatch => {
     dispatch(apiGetUsersStartAction(config));
     const url = `https://jsonplaceholder.typicode.com/users`;

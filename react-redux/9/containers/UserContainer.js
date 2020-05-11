@@ -19,7 +19,7 @@ import { UserFormContainer } from "../../common/container/UserFormContainer";
 import {
   setUserSearchKeywordAction,
   setModalUserAction,
-  getUsers,
+  getUsersAction,
   createUserAction,
   updateUserAction,
   deleteUserAction
@@ -202,7 +202,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setModalUser: user => dispatch(setModalUserAction(user)),
     searchUser: user => dispatch(setUserSearchKeywordAction(user)),
-    getUsers: () => dispatch(getUsers()),
+    getUsers: () => dispatch(getUsersAction()),
     createUser: user => dispatch(createUserAction(user)),
     updateUser: user => dispatch(updateUserAction(user)),
     deleteUser: user => dispatch(deleteUserAction(user))

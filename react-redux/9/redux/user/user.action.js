@@ -1,19 +1,19 @@
 import axios from "axios";
-import { apiGetUsers } from "./api/user.getUsers.action";
+import { apiGetUsersAction } from "./api/user.getUsers.action";
 import { apiCreateUser } from "./api/user.createUser.action";
 import { apiUpdateUser } from "./api/user.updateUser.action";
 import { apiDeleteUser } from "./api/user.deleteUser.action";
 
 import { SET_MODAL_USER, SET_USER_SEARCH_KEYWORD } from "./user.actionTypes";
 
-export const getUsers = () => {
+export const getUsersAction = () => {
   /* getUsers: can call any source (just keep it abstract)
       -getUsers (from API) 
       -getUsers (from IndexDB) 
       -getUsers (from Local Memory) 
   */
 
-  return apiGetUsers();
+  return apiGetUsersAction();
 };
 
 export const createUserAction = user => {

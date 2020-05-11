@@ -13,7 +13,7 @@ import {
   Error
 } from "../../common/components";
 
-import { getUsers } from "../redux/user.state";
+import { getUsersAction } from "../redux/user.state";
 
 function UsersContainer({ loading, error, users, getUsers }) {
   useEffect(() => {
@@ -58,7 +58,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    getUsers: () => dispatch(getUsers())
+    getUsers: () => dispatch(getUsersAction())
   };
 };
 

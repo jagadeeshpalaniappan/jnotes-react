@@ -32,7 +32,7 @@ export const apiGetUsersFailureAction = error => {
 
 // ASYCN-ACTION-CREATORS:
 
-export const apiGetUsers = () => {
+export const apiGetUsersAction = () => {
   return dispatch => {
     dispatch(apiGetUsersStartAction());
     axios
@@ -49,14 +49,14 @@ export const apiGetUsers = () => {
   };
 };
 
-export const getUsers = () => {
-  /* getUsers: can call any source (just keep it abstract)
-      -getUsers (from API) 
-      -getUsers (from IndexDB) 
-      -getUsers (from Local Memory) 
+export const getUsersAction = () => {
+  /* getUsersAction: can call any source (just keep it abstract)
+      -getUsersAction (from API) 
+      -getUsersAction (from IndexDB) 
+      -getUsersAction (from Local Memory) 
   */
 
-  return apiGetUsers();
+  return apiGetUsersAction();
 };
 
 

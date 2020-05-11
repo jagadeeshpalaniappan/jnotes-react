@@ -18,7 +18,7 @@ import { UserFormContainer } from "../../common/container/UserFormContainer";
 
 import {
   setModalUserAction,
-  getUsers,
+  getUsersAction,
   createUserAction,
   updateUserAction,
   deleteUserAction
@@ -144,7 +144,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setModalUser: user => dispatch(setModalUserAction(user)),
-    getUsers: () => dispatch(getUsers()),
+    getUsers: () => dispatch(getUsersAction()),
     createUser: user => dispatch(createUserAction(user)),
     updateUser: user => dispatch(updateUserAction(user)),
     deleteUser: user => dispatch(deleteUserAction(user))
