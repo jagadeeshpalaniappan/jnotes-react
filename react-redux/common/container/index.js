@@ -82,7 +82,7 @@ export const UserFormContainer = ({ user, onCancel, onSave }) => {
             id="name"
             name="name"
             placeholder="Name"
-            value={formVal.name}
+            value={formVal.name || ""}
             onChange={e => setFormVal({ ...formVal, name: e.target.value })}
           />
         </FormGroup>
@@ -93,7 +93,7 @@ export const UserFormContainer = ({ user, onCancel, onSave }) => {
             id="email"
             name="email"
             placeholder="Email"
-            value={formVal.email}
+            value={formVal.email || ""}
             onChange={e => setFormVal({ ...formVal, email: e.target.value })}
           />
         </FormGroup>
@@ -104,7 +104,7 @@ export const UserFormContainer = ({ user, onCancel, onSave }) => {
             id="age"
             name="age"
             placeholder="Age"
-            value={formVal.age}
+            value={formVal.age || ""}
             onChange={e => setFormVal({ ...formVal, age: e.target.value })}
           />
         </FormGroup>
@@ -162,7 +162,7 @@ export const PostFormContainer = ({ post, onCancel, onSave }) => {
             id="name"
             name="name"
             placeholder="Name"
-            value={formVal.name}
+            value={formVal.name || ""}
             onChange={e => setFormVal({ ...formVal, name: e.target.value })}
           />
         </FormGroup>

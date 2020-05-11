@@ -143,7 +143,7 @@ export const AddItemForm = ({ toggle, onAdd }) => {
           id="name"
           name="name"
           placeholder="Name"
-          value={formVal.name}
+          value={formVal.name || ""}
           onChange={e => setFormVal({ ...formVal, name: e.target.value })}
         />
       </FormGroup>

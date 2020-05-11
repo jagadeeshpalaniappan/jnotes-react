@@ -116,7 +116,7 @@ export const PostFormContainer = ({
                   type="text"
                   id="postId"
                   name="id"
-                  value={formVal.id}
+                  value={formVal.id || ""}
                   disabled
                 />
               </FormGroup>
@@ -128,7 +128,7 @@ export const PostFormContainer = ({
                 id="title"
                 name="title"
                 placeholder="Name"
-                value={formVal.title}
+                value={formVal.title || ""}
                 disabled={!editMode}
                 onChange={e => setFormVal({ ...formVal, title: e.target.value })}
               />
@@ -140,7 +140,7 @@ export const PostFormContainer = ({
                 id="body"
                 name="body"
                 placeholder="Email"
-                value={formVal.body}
+                value={formVal.body || ""}
                 disabled={!editMode}
                 onChange={e =>
                   setFormVal({ ...formVal, body: e.target.value })
@@ -154,7 +154,7 @@ export const PostFormContainer = ({
                 id="userId"
                 name="userId"
                 placeholder="Age"
-                value={formVal.userId}
+                value={formVal.userId || ""}
                 disabled={!editMode}
                 onChange={e => setFormVal({ ...formVal, userId: e.target.value })}
               />
