@@ -31,6 +31,8 @@ import {
   NavbarText
 } from "reactstrap";
 
+import { NavLink as RRNavLink } from "react-router-dom";
+
 import { STATUS_TYPES, MODE } from "../types";
 
 export const AppHeader = ({ title }) => {
@@ -65,6 +67,41 @@ export const AppHeader = ({ title }) => {
     </Navbar>
   );
 };
+
+export const AppHeaderWithRoutes = ({ title }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
+
+  return (
+    <Navbar color="light" light expand="md">
+      <NavbarBrand href="/">{title}</NavbarBrand>
+      <NavbarToggler onClick={toggle} />
+      <Collapse isOpen={isOpen} navbar>
+        <NavbarText className="mr-auto">(React Redux App)</NavbarText>
+        <Nav navbar>
+          <NavItem>
+            <NavLink to="/users" activeClassName="active" tag={RRNavLink}>Users</NavLink> 
+          </NavItem>
+          <NavItem>
+            <NavLink to="/posts" tag={RRNavLink}>Posts</NavLink> 
+          </NavItem>
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>
+              Jagadeesh Palaniappan
+            </DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>Profile</DropdownItem>
+              <DropdownItem>Logout</DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </Nav>
+      </Collapse>
+    </Navbar>
+  );
+};
+
+
 
 export const AppCard = ({ children }) => {
   return <Card body>{children}</Card>;
