@@ -3,23 +3,23 @@ import { request } from "graphql-request";
 const USER_API_ENDPOINT_GRAPHQL = "https://graphqlzero.almansi.me/api";
 
 export const getUsers = async () => {
-//   const query = `
-// {
-//   users {
-//     data {
-//       id
-//       name
-//       username
-//       email
-//       phone
-//       website
-//     }
-//   }
-// }
-// `;
+  const query = `
+{
+  users {
+    data {
+      id
+      name
+      username
+      email
+      phone
+      website
+    }
+  }
+}
+`;
 
-//   const response = await request(USER_API_ENDPOINT_GRAPHQL, query);
-//   return response.users;
+  const response = await request(USER_API_ENDPOINT_GRAPHQL, query);
+  return response.users;
 };
 
 export const createUser = user => {
