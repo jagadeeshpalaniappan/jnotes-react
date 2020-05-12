@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   API_UPDATE_USER_START,
   API_UPDATE_USER_SUCCESS,

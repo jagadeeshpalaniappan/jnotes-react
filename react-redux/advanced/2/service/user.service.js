@@ -100,6 +100,3 @@ export const deleteUser = async user => {
   return response.deleteUser;
 };
 
-export const deleteUser = user => {
-  return axios.delete(`https://jsonplaceholder.typicode.com/users/${user.id}`);
-};

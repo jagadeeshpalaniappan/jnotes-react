@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   API_DELETE_USER_START,
   API_DELETE_USER_SUCCESS,

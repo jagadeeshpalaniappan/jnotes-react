@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   API_CREATE_USER_START,
   API_CREATE_USER_SUCCESS,
