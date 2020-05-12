@@ -19,7 +19,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <AppHeaderWithRoutes title="My App " />
+        <AppHeaderWithRoutes title="My App 1" />
         <AppContainer>
           <Switch>
             <Redirect exact from="/" to="/users" />
