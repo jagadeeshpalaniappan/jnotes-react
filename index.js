@@ -11,4 +11,5 @@ import "./style.css";
 
 
 // LEARN: React Redux
-import './react-redux/index';
+// import './react-redux/beginner/index';
+import './react-redux/advanced/index';
