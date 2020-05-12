@@ -37,6 +37,6 @@ export const apiUpdateUserAction = user => async dispatch => {
     dispatch(apiUpdateUserSuccessAction(response.data)); // user = response.data
     dispatch(apiGetUsersAction({ reload: true }));
   } catch (e) {
-    dispatch(apiUpdateUserFailureAction(error.message));
+    dispatch(apiUpdateUserFailureAction(e.message));
   }
 };

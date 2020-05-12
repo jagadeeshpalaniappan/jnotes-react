@@ -37,6 +37,6 @@ export const apiCreateUserAction = user => async dispatch => {
     dispatch(apiCreateUserSuccessAction(response.data)); // user = response.data
     dispatch(apiGetUsersAction({ reload: true }));
   } catch (e) {
-    dispatch(apiCreateUserFailureAction(error.message));
+    dispatch(apiCreateUserFailureAction(e.message));
   }
 };

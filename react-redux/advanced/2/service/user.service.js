@@ -22,20 +22,21 @@ export const getUsers = async () => {
   return response.users;
 };
 
-export const createUser = user => {
-  // const query = `
-  //   mutation {
-  //     createUser(
-  //       input: { name: "Jag1", username: "jag1", email: "jag1@test.com" }
-  //     ) {
-  //       id
-  //       name
-  //       email
-  //     }
-  //   }
-  // `;
-  // const response = await request(USER_API_ENDPOINT_GRAPHQL, query);
-  // return response.users;
+export const createUser = async user => {
+  const query = `
+    mutation {
+      createUser(
+        input: { name: "Jag1", username: "jag1", email: "jag1@test.com" }
+      ) {
+        id
+        name
+        email
+      }
+    }
+`;
+
+  const response = await request(USER_API_ENDPOINT_GRAPHQL, query);
+  return response.users;
 };
 
 export const updateUser = user => {
