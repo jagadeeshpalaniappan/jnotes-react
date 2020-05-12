@@ -1,29 +1,41 @@
 import { request } from "graphql-request";
 
-export const getUsers = async () => {
-  const query = `
-{
-  users {
-    data {
-      id
-      name
+const USER_API_ENDPOINT_GRAPHQL = "https://graphqlzero.almansi.me/api";
 
-    }
-  }
-}
-`;
-  
-  const response = await request("https://graphqlzero.almansi.me/api", query);
-  return response.users;
+export const getUsers = async () => {
+//   const query = `
+// {
+//   users {
+//     data {
+//       id
+//       name
+//       username
+//       email
+//       phone
+//       website
+//     }
+//   }
+// }
+// `;
+
+//   const response = await request(USER_API_ENDPOINT_GRAPHQL, query);
+//   return response.users;
 };
 
 export const createUser = user => {
-  const reqBody = {
-    name: user.name,
-    email: user.email,
-    age: user.age
-  };
-  return axios.post("https://jsonplaceholder.typicode.com/users", reqBody);
+  // const query = `
+  //   mutation {
+  //     createUser(
+  //       input: { name: "Jag1", username: "jag1", email: "jag1@test.com" }
+  //     ) {
+  //       id
+  //       name
+  //       email
+  //     }
+  //   }
+  // `;
+  // const response = await request(USER_API_ENDPOINT_GRAPHQL, query);
+  // return response.users;
 };
 
 export const updateUser = user => {
