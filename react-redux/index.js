@@ -13,4 +13,6 @@ console.log(":: React Redux ::");
 // import './8';   // asyncActionCreators, api [CRUD]
 import './9';   // React Router Dom, reduxLocalSearch
 
+// TODO: add: pagination, add: infiniteScroll
+
 // GRAPHQL-API: TODO
