@@ -37,7 +37,7 @@ import {
 } from "reactstrap";
 
 import { NavLink as RRNavLink } from "react-router-dom";
-import { STATUS_TYPES, MODE } from "../types";
+import { STATUS_TYPES, MODE } from "../constants";
 
 export const AppHeaderWithRoutes = ({ title, secondaryTitle }) => {
   const [isOpen, setIsOpen] = useState(false);
