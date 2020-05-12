@@ -29,13 +29,13 @@ export const getUsersAction = () => {
 };
 
 export const createUserAction = user => {
-  return apiCreateUser(user);
+  return apiCreateUserAction(user);
 };
 
 export const updateUserAction = user => {
-  return apiUpdateUser(user);
+  return apiUpdateUserAction(user);
 };
 
 export const deleteUserAction = user => {
-  return apiDeleteUser(user);
+  return apiDeleteUserAction(user);
 };
