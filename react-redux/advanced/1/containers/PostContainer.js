@@ -19,7 +19,7 @@ import { PostFormContainer } from "../../common/container/PostFormContainer";
 import {
   setPostSearchKeywordAction,
   setModalPostAction,
-  getPosts,
+  getPostsAction,
   createPostAction,
   updatePostAction,
   deletePostAction
@@ -202,7 +202,7 @@ const mapDispatchToProps = dispatch => {
   return {
     setModalPost: post => dispatch(setModalPostAction(post)),
     searchPost: post => dispatch(setPostSearchKeywordAction(post)),
-    getPosts: () => dispatch(getPosts()),
+    getPosts: () => dispatch(getPostsAction()),
     createPost: post => dispatch(createPostAction(post)),
     updatePost: post => dispatch(updatePostAction(post)),
     deletePost: post => dispatch(deletePostAction(post))
