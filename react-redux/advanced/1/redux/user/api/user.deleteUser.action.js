@@ -15,10 +15,10 @@ export const apiDeleteUserStartAction = () => {
   };
 };
 
-export const apiDeleteUserSuccessAction = users => {
+export const apiDeleteUserSuccessAction = user => {
   return {
     type: API_DELETE_USER_SUCCESS,
-    payload: users
+    payload: user
   };
 };
 
@@ -30,7 +30,7 @@ export const apiDeleteUserFailureAction = error => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiDeleteUser = user => async dispatch => {
+export const apiDeleteUserAction = user => async dispatch => {
   try {
     dispatch(apiDeleteUserStartAction());
     const response = await deleteUser(user);

@@ -30,7 +30,7 @@ export const apiCreateUserFailureAction = error => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiCreateUser = user => async dispatch => {
+export const apiCreateUserAction = user => async dispatch => {
   try {
     dispatch(apiCreateUserStartAction());
     const response = await createUser(user);
