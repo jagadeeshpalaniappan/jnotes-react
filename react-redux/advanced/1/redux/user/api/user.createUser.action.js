@@ -6,6 +6,7 @@ import {
 } from "../user.actionTypes";
 
 import { apiGetUsersAction } from "./user.getUsers.action";
+import { createUser } from "../../../service/user.service";
 
 // ACTION-CREATORS:
 export const apiCreateUserStartAction = () => {
@@ -29,31 +30,13 @@ export const apiCreateUserFailureAction = error => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiCreateUser = user => {
-  return dispatch => {
-    console.log("apiCreateUserStartAction:", user);
-
+export const apiCreateUser = user => async dispatch => {
+  try {
     dispatch(apiCreateUserStartAction());
-
-    const reqBody = {
-      name: user.name,
-      email: user.email,
-      age: user.age
-    };
-
-    axios
-      .post("https://jsonplaceholder.typicode.com/users", reqBody)
-      .then(response => {
-        // SUCCESS:
-        console.log("apiCreateUserSuccessAction:", response);
-        const user = response.data;
-        dispatch(apiCreateUserSuccessAction(user));
-        dispatch(apiGetUsersAction({ reload: true }));
-      })
-      .catch(error => {
-        // FAILURE:
-        console.log("apiCreateUserFailureAction:", error);
-        dispatch(apiCreateUserFailureAction(error.message));
-      });
-  };
+    const response = await createUser(user);
+    dispatch(apiCreateUserSuccessAction(response.data)); // user = response.data
+    dispatch(apiGetUsersAction({ reload: true }));
+  } catch (e) {
+    dispatch(apiCreateUserFailureAction(error.message));
+  }
 };

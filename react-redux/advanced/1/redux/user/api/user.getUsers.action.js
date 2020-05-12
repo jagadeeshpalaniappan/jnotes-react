@@ -33,7 +33,7 @@ export const apiGetUsersAction = config => async dispatch => {
   try {
     dispatch(apiGetUsersStartAction(config));
     const response = await getUsers();
-    dispatch(apiGetUsersSuccessAction(config, response.data));  
+    dispatch(apiGetUsersSuccessAction(config, response.data));  // users = response.data
   } catch (e) {
     dispatch(apiGetUsersFailureAction(config, e.message));
   }
