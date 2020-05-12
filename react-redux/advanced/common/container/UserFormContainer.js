@@ -16,18 +16,27 @@ import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
 import { AppButton, StatusBar } from "../../common/components";
 import { STATUS_TYPES, MODE } from "../types";
 
-export const UserFormHeader = ({ mode, user, onEdit, onDelete }) => {
+export const UserFormHeader = ({ mode, user, status, onEdit, onDelete }) => {
   switch (mode) {
     case MODE.READ:
       return (
         <div className="d-flex my-3">
           <h3 className="flex-grow-1 m-0">User</h3>
-          <AppButton outline color="primary" onClick={() => onEdit(user)}>
-            Edit
-          </AppButton>
-          <AppButton outline color="danger" onClick={() => onDelete(user)} className="ml-2">
-            Delete
-          </AppButton>
+          {!(status && status.type === STATUS_TYPES.LOADING) && (
+            <>
+              <AppButton outline color="primary" onClick={() => onEdit(user)}>
+                Edit
+              </AppButton>
+              <AppButton
+                outline
+                color="danger"
+                onClick={() => onDelete(user)}
+                className="ml-2"
+              >
+                Delete
+              </AppButton>
+            </>
+          )}
         </div>
       );
     case MODE.EDIT:
@@ -95,13 +104,14 @@ export const UserFormContainer = ({
     <div>
       <StatusBar status={status} />
 
-      {!(deleteConfirmed && status.type === STATUS_TYPES.SUCCESS) &&  (
+      {!(deleteConfirmed && status.type === STATUS_TYPES.SUCCESS) && (
         <>
           <UserFormHeader
             mode={
               editMode ? (user && user.id ? MODE.EDIT : MODE.CREATE) : MODE.READ
             }
             user={user}
+            status={status}
             onEdit={onEdit}
             onDelete={openDeleteModal}
           />
