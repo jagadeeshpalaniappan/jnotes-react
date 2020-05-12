@@ -33,8 +33,8 @@ export const apiCreateUserFailureAction = error => {
 export const apiCreateUserAction = user => async dispatch => {
   try {
     dispatch(apiCreateUserStartAction());
-    const response = await createUser(user);
-    dispatch(apiCreateUserSuccessAction(response.data)); // user = response.data
+    const data = await createUser(user);
+    dispatch(apiCreateUserSuccessAction(data));
     dispatch(apiGetUsersAction({ reload: true }));
   } catch (e) {
     dispatch(apiCreateUserFailureAction(e.message));

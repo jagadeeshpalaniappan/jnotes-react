@@ -22,11 +22,16 @@ export const getUsers = async () => {
   return response.users;
 };
 
+/*
 export const createUser = async user => {
   const query = `
     mutation {
       createUser(
-        input: { name: "Jag1", username: "jag1", email: "jag1@test.com" }
+        input: {
+          name: "${user.name}",
+          email: "${user.email}",
+          username: "${user.email}"
+        }
       ) {
         id
         name
@@ -36,21 +41,63 @@ export const createUser = async user => {
 `;
 
   const response = await request(USER_API_ENDPOINT_GRAPHQL, query);
-  return response.users;
+  return response.createUser;
+};
+*/
+
+// use: variables // RECOMMENDED
+export const createUser = async user => {
+  const query = `
+   mutation($input: CreateUserInput!) {
+    createUser(input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+  const variables = {
+    input: {
+      name: user.name,
+      username: user.email,
+      email: user.email
+    }
+  };
+  const response = await request(USER_API_ENDPOINT_GRAPHQL, query, variables);
+  return response.createUser;
 };
 
-export const updateUser = user => {
-  const reqBody = {
+export const updateUser = async user => {
+  const query = `
+    mutation($id: ID!, $input: UpdateUserInput!) {
+      updateUser(id: $id, input: $input) {
+        id
+        name
+        email
+      }
+    }
+`;
+  const variables = {
     id: user.id,
-    name: user.name,
-    email: user.email,
-    age: user.age
+    input: {
+      name: user.name,
+      username: user.email,
+      email: user.email
+    }
   };
+  const response = await request(USER_API_ENDPOINT_GRAPHQL, query, variables);
+  return response.updateUser;
+};
 
-  return axios.put(
-    `https://jsonplaceholder.typicode.com/users/${user.id}`,
-    reqBody
-  );
+export const deleteUser = async user => {
+  const query = `
+    mutation($id: ID!) {
+      deleteUser(id: $id)
+    }
+`;
+  const variables = { id: user.id };
+  const response = await request(USER_API_ENDPOINT_GRAPHQL, query, variables);
+  return response.deleteUser;
 };
 
 export const deleteUser = user => {

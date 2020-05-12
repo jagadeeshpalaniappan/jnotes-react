@@ -17,8 +17,7 @@ export const apiDeleteUserStartAction = () => {
 
 export const apiDeleteUserSuccessAction = user => {
   return {
-    type: API_DELETE_USER_SUCCESS,
-    payload: user
+    type: API_DELETE_USER_SUCCESS
   };
 };
 
@@ -33,10 +32,17 @@ export const apiDeleteUserFailureAction = error => {
 export const apiDeleteUserAction = user => async dispatch => {
   try {
     dispatch(apiDeleteUserStartAction());
-    const response = await deleteUser(user);
-    dispatch(apiDeleteUserSuccessAction(response.data)); // user = response.data
-    dispatch(apiGetUsersAction({ reload: true }));
+    const data = await deleteUser(user);
+    if (data) {
+      // SUCCESS
+      dispatch(apiDeleteUserSuccessAction(data));
+      dispatch(apiGetUsersAction({ reload: true }));
+    } else {
+      // FAILURE
+      throw { message: "Failed to Delete" };
+    }
   } catch (e) {
+    // FAILURE
     dispatch(apiDeleteUserFailureAction(e.message));
   }
 };

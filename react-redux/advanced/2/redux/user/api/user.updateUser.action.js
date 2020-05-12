@@ -33,8 +33,8 @@ export const apiUpdateUserFailureAction = error => {
 export const apiUpdateUserAction = user => async dispatch => {
   try {
     dispatch(apiUpdateUserStartAction());
-    const response = await updateUser(user);
-    dispatch(apiUpdateUserSuccessAction(response.data)); // user = response.data
+    const data = await updateUser(user);
+    dispatch(apiUpdateUserSuccessAction(data));
     dispatch(apiGetUsersAction({ reload: true }));
   } catch (e) {
     dispatch(apiUpdateUserFailureAction(e.message));
