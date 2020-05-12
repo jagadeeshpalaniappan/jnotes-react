@@ -1,9 +1,10 @@
-import axios from "axios";
 import {
   API_GET_USERS_START,
   API_GET_USERS_SUCCESS,
   API_GET_USERS_FAILURE
 } from "../user.actionTypes";
+
+import { getUsers } from "../../../service/user.service";
 
 // ACTION-CREATORS:
 export const apiGetUsersStartAction = config => {
@@ -28,20 +29,12 @@ export const apiGetUsersFailureAction = (config, error) => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiGetUsersAction = config => {
-  return dispatch => {
+export const apiGetUsersAction = config => async dispatch => {
+  try {
     dispatch(apiGetUsersStartAction(config));
-    const url = `https://jsonplaceholder.typicode.com/users`;
-    axios
-      .get(url)
-      .then(response => {
-        // response.data is the users
-        const users = response.data;
-        dispatch(apiGetUsersSuccessAction(config, users));
-      })
-      .catch(error => {
-        // error.message is the error message
-        dispatch(apiGetUsersFailureAction(config, error.message));
-      });
-  };
+    const response = await getUsers();
+    dispatch(apiGetUsersSuccessAction(config, response.data));  
+  } catch (e) {
+    dispatch(apiGetUsersFailureAction(config, e.message));
+  }
 };

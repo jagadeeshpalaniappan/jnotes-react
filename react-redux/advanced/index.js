@@ -6,4 +6,4 @@ console.log(":: React Redux ::");
 import "./1";
 // import "./2";
 
-// GRAPHQL-API: TODO
+// GRAPHQL-API: TODO  https://graphqlzero.almansi.me/api  https://github.com/prisma-labs/graphql-request
