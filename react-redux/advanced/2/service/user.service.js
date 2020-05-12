@@ -99,4 +99,3 @@ export const deleteUser = async user => {
   const response = await request(USER_API_ENDPOINT_GRAPHQL, query, variables);
   return response.deleteUser;
 };
-

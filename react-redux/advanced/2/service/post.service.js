@@ -1,31 +1,101 @@
-import axios from "axios";
-export const getPosts = () => {
-  return axios.get("https://jsonplaceholder.typicode.com/posts");
+import { request } from "graphql-request";
+
+const POST_API_ENDPOINT_GRAPHQL = "https://graphqlzero.almansi.me/api";
+
+export const getPosts = async () => {
+  const query = `
+{
+  posts {
+    data {
+      id
+      name
+      postname
+      email
+      phone
+      website
+    }
+  }
+}
+`;
+
+  const response = await request(POST_API_ENDPOINT_GRAPHQL, query);
+  return response.posts;
 };
 
-export const createPost = post => {
-  const reqBody = {
-    name: post.name,
-    email: post.email,
-    age: post.age
+/*
+export const createPost = async post => {
+  const query = `
+    mutation {
+      createPost(
+        input: {
+          name: "${post.name}",
+          email: "${post.email}",
+          postname: "${post.email}"
+        }
+      ) {
+        id
+        name
+        email
+      }
+    }
+`;
+
+  const response = await request(POST_API_ENDPOINT_GRAPHQL, query);
+  return response.createPost;
+};
+*/
+
+// use: variables // RECOMMENDED
+export const createPost = async post => {
+  const query = `
+   mutation($input: CreatePostInput!) {
+    createPost(input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+  const variables = {
+    input: {
+      name: post.name,
+      postname: post.email,
+      email: post.email
+    }
   };
-  return axios.post("https://jsonplaceholder.typicode.com/posts", reqBody);
+  const response = await request(POST_API_ENDPOINT_GRAPHQL, query, variables);
+  return response.createPost;
 };
 
-export const updatePost = post => {
-  const reqBody = {
+export const updatePost = async post => {
+  const query = `
+    mutation($id: ID!, $input: UpdatePostInput!) {
+      updatePost(id: $id, input: $input) {
+        id
+        name
+        email
+      }
+    }
+`;
+  const variables = {
     id: post.id,
-    name: post.name,
-    email: post.email,
-    age: post.age
+    input: {
+      name: post.name,
+      postname: post.email,
+      email: post.email
+    }
   };
-
-  return axios.put(
-    `https://jsonplaceholder.typicode.com/posts/${post.id}`,
-    reqBody
-  );
+  const response = await request(POST_API_ENDPOINT_GRAPHQL, query, variables);
+  return response.updatePost;
 };
 
-export const deletePost = post => {
-  return axios.delete(`https://jsonplaceholder.typicode.com/posts/${post.id}`);
+export const deletePost = async post => {
+  const query = `
+    mutation($id: ID!) {
+      deletePost(id: $id)
+    }
+`;
+  const variables = { id: post.id };
+  const response = await request(POST_API_ENDPOINT_GRAPHQL, query, variables);
+  return response.deletePost;
 };

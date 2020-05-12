@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   API_UPDATE_POST_START,
   API_UPDATE_POST_SUCCESS,
@@ -33,10 +32,10 @@ export const apiUpdatePostFailureAction = error => {
 export const apiUpdatePostAction = post => async dispatch => {
   try {
     dispatch(apiUpdatePostStartAction());
-    const response = await updatePost(post);
-    dispatch(apiUpdatePostSuccessAction(response.data)); // post = response.data
+    const data = await updatePost(post);
+    dispatch(apiUpdatePostSuccessAction(data));
     dispatch(apiGetPostsAction({ reload: true }));
   } catch (e) {
-    dispatch(apiUpdatePostFailureAction(error.message));
+    dispatch(apiUpdatePostFailureAction(e.message));
   }
 };
