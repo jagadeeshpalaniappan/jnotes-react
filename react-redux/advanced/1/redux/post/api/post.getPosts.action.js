@@ -1,9 +1,10 @@
-import axios from "axios";
 import {
   API_GET_POSTS_START,
   API_GET_POSTS_SUCCESS,
   API_GET_POSTS_FAILURE
 } from "../post.actionTypes";
+
+import { getPosts } from "../../../service/post.service";
 
 // ACTION-CREATORS:
 export const apiGetPostsStartAction = config => {
@@ -28,20 +29,12 @@ export const apiGetPostsFailureAction = (config, error) => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiGetPosts = config => {
-  return dispatch => {
+export const apiGetPostsAction = config => async dispatch => {
+  try {
     dispatch(apiGetPostsStartAction(config));
-    const url = `https://jsonplaceholder.typicode.com/posts`;
-    axios
-      .get(url)
-      .then(response => {
-        // response.data is the posts
-        const posts = response.data;
-        dispatch(apiGetPostsSuccessAction(config, posts));
-      })
-      .catch(error => {
-        // error.message is the error message
-        dispatch(apiGetPostsFailureAction(config, error.message));
-      });
-  };
+    const response = await getPosts();
+    dispatch(apiGetPostsSuccessAction(config, response.data));  // posts = response.data
+  } catch (e) {
+    dispatch(apiGetPostsFailureAction(config, e.message));
+  }
 };

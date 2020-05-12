@@ -5,7 +5,8 @@ import {
   API_DELETE_POST_FAILURE
 } from "../post.actionTypes";
 
-import { apiGetPosts } from "./post.getPosts.action";
+import { apiGetPostsAction } from "./post.getPosts.action";
+import { deletePost } from "../../../service/post.service";
 
 // ACTION-CREATORS:
 export const apiDeletePostStartAction = () => {
@@ -14,10 +15,10 @@ export const apiDeletePostStartAction = () => {
   };
 };
 
-export const apiDeletePostSuccessAction = posts => {
+export const apiDeletePostSuccessAction = post => {
   return {
     type: API_DELETE_POST_SUCCESS,
-    payload: posts
+    payload: post
   };
 };
 
@@ -29,25 +30,13 @@ export const apiDeletePostFailureAction = error => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiDeletePost = post => {
-  return dispatch => {
-    console.log("apiDeletePostStartAction:", post);
-
+export const apiDeletePostAction = post => async dispatch => {
+  try {
     dispatch(apiDeletePostStartAction());
-
-    axios
-      .delete(`https://jsonplaceholder.typicode.com/posts/${post.id}`)
-      .then(response => {
-        // SUCCESS:
-        console.log("apiDeletePostSuccessAction:", response);
-        const post = response.data;
-        dispatch(apiDeletePostSuccessAction(post));
-        dispatch(apiGetPosts({ reload: true }));
-      })
-      .catch(error => {
-        // FAILURE:
-        console.log("apiDeletePostFailureAction:", error);
-        dispatch(apiDeletePostFailureAction(error.message));
-      });
-  };
+    const response = await deletePost(post);
+    dispatch(apiDeletePostSuccessAction(response.data)); // post = response.data
+    dispatch(apiGetPostsAction({ reload: true }));
+  } catch (e) {
+    dispatch(apiDeletePostFailureAction(e.message));
+  }
 };

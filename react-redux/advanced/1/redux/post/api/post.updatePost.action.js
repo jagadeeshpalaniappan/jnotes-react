@@ -5,7 +5,8 @@ import {
   API_UPDATE_POST_FAILURE
 } from "../post.actionTypes";
 
-import { apiGetPosts } from "./post.getPosts.action";
+import { apiGetPostsAction } from "./post.getPosts.action";
+import { updatePost } from "../../../service/post.service";
 
 // ACTION-CREATORS:
 export const apiUpdatePostStartAction = () => {
@@ -29,32 +30,13 @@ export const apiUpdatePostFailureAction = error => {
 };
 
 // ASYCN-ACTION-CREATORS:
-export const apiUpdatePost = post => {
-  return dispatch => {
-    console.log("apiUpdatePostStartAction:", post);
-
+export const apiUpdatePostAction = post => async dispatch => {
+  try {
     dispatch(apiUpdatePostStartAction());
-
-    const reqBody = {
-      id: post.id,
-      name: post.name,
-      email: post.email,
-      age: post.age
-    };
-
-    axios
-      .put(`https://jsonplaceholder.typicode.com/posts/${post.id}`, reqBody)
-      .then(response => {
-        // SUCCESS:
-        console.log("apiUpdatePostSuccessAction:", response);
-        const post = response.data;
-        dispatch(apiUpdatePostSuccessAction(post));
-        dispatch(apiGetPosts({ reload: true }));
-      })
-      .catch(error => {
-        // FAILURE:
-        console.log("apiUpdatePostFailureAction:", error);
-        dispatch(apiUpdatePostFailureAction(error.message));
-      });
-  };
+    const response = await updatePost(post);
+    dispatch(apiUpdatePostSuccessAction(response.data)); // post = response.data
+    dispatch(apiGetPostsAction({ reload: true }));
+  } catch (e) {
+    dispatch(apiUpdatePostFailureAction(error.message));
+  }
 };
