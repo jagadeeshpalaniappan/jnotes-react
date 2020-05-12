@@ -14,7 +14,7 @@ import {
 
 import { ConfirmDeleteModal } from "./ConfirmDeleteModal";
 import { AppButton, StatusBar } from "../../common/components";
-import { STATUS_TYPES, MODE } from "../types";
+import { STATUS_TYPES, MODE } from "../constants";
 
 export const PostFormHeader = ({ mode, post, onEdit, onDelete }) => {
   switch (mode) {

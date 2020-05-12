@@ -25,7 +25,7 @@ import {
   deletePostAction
 } from "../redux/post/post.action";
 
-import { STATUS_TYPES } from "../types";
+import { STATUS_TYPES } from "../../common/constants";
 
 function PostList({ status, posts, openModal }) {
   // const isLoading = () => status && status.type === STATUS_TYPES.LOADING;

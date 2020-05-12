@@ -25,7 +25,7 @@ import {
   deleteUserAction
 } from "../redux/user/user.action";
 
-import { STATUS_TYPES } from "../types";
+import { STATUS_TYPES } from "../../common/constants";
 
 function UserList({ status, users, openModal }) {
   // const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
