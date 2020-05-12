@@ -15,7 +15,7 @@ import {
   SET_USER_SEARCH_KEYWORD
 } from "./user.actionTypes";
 
-import { STATUS_TYPES } from "../../types";
+import { STATUS_TYPES } from "../../../common/constants";
 
 // REDUCER:
 const initialUserState = {

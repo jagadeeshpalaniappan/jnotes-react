@@ -153,7 +153,7 @@ export const PostFormContainer = ({
                 type="number"
                 id="userId"
                 name="userId"
-                placeholder="Age"
+                placeholder="UserId"
                 value={formVal.userId || ""}
                 disabled={!editMode}
                 onChange={e => setFormVal({ ...formVal, userId: e.target.value })}

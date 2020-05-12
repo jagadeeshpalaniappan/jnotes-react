@@ -5,9 +5,8 @@ export const getPosts = () => {
 
 export const createPost = post => {
   const reqBody = {
-    name: post.name,
-    email: post.email,
-    age: post.age
+    title: post.title,
+    body: post.body
   };
   return axios.post("https://jsonplaceholder.typicode.com/posts", reqBody);
 };
@@ -15,9 +14,8 @@ export const createPost = post => {
 export const updatePost = post => {
   const reqBody = {
     id: post.id,
-    name: post.name,
-    email: post.email,
-    age: post.age
+    title: post.title,
+    body: post.body
   };
 
   return axios.put(
