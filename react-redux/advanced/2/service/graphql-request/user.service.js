@@ -4,7 +4,7 @@ import axios from "axios";
 const USER_GRAPHQL_API = "https://graphqlzero.almansi.me/api";
 
 export const getUsers = async () => {
-  console.log("fetch::getUsers::");
+  console.log("graphqlReq::getUsers::");
   const query = `
 {
   users {
@@ -22,12 +22,12 @@ export const getUsers = async () => {
 
   const response = await request(USER_GRAPHQL_API, query);
   
-  console.log("fetch::getUsers:: response:", response);
+  console.log("graphqlReq::getUsers:: response:", response);
   return response.users;
 };
 
 export const createUser = async user => {
-  console.log("fetch::createUser:: user:", user);
+  console.log("graphqlReq::createUser:: user:", user);
   const query = `
    mutation($input: CreateUserInput!) {
     createUser(input: $input) {
@@ -46,12 +46,12 @@ export const createUser = async user => {
   };
   const response = await request(USER_GRAPHQL_API, query, variables);
 
-  console.log("fetch::createUser:: response:", response);
+  console.log("graphqlReq::createUser:: response:", response);
   return response.createUser;
 };
 
 export const updateUser = async user => {
-  console.log("fetch::updateUser:: user:", user);
+  console.log("graphqlReq::updateUser:: user:", user);
   const query = `
     mutation($id: ID!, $input: UpdateUserInput!) {
       updateUser(id: $id, input: $input) {
@@ -71,12 +71,12 @@ export const updateUser = async user => {
   };
   const response = await request(USER_GRAPHQL_API, query, variables);
 
-  console.log("fetch::updateUser:: response:", response);
+  console.log("graphqlReq::updateUser:: response:", response);
   return response.updateUser;
 };
 
 export const deleteUser = async user => {
-  console.log("fetch::deleteUser:: user:", user);
+  console.log("graphqlReq::deleteUser:: user:", user);
   const query = `
     mutation($id: ID!) {
       deleteUser(id: $id)
@@ -85,6 +85,6 @@ export const deleteUser = async user => {
   const variables = { id: user.id };
   const response = await request(USER_GRAPHQL_API, query, variables);
 
-  console.log("fetch::deleteUser:: response:", response);
+  console.log("graphqlReq::deleteUser:: response:", response);
   return response.deleteUser;
 };
