@@ -1,4 +1,7 @@
 // using: 'fetch' // VERY-HARD to use graphql
+export * from ".//user.service.js";
+
+// using: 'fetch' // VERY-HARD to use graphql
 // export * from "./2-fetch-graphql/user.service.js";
 
 // using: 'graphql-request' // EASY, lightweight,  // RECOMENDED (if we are using Redux)
@@ -6,4 +9,4 @@
 
 // using: 'apollo' // FEATURE-RICH (graphql caching / pagination / reactComponentIntegration) 
 // using this we can avoid Redux itself
-export * from "./4-apollo/user.service.js"; 
+// export * from "./4-apollo/user.service.js"; 

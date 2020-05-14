@@ -1,88 +1,48 @@
 import axios from "axios";
 
-const POST_GRAPHQL_API = "https://graphqlzero.almansi.me/api";
+const POST_REST_API = "https://jsonplaceholder.typicode.com/posts";
 
 export const getPosts = async () => {
   console.log("fetch::getPosts::");
-  const query = `
-{
-  posts {
-    data {
-      id,
-      title,
-      body
-    }
-  }
-}
-`;
 
-  const body = { query };
-  const response = await axios.post(POST_GRAPHQL_API, body);
+  const response = await axios.get(POST_REST_API);
   console.log("fetch::getPosts:: response:", response);
-  
-  return response.data.data.posts;
+
+  return response;
 };
 
 export const createPost = async post => {
   console.log("fetch::createPost:: post:", post);
-  const query = `
-    mutation($input: CreatePostInput!) {
-      createPost(input: $input) {
-        id,
-        title,
-        body
-      }
-    }
-`;
-  const variables = {
-    input: {
-      title: post.title,
-      body: post.body
-    }
+
+  const body = {
+    title: post.title,
+    body: post.body
   };
-  const body = { query, variables };
-  const response = await axios.post(POST_GRAPHQL_API, body);
+  const response = await axios.post(POST_REST_API, body);
 
   console.log("fetch::createPost:: response:", response);
-  return response.data.data.createPost;
+  return response.data;
 };
 
 export const updatePost = async post => {
   console.log("fetch::updatePost:: post:", post);
-  const query = `
-    mutation($id: ID!, $input: UpdatePostInput!) {
-      updatePost(id: $id, input: $input) {
-        id,
-        title,
-        body
-      }
-    }
-`;
-  const variables = {
+
+  const body = {
     id: post.id,
-    input: {
-      title: post.title,
-      body: post.body
-    }
+    title: post.title,
+    body: post.body
   };
-  const body = { query, variables };
-  const response = await axios.post(POST_GRAPHQL_API, body);
+  const response = await axios.put(`${POST_REST_API}/${post.id}`, body);
 
   console.log("fetch::updatePost:: response:", response);
-  return response.data.data.updatePost;
+  return response.data;
 };
 
 export const deletePost = async post => {
   console.log("fetch::deletePost:: post:", post);
-  const query = `
-    mutation($id: ID!) {
-      deletePost(id: $id)
-    }
-`;
-  const variables = { id: post.id };
-  const body = { query, variables };
-  const response = await axios.post(POST_GRAPHQL_API, body);
+
+  const response = await axios.delete(`${POST_REST_API}/${post.id}`);
 
   console.log("fetch::deletePost:: response:", response);
-  return response.data.data.deletePost;
+  return response.data;
 };
