@@ -3,6 +3,7 @@ import axios from "axios";
 const POST_GRAPHQL_API = "https://graphqlzero.almansi.me/api";
 
 export const getPosts = async () => {
+  console.log("fetch::getPosts::");
   const query = `
 {
   posts {
@@ -17,10 +18,13 @@ export const getPosts = async () => {
 
   const body = { query };
   const response = await axios.post(POST_GRAPHQL_API, body);
+  console.log("fetch::getPosts:: response:", response);
+  
   return response.data.data.posts;
 };
 
 export const createPost = async post => {
+  console.log("fetch::createPost:: post:", post);
   const query = `
     mutation($input: CreatePostInput!) {
       createPost(input: $input) {
@@ -38,10 +42,13 @@ export const createPost = async post => {
   };
   const body = { query, variables };
   const response = await axios.post(POST_GRAPHQL_API, body);
+
+  console.log("fetch::createPost:: response:", response);
   return response.data.data.createPost;
 };
 
 export const updatePost = async post => {
+  console.log("fetch::updatePost:: post:", post);
   const query = `
     mutation($id: ID!, $input: UpdatePostInput!) {
       updatePost(id: $id, input: $input) {
@@ -60,10 +67,13 @@ export const updatePost = async post => {
   };
   const body = { query, variables };
   const response = await axios.post(POST_GRAPHQL_API, body);
+
+  console.log("fetch::updatePost:: response:", response);
   return response.data.data.updatePost;
 };
 
 export const deletePost = async post => {
+  console.log("fetch::deletePost:: post:", post);
   const query = `
     mutation($id: ID!) {
       deletePost(id: $id)
@@ -72,5 +82,7 @@ export const deletePost = async post => {
   const variables = { id: post.id };
   const body = { query, variables };
   const response = await axios.post(POST_GRAPHQL_API, body);
+
+  console.log("fetch::deletePost:: response:", response);
   return response.data.data.deletePost;
 };
