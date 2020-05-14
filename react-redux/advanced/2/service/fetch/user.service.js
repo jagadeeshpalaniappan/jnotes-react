@@ -5,48 +5,24 @@ const USER_GRAPHQL_API = "https://graphqlzero.almansi.me/api";
 
 export const getUsers = async () => {
   const query = `
-{
-  users {
-    data {
-      id
-      name
-      username
-      email
-      phone
-      website
-    }
-  }
-}
-`;
-
-  const response = await request(USER_GRAPHQL_API, query);
-  return response.users;
-};
-
-/*
-export const createUser = async user => {
-  const query = `
-    mutation {
-      createUser(
-        input: {
-          name: "${user.name}",
-          email: "${user.email}",
-          username: "${user.email}"
-        }
-      ) {
+    {
+    users {
+      data {
         id
         name
+        username
         email
+        phone
+        website
       }
     }
+  }
 `;
-
-  const response = await request(USER_GRAPHQL_API, query);
-  return response.createUser;
+  const body = { query };
+  const response = await axios.post(USER_GRAPHQL_API, body);
+  return response.data.data.users;
 };
-*/
 
-// use: variables // RECOMMENDED
 export const createUser = async user => {
   const query = `
    mutation($input: CreateUserInput!) {
@@ -66,28 +42,8 @@ export const createUser = async user => {
     }
   };
   const body = { query, variables };
-  const data = await axios.post(USER_GRAPHQL_API, body);
-};
-
-export const createUser11 = async user => {
-  const query = `
-   mutation($input: CreateUserInput!) {
-    createUser(input: $input) {
-      id
-      name
-      email
-    }
-  }
-`;
-  const variables = {
-    input: {
-      name: user.name,
-      username: user.email,
-      email: user.email
-    }
-  };
-  const response = await request(USER_GRAPHQL_API, query, variables);
-  return response.createUser;
+  const response = await axios.post(USER_GRAPHQL_API, body);
+  return response.data.data.createUser;
 };
 
 export const updateUser = async user => {
@@ -108,8 +64,9 @@ export const updateUser = async user => {
       email: user.email
     }
   };
-  const response = await request(USER_GRAPHQL_API, query, variables);
-  return response.updateUser;
+  const body = { query, variables };
+  const response = await axios.post(USER_GRAPHQL_API, body);
+  return response.data.data.updateUser;
 };
 
 export const deleteUser = async user => {
@@ -118,7 +75,9 @@ export const deleteUser = async user => {
       deleteUser(id: $id)
     }
 `;
+
   const variables = { id: user.id };
-  const response = await request(USER_GRAPHQL_API, query, variables);
-  return response.deleteUser;
+  const body = { query, variables };
+  const response = await axios.post(USER_GRAPHQL_API, body);
+  return response.data.data.deleteUser;
 };

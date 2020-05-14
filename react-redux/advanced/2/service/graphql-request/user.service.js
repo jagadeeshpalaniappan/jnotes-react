@@ -23,53 +23,7 @@ export const getUsers = async () => {
   return response.users;
 };
 
-/*
 export const createUser = async user => {
-  const query = `
-    mutation {
-      createUser(
-        input: {
-          name: "${user.name}",
-          email: "${user.email}",
-          username: "${user.email}"
-        }
-      ) {
-        id
-        name
-        email
-      }
-    }
-`;
-
-  const response = await request(USER_GRAPHQL_API, query);
-  return response.createUser;
-};
-*/
-
-// use: variables // RECOMMENDED
-export const createUser = async user => {
-  const query = `
-   mutation($input: CreateUserInput!) {
-    createUser(input: $input) {
-      id
-      name
-      email
-    }
-  }
-`;
-
-  const variables = {
-    input: {
-      name: user.name,
-      username: user.email,
-      email: user.email
-    }
-  };
-  const body = { query, variables };
-  const data = await axios.post(USER_GRAPHQL_API, body);
-};
-
-export const createUser11 = async user => {
   const query = `
    mutation($input: CreateUserInput!) {
     createUser(input: $input) {
