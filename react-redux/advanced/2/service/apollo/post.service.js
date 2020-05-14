@@ -1,10 +1,9 @@
-import { request } from "graphql-request";
-
-const POST_GRAPHQL_API = "https://graphqlzero.almansi.me/api";
+import { gql } from "apollo-boost";
+import { client } from "./apollo";
 
 export const getPosts = async () => {
   console.log("apollo::getPosts::");
-  const query = `
+  const query = gql`
 {
   posts {
     data {
@@ -16,17 +15,17 @@ export const getPosts = async () => {
 }
 `;
 
-  const response = await request(POST_GRAPHQL_API, query);
+  const response = await client.query({ query });
 
   console.log("apollo::getPosts:: response:", response);
-  return response.posts;
+  return response.data.posts;
 };
 
 // use: variables // RECOMMENDED
 export const createPost = async post => {
   console.log("apollo::createPost:: post:", post);
 
-  const query = `
+  const mutation = gql`
     mutation($input: CreatePostInput!) {
       createPost(input: $input) {
         id,
@@ -41,16 +40,16 @@ export const createPost = async post => {
       body: post.body
     }
   };
-  const response = await request(POST_GRAPHQL_API, query, variables);
+  const response = await client.mutate({ mutation, variables });
 
   console.log("apollo::createPost:: response:", response);
-  return response.createPost;
+  return response.data.createPost;
 };
 
 export const updatePost = async post => {
   console.log("apollo::updatePost:: post:", post);
 
-  const query = `
+  const mutation = gql`
     mutation($id: ID!, $input: UpdatePostInput!) {
       updatePost(id: $id, input: $input) {
         id,
@@ -66,23 +65,23 @@ export const updatePost = async post => {
       body: post.body
     }
   };
-  const response = await request(POST_GRAPHQL_API, query, variables);
+  const response = await client.mutate({ mutation, variables });
 
   console.log("apollo::updatePost:: response:", response);
-  return response.updatePost;
+  return response.data.updatePost;
 };
 
 export const deletePost = async post => {
   console.log("apollo::deletePost:: post:", post);
-  
-  const query = `
+
+  const mutation = gql`
     mutation($id: ID!) {
       deletePost(id: $id)
     }
 `;
   const variables = { id: post.id };
-  const response = await request(POST_GRAPHQL_API, query, variables);
+  const response = await client.mutate({ mutation, variables });
 
   console.log("apollo::deletePost:: response:", response);
-  return response.deletePost;
+  return response.data.deletePost;
 };
