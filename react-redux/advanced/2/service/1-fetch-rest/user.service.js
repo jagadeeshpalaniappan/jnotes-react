@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const POST_REST_API = "https://jsonplaceholder.typicode.com/users";
+const USER_REST_API = "https://jsonplaceholder.typicode.com/users";
 
 export const getUsers = async () => {
   console.log("fetch::getUsers::");
 
-  const response = await axios.get(POST_REST_API);
+  const response = await axios.get(USER_REST_API);
   console.log("fetch::getUsers:: response:", response);
 
   return response;
@@ -19,7 +19,7 @@ export const createUser = async user => {
     email: user.email,
     age: user.age
   };
-  const response = await axios.user(POST_REST_API, body);
+  const response = await axios.user(USER_REST_API, body);
 
   console.log("fetch::createUser:: response:", response);
   return response.data;
@@ -34,7 +34,7 @@ export const updateUser = async user => {
     email: user.email,
     age: user.age
   };
-  const response = await axios.put(`${POST_REST_API}/${user.id}`, body);
+  const response = await axios.put(`${USER_REST_API}/${user.id}`, body);
 
   console.log("fetch::updateUser:: response:", response);
   return response.data;
@@ -43,7 +43,7 @@ export const updateUser = async user => {
 export const deleteUser = async user => {
   console.log("fetch::deleteUser:: user:", user);
 
-  const response = await axios.delete(`${POST_REST_API}/${user.id}`);
+  const response = await axios.delete(`${USER_REST_API}/${user.id}`);
 
   console.log("fetch::deleteUser:: response:", response);
   return response.data;

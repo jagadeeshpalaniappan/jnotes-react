@@ -1,5 +1,5 @@
 // using: 'fetch' // VERY-HARD to use graphql
-export * from ".//user.service.js";
+export * from "./1-fetch-rest/user.service.js";
 
 // using: 'fetch' // VERY-HARD to use graphql
 // export * from "./2-fetch-graphql/user.service.js";
