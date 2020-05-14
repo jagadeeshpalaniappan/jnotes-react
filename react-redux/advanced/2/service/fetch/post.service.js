@@ -1,6 +1,6 @@
-import { request } from "graphql-request";
+import axios from "axios";
 
-const POST_API_ENDPOINT_GRAPHQL = "https://graphqlzero.almansi.me/api";
+const POST_GRAPHQL_API = "https://graphqlzero.almansi.me/api";
 
 export const getPosts = async () => {
   const query = `
@@ -15,11 +15,11 @@ export const getPosts = async () => {
 }
 `;
 
-  const response = await request(POST_API_ENDPOINT_GRAPHQL, query);
-  return response.posts;
+  const body = { query };
+  const response = await axios.post(POST_GRAPHQL_API, body);
+  return response.data.data.posts;
 };
 
-// use: variables // RECOMMENDED
 export const createPost = async post => {
   const query = `
     mutation($input: CreatePostInput!) {
@@ -36,8 +36,9 @@ export const createPost = async post => {
       body: post.body
     }
   };
-  const response = await request(POST_API_ENDPOINT_GRAPHQL, query, variables);
-  return response.createPost;
+  const body = { query, variables };
+  const response = await axios.post(POST_GRAPHQL_API, body);
+  return response.data.data.createPost;
 };
 
 export const updatePost = async post => {
@@ -57,8 +58,9 @@ export const updatePost = async post => {
       body: post.body
     }
   };
-  const response = await request(POST_API_ENDPOINT_GRAPHQL, query, variables);
-  return response.updatePost;
+  const body = { query, variables };
+  const response = await axios.post(POST_GRAPHQL_API, body);
+  return response.data.data.updatePost;
 };
 
 export const deletePost = async post => {
@@ -68,6 +70,7 @@ export const deletePost = async post => {
     }
 `;
   const variables = { id: post.id };
-  const response = await request(POST_API_ENDPOINT_GRAPHQL, query, variables);
-  return response.deletePost;
+  const body = { query, variables };
+  const response = await axios.post(POST_GRAPHQL_API, body);
+  return response.data.data.deletePost;
 };
