@@ -1,5 +1,11 @@
-// using: 'fetch' // VERY-HARD to use graphql
+
+// ##################### REST-API #####################
+
+// using: 'fetch'
 export * from "./1-fetch-rest/user.service.js";
+
+
+// ##################### GraphQL-API #####################
 
 // using: 'fetch' // VERY-HARD to use graphql
 // export * from "./2-fetch-graphql/user.service.js";
