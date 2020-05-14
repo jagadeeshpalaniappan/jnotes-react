@@ -4,6 +4,7 @@ import axios from "axios";
 const USER_GRAPHQL_API = "https://graphqlzero.almansi.me/api";
 
 export const getUsers = async () => {
+  console.log("apollo::getUsers::");
   const query = `
 {
   users {
@@ -20,56 +21,13 @@ export const getUsers = async () => {
 `;
 
   const response = await request(USER_GRAPHQL_API, query);
+  
+  console.log("apollo::getUsers:: response:", response);
   return response.users;
 };
 
-/*
 export const createUser = async user => {
-  const query = `
-    mutation {
-      createUser(
-        input: {
-          name: "${user.name}",
-          email: "${user.email}",
-          username: "${user.email}"
-        }
-      ) {
-        id
-        name
-        email
-      }
-    }
-`;
-
-  const response = await request(USER_GRAPHQL_API, query);
-  return response.createUser;
-};
-*/
-
-// use: variables // RECOMMENDED
-export const createUser = async user => {
-  const query = `
-   mutation($input: CreateUserInput!) {
-    createUser(input: $input) {
-      id
-      name
-      email
-    }
-  }
-`;
-
-  const variables = {
-    input: {
-      name: user.name,
-      username: user.email,
-      email: user.email
-    }
-  };
-  const body = { query, variables };
-  const data = await axios.post(USER_GRAPHQL_API, body);
-};
-
-export const createUser11 = async user => {
+  console.log("apollo::createUser:: user:", user);
   const query = `
    mutation($input: CreateUserInput!) {
     createUser(input: $input) {
@@ -87,10 +45,13 @@ export const createUser11 = async user => {
     }
   };
   const response = await request(USER_GRAPHQL_API, query, variables);
+
+  console.log("apollo::createUser:: response:", response);
   return response.createUser;
 };
 
 export const updateUser = async user => {
+  console.log("apollo::updateUser:: user:", user);
   const query = `
     mutation($id: ID!, $input: UpdateUserInput!) {
       updateUser(id: $id, input: $input) {
@@ -109,10 +70,13 @@ export const updateUser = async user => {
     }
   };
   const response = await request(USER_GRAPHQL_API, query, variables);
+
+  console.log("apollo::updateUser:: response:", response);
   return response.updateUser;
 };
 
 export const deleteUser = async user => {
+  console.log("apollo::deleteUser:: user:", user);
   const query = `
     mutation($id: ID!) {
       deleteUser(id: $id)
@@ -120,5 +84,7 @@ export const deleteUser = async user => {
 `;
   const variables = { id: user.id };
   const response = await request(USER_GRAPHQL_API, query, variables);
+
+  console.log("apollo::deleteUser:: response:", response);
   return response.deleteUser;
 };
