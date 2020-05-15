@@ -81,8 +81,8 @@ function UsersContainer11({
   console.log("UsersContainer: users,searchKeyword:", { users, searchKeyword });
 
   const { loading, error, data } = useQuery(GET_USERS);
-  console.log('GQL:', {loading, error, data});
-  const users = data && data.users.data || [];
+  console.log("GQL:", { loading, error, data });
+  const users = (data && data.users.data) || [];
 
   useEffect(() => {
     // onInit:
@@ -173,19 +173,18 @@ function UsersContainer11({
   );
 }
 
-
 function UsersContainer() {
   const { loading, error, data } = useQuery(GET_USERS);
+  const users = (data && data.users.data) || [];
+  console.log("UsersContainer:", { loading, error, data });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.rates.map(({ currency, rate }) => (
-    <div key={currency}>
-      <p>
-        {currency}: {rate}
-      </p>
-    </div>
+  return users.map(user => (
+    <p key={user.id}>
+      {user.id}: {user.name}
+    </p>
   ));
 }
 
