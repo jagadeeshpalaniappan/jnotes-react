@@ -66,7 +66,7 @@ function UserList({ status, users, openModal }) {
   );
 }
 
-function UsersContainer({
+function UsersContainer11({
   status,
   users: usersRedux,
   modalUser,
@@ -81,7 +81,7 @@ function UsersContainer({
   console.log("UsersContainer: users,searchKeyword:", { users, searchKeyword });
 
   const { loading, error, data } = useQuery(GET_USERS);
-  console.log('GQL:'{loading, error, data});
+  console.log('GQL:', {loading, error, data});
   const users = data && data.users.data || [];
 
   useEffect(() => {
@@ -171,6 +171,22 @@ function UsersContainer({
       </AppModal>
     </div>
   );
+}
+
+
+function UsersContainer() {
+  const { loading, error, data } = useQuery(GET_USERS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  return data.rates.map(({ currency, rate }) => (
+    <div key={currency}>
+      <p>
+        {currency}: {rate}
+      </p>
+    </div>
+  ));
 }
 
 const getFilteredUsers = (users, keyword) => {
