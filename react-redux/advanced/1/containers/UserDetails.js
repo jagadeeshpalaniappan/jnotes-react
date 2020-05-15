@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
+
 import {
   Button,
   Form,
@@ -80,7 +82,7 @@ export const UserFormHeader = ({ mode, user, status, onEdit, onDelete }) => {
   }
 };
 
-export const UserDetails = ({
+const UserDetails = ({
   userId,
   status,
   editMode,
@@ -240,3 +242,9 @@ export const UserDetails = ({
     </div>
   );
 };
+
+UserDetails.propTypes = {
+  userId: PropTypes.string.isRequired
+};
+
+export { UserDetails };
