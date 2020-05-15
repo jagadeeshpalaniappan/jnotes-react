@@ -82,7 +82,7 @@ export const UserFormHeader = ({ mode, user, status, onEdit, onDelete }) => {
   }
 };
 
-const UserDetails = ({
+export const UserDetails = ({
   userId,
   status,
   editMode,
@@ -247,4 +247,3 @@ UserDetails.propTypes = {
   userId: PropTypes.string.isRequired
 };
 
-export { UserDetails };
