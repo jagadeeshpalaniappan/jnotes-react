@@ -16,7 +16,9 @@ import {
   StatusBar
 } from "../../common/components";
 
-import { UserFormContainer } from "../../common/container/UserFormContainer";
+// import { UserFormContainer } from "../../common/container/UserFormContainer";
+
+import { UserDetails } from "./UserDetails";
 
 import {
   setUserSearchKeywordAction,
@@ -44,8 +46,27 @@ const GET_USERS = gql`
   }
 `;
 
-function UserList({ status, users, openModal }) {
-  // const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
+const getStatus = ({ loading, error }) => {
+  if (loading) {
+    return { type: STATUS_TYPES.LOADING, msg: "Loading Users..." };
+  } else if (error) {
+    return {
+      type: STATUS_TYPES.FAILURE,
+      msg: "Problem while getting users",
+      more: error
+    };
+  } else {
+    return { type: STATUS_TYPES.SUCCESS, msg: "" };
+  }
+};
+
+function UserList({ openModal }) {
+  // GRAPHQL
+  const { loading, error, data } = useQuery(GET_USERS);
+  console.log("UserList:", { loading, error, data });
+  const users = (data && data.users.data) || [];
+  const status = getStatus({ loading, error });
+
   return (
     <>
       <StatusBar status={status} />
@@ -66,33 +87,24 @@ function UserList({ status, users, openModal }) {
   );
 }
 
-function UsersContainer11({
-  status,
-  users: usersRedux,
-  modalUser,
+function UsersContainer({
+  // modalUser,
   searchKeyword,
-  setModalUser,
+  // setModalUser,
   searchUser,
   getUsers,
   createUser,
   updateUser,
   deleteUser
 }) {
-  console.log("UsersContainer: users,searchKeyword:", { users, searchKeyword });
+  console.log("UsersContainer:");
 
-  const { loading, error, data } = useQuery(GET_USERS);
-  console.log("GQL:", { loading, error, data });
-  const users = (data && data.users.data) || [];
-
-  useEffect(() => {
-    // onInit:
-    getUsers();
-  }, []);
-
+  const [modalUser, setModalUser] = useState(null); // state: modal is opened or not
   const [isModalOpen, setModalOpen] = useState(false); // state: modal is opened or not
   const [editMode, setEditMode] = useState(false); // state: editMode or not
 
   const openModal = user => {
+    console.log("openModal: user", user);
     setModalUser(user || null);
     setModalOpen(true);
   };
@@ -130,17 +142,6 @@ function UsersContainer11({
 
   const handleSearch = (e, keyword) => {
     console.log("SearchUser: keyword:", keyword);
-    searchUser(keyword);
-
-    // const searchKey = keyword && keyword.toLowerCase();
-    // const searchResults = users.filter(user => {
-    //   return Object.values(user).some(item =>
-    //     item.toLowerCase().startsWith(searchKey)
-    //   );
-    // });
-
-    // console.log("SearchUser: searchResults:", searchResults);
-    // setVisibleUsers(searchResults);
   };
 
   return (
@@ -154,38 +155,15 @@ function UsersContainer11({
 
       <SearchInput onSearch={handleSearch} className="my-3" />
 
-      <UserList status={status} users={users} openModal={openModal} />
+      <UserList openModal={openModal} />
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
-          <UserFormContainer
-            status={modalUser.status}
-            user={modalUser.data}
-            editMode={editMode}
-            onSave={handleSave}
-            onCancel={handleCancel}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
+          <UserDetails userId={modalUser && modalUser.id} />
         </AppCard>
       </AppModal>
     </div>
   );
-}
-
-function UsersContainer() {
-  const { loading, error, data } = useQuery(GET_USERS);
-  const users = (data && data.users.data) || [];
-  console.log("UsersContainer:", { loading, error, data });
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  return users.map(user => (
-    <p key={user.id}>
-      {user.id}: {user.name}
-    </p>
-  ));
 }
 
 const getFilteredUsers = (users, keyword) => {
