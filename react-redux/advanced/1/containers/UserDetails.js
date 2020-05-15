@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import { ConfirmDeleteModal } from "../../common/container/ConfirmDeleteModal";
 import { AppButton, StatusBar } from "../../common/components";
@@ -34,6 +34,32 @@ const GET_USER = gql`
   }
 `;
 
+const UPDATE_USER = gql`
+  mutation($id: ID!, $input: UpdateUserInput!) {
+    updateUser(id: $id, input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+
+export const updateUser = async user => {
+  console.log("apollo::updateUser:: user:", user);
+  const mutation = UPDATE_USER;
+  const variables = {
+    id: user.id,
+    input: {
+      name: user.name,
+      username: user.email,
+      email: user.email
+    }
+  };
+  const response = await client.mutate({ mutation, variables });
+
+  console.log("apollo::updateUser:: response:", response);
+  return response.data.updateUser;
+};
 
 const getStatus = ({ loading, error }) => {
   if (loading) {
@@ -48,6 +74,7 @@ const getStatus = ({ loading, error }) => {
     return { type: STATUS_TYPES.SUCCESS, msg: "" };
   }
 };
+
 
 export const UserFormHeader = ({ mode, user, status, onEdit, onDelete }) => {
   switch (mode) {
@@ -83,9 +110,8 @@ export const UserFormHeader = ({ mode, user, status, onEdit, onDelete }) => {
   }
 };
 
-export const UserDetails11 = ({
+export const UserDetails = ({
   userId,
-  status,
   editMode,
   onCancel,
   onSave,
@@ -105,18 +131,51 @@ export const UserDetails11 = ({
   const status = getStatus({ loading, error });
   // ---------------------------
 
-  const [formVal, setFormVal] = useState({});
+  // --------------------------- GRAPHQL
+  const {
+    loading: mutationLoading,
+    error: mutationError,
+    data: mutationData
+  } = useMutation(UPDATE_USER);
+  const [updateUser, { data }] = useMutation(UPDATE_USER);
 
+  console.log("UserDetails:", { mutationLoading, mutationError, mutationData });
+  // const user = (data && data.user) || {};
+  // const status = getStatus({ loading, error });
+  // ---------------------------
+
+  const [formVal, setFormVal] = useState({});
   useEffect(() => {
     console.log("user - changed", user);
     setFormVal(user || {});
   }, [user]);
 
+  const handleSave = (e, user) => {
+    console.log("handleSave:", user);
+    if (user && user.id) {
+      console.log("updateUser:", user);
+      const variables = {
+        id: user.id,
+        input: {
+          name: user.name,
+          username: user.email,
+          email: user.email
+        }
+      };
+      updateUser({ variables });
+      setEditMode(false);
+    } else {
+      console.log("createUser:", user);
+      createUser(user);
+      setEditMode(false);
+    }
+  };
+
   const handleSubmit = useCallback(
     e => {
       console.log("UserDetails:: handleSubmit: formVal:", formVal);
       e.preventDefault();
-      onSave(e, formVal);
+      handleSave(e, formVal);
       setFormVal({});
     },
     [formVal, setFormVal, onSave]
@@ -244,7 +303,6 @@ export const UserDetails11 = ({
   );
 };
 
-// UserDetails.propTypes = {
-//   userId: PropTypes.string.isRequired
-// };
-
+UserDetails.propTypes = {
+  userId: PropTypes.string.isRequired
+};
