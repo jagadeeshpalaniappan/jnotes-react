@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
 
 import {
   AddItemForm,
@@ -27,6 +29,21 @@ import {
 
 import { STATUS_TYPES } from "../../common/constants";
 
+const GET_USERS = gql`
+  {
+    users {
+      data {
+        id
+        name
+        username
+        email
+        phone
+        website
+      }
+    }
+  }
+`;
+
 function UserList({ status, users, openModal }) {
   // const isLoading = () => status && status.type === STATUS_TYPES.LOADING;
   return (
@@ -51,7 +68,7 @@ function UserList({ status, users, openModal }) {
 
 function UsersContainer({
   status,
-  users,
+  users: usersRedux,
   modalUser,
   searchKeyword,
   setModalUser,
@@ -62,6 +79,10 @@ function UsersContainer({
   deleteUser
 }) {
   console.log("UsersContainer: users,searchKeyword:", { users, searchKeyword });
+
+  const { loading, error, data } = useQuery(GET_USERS);
+  console.log('GQL:'{loading, error, data});
+  const users = data && data.users.data || [];
 
   useEffect(() => {
     // onInit:
@@ -152,19 +173,6 @@ function UsersContainer({
   );
 }
 
-const getVisibleTodos = (todos, filter) => {
-  switch (filter) {
-    case VisibilityFilters.SHOW_ALL:
-      return todos;
-    case VisibilityFilters.SHOW_COMPLETED:
-      return todos.filter(t => t.completed);
-    case VisibilityFilters.SHOW_ACTIVE:
-      return todos.filter(t => !t.completed);
-    default:
-      throw new Error("Unknown filter: " + filter);
-  }
-};
-
 const getFilteredUsers = (users, keyword) => {
   console.log("getFilteredUsers:", { users, keyword });
 
@@ -189,11 +197,11 @@ const getFilteredUsers = (users, keyword) => {
 const mapStateToProps = state => {
   return {
     status: state.userState.users.status,
-    // users: state.userState.users.data,
-    users: getFilteredUsers(
-      state.userState.users.data,
-      state.userState.searchKeyword
-    ),
+    users: state.userState.users.data,
+    // users: getFilteredUsers(
+    //   state.userState.users.data,
+    //   state.userState.searchKeyword
+    // ),
     modalUser: state.userState.modalUser,
     searchKeyword: state.userState.searchKeyword
   };
