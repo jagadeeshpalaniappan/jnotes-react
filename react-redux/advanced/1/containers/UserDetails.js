@@ -34,6 +34,7 @@ const GET_USER = gql`
   }
 `;
 
+
 const getStatus = ({ loading, error }) => {
   if (loading) {
     return { type: STATUS_TYPES.LOADING, msg: "Loading User..." };
@@ -82,7 +83,7 @@ export const UserFormHeader = ({ mode, user, status, onEdit, onDelete }) => {
   }
 };
 
-export const UserDetails = ({
+export const UserDetails11 = ({
   userId,
   status,
   editMode,
@@ -243,7 +244,7 @@ export const UserDetails = ({
   );
 };
 
-UserDetails.propTypes = {
-  userId: PropTypes.string.isRequired
-};
+// UserDetails.propTypes = {
+//   userId: PropTypes.string.isRequired
+// };
 
