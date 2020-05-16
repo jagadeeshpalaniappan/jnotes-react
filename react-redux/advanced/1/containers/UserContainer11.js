@@ -105,7 +105,6 @@ function UsersContainer({
 
   const openModal = user => {
     console.log("openModal: user", user);
-    setMode(MODE.READ);
     setModalUser(user || null);
     setModalOpen(true);
   };
@@ -113,7 +112,6 @@ function UsersContainer({
   const handleCancel = () => {
     console.log("handleCancel:");
     setModalOpen(false);
-    setEditMode(false);
     setModalUser(null);
   };
 
@@ -121,6 +119,12 @@ function UsersContainer({
     console.log("handleAdd:");
     setMode(MODE.CREATE);
     openModal(null);
+  };
+
+  const handleEdit = (user) => {
+    console.log("handleAdd:");
+    setMode(MODE.READ);
+    openModal(user);
   };
 
   const handleSearch = (e, keyword) => {
@@ -138,7 +142,7 @@ function UsersContainer({
 
       <SearchInput onSearch={handleSearch} className="my-3" />
 
-      <UserList openModal={openModal} />
+      <UserList openModal={handleEdit} />
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>

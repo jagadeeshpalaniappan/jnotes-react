@@ -302,57 +302,12 @@ export const EditUser = ({ user, hideActions, onSave, onCancel }) => {
   );
 };
 
-export const CreateUserDetailsContainer = ({ setMode, closeModal }) => {
+export const CreateUserDetailsContainer = ({ setMode }) => {
   console.log("CreateUserDetailsContainer:");
 
   // --------------------------- GRAPHQL ---------------------------
   // UPDATE_USER:
   const [updateUser, updateStatus] = useMutation(UPDATE_USER);
-
-  // --------------------------- Fns ---------------------------
-
-  const handleSave = updatedUser => {
-    console.log("UserDetailsContainer:: handleSave: updatedUser:", updatedUser);
-    const variables = {
-      input: {
-        name: updatedUser.name,
-        username: updatedUser.email,
-        email: updatedUser.email
-      }
-    };
-    updateUser({ variables });
-  };
-
-  // --------------------------- Render ---------------------------
-
-  return (
-    <div>
-      <UserDetailsStatus updateStatus={updateStatus} />
-
-      <EditUser
-        user={user}
-        hideActions={updateStatus.loading}
-        onSave={handleSave}
-        onCancel={closeModal}
-      />
-    </div>
-  );
-};
-
-export const UpdateUserDetailsContainer = ({ setMode, closeModal }) => {
-  console.log("CreateUserDetailsContainer:");
-
-  // --------------------------- GRAPHQL ---------------------------
-  // GET_USER:
-  const variables = { id: userId };
-  const queryStatus = useQuery(GET_USER, { variables });
-
-  // UPDATE_USER:
-  const [updateUser, updateStatus] = useMutation(UPDATE_USER);
-
-  // --------------------------- LOCAL ---------------------------
-
-  const user = (queryStatus.data && queryStatus.data.user) || {};
 
   // --------------------------- Fns ---------------------------
 
@@ -373,8 +328,60 @@ export const UpdateUserDetailsContainer = ({ setMode, closeModal }) => {
   return (
     <div>
       <UserDetailsStatus
-        mode={statusMode}
+        mode={STATUS_MODE.CREATE}
+        updateStatus={updateStatus}
+      />
+
+      <EditUser
+        hideActions={updateStatus.loading}
+        onSave={handleSave}
+        onCancel={() => setMode(MODE.READ)}
+      />
+    </div>
+  );
+};
+
+export const UpdateUserDetailsContainer = ({ userId, setMode }) => {
+  console.log("UpdateUserDetailsContainer:");
+
+  // --------------------------- GRAPHQL ---------------------------
+  // GET_USER:
+  const variables = { id: userId };
+  const queryStatus = useQuery(GET_USER, { variables });
+
+  // UPDATE_USER:
+  const [updateUser, updateStatus] = useMutation(UPDATE_USER);
+
+  // --------------------------- LOCAL ---------------------------
+  console.log("UpdateUserDetailsContainer:", {queryStatus});
+
+  const user = (queryStatus.data && queryStatus.data.user) || {};
+
+  // --------------------------- Fns ---------------------------
+
+  const handleSave = updatedUser => {
+    console.log("UpdateUserDetailsContainer:: handleSave: updatedUser:", updatedUser);
+    const variables = {
+      id:updatedUser.i,
+      input: {
+        name: updatedUser.name,
+        username: updatedUser.email,
+        email: updatedUser.email
+      }
+    };
+    updateUser({ variables });
+  };
+
+  // --------------------------- Render ---------------------------
+
+  return (
+    <div>
+      <UserDetailsStatus
+        mode={STATUS_MODE.GET}
         queryStatus={queryStatus}
+      />
+      <UserDetailsStatus
+        mode={STATUS_MODE.UPDATE}
         updateStatus={updateStatus}
       />
 
@@ -382,20 +389,13 @@ export const UpdateUserDetailsContainer = ({ setMode, closeModal }) => {
         user={user}
         hideActions={updateStatus.loading}
         onSave={handleSave}
-        onCancel={closeModal}
+        onCancel={() => setMode(MODE.READ)}
       />
     </div>
   );
 };
 
-export const GetUserDetailsContainer = ({
-  userId,
-  editMode,
-  onCancel,
-  onSave,
-  onEdit,
-  onDelete
-}) => {
+export const GetUserDetailsContainer = ({ userId, setMode }) => {
   console.log("GetUserDetailsContainer:", { userId });
 
   if (!userId) return null;
@@ -416,7 +416,16 @@ export const GetUserDetailsContainer = ({
 
   // --------------------------- STATE ---------------------------
 
+  const [statusMode, setStatusMode] = useState(STATUS_MODE.GET);
+
   // --------------------------- Fns ---------------------------
+
+  const handleDelete = () => {
+    console.log("UserDetailsContainer:: handleDelete: user:", user);
+    setStatusMode(STATUS_MODE.DELETE);
+    const variables = { id: userId };
+    deleteUser({ variables });
+  };
 
   // --------------------------- Render ---------------------------
   const hideDetailPage =
@@ -429,7 +438,6 @@ export const GetUserDetailsContainer = ({
       <UserDetailsStatus
         mode={statusMode}
         queryStatus={queryStatus}
-        updateStatus={updateStatus}
         deleteStatus={deleteStatus}
       />
 
@@ -437,7 +445,7 @@ export const GetUserDetailsContainer = ({
         <UserDetails
           user={user}
           hideActions={deleteStatus.loading}
-          onEdit={openEdit}
+          onEdit={() => setMode(MODE.UPDATE)}
           onDelete={handleDelete}
         />
       )}
@@ -450,7 +458,7 @@ export const UserDetailsContainer = ({ userId, mode }) => {
 
   const [currMode, setMode] = useState(mode);
 
-  switch(currMode){
+  switch (currMode) {
     case MODE.CREATE:
       return <CreateUserDetailsContainer setMode={setMode} />;
     case MODE.UPDATE:
