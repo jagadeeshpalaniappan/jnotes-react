@@ -10,7 +10,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 
 import store from "./redux/app.store";
-import UserContainer from "./containers/UserContainer1";
+import UserContainer from "./containers/UserContainer";
 import PostContainer from "./containers/PostContainer";
 
 import { AppHeaderWithRoutes, AppContainer } from "../common/components";
