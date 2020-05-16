@@ -196,8 +196,7 @@ export const UserDetailsStatus = ({
     case STATUS_MODE.GET:
       status = {
         loading: queryStatus.loading,
-        error: queryStatus.error,
-
+        error: queryStatus.error
       };
       msg = STATUS_MSG.GET_USER;
       break;
@@ -331,7 +330,6 @@ export const EditUser = ({ user, hideActions, onSave, onCancel }) => {
     e => {
       e.preventDefault();
       onSave(formVal);
-      setFormVal({});
     },
     [formVal, setFormVal, onSave]
   );
