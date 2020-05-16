@@ -19,7 +19,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 
 import { ConfirmDeleteModal } from "../../common/container/ConfirmDeleteModal";
 import { AppButton, StatusBar } from "../../common/components";
-import { STATUS_TYPES, MODE } from "../../common/constants";
+import { STATUS_TYPES, MODE, STATUS_MODE } from "../../common/constants";
 
 const GET_USER = gql`
   query GetUser($id: ID!) {
@@ -50,37 +50,41 @@ const DELETE_USER = gql`
   }
 `;
 
-const getStatusForQuery = ({ loading, error, success }) => {
-  if (loading) {
-    return { type: STATUS_TYPES.LOADING, msg: "Loading User..." };
-  } else if (error) {
-    return {
-      type: STATUS_TYPES.FAILURE,
-      msg: "Problem while getting user",
-      more: error
-    };
-  } else if (success) {
-    return { type: STATUS_TYPES.SUCCESS, msg: "User loaded successfully!" };
-  } else {
-    return null;
+const STATUS_MSG = {
+  GET_USER: {
+    loading: "Loading User...",
+    error: "Problem while getting user",
+    success: "User loaded successfully!"
+  },
+  UPDATE_USER: {
+    loading: "Updating User...",
+    error: "Problem while updating user",
+    success: "User updated successfully!"
+  },
+  DELETE_USER: {
+    loading: "Deleting User...",
+    error: "Problem while deleting user",
+    success: "User deleted successfully!"
   }
 };
 
-const getStatusForDelete = ({ loading, error, success }) => {
-  console.log("getStatusForDelete:", { loading, error, success });
+const getStatus = ({ loading, error, success }, msg) => {
+  console.log("getStatus:", { loading, error, success, msg });
+  let status = null;
   if (loading) {
-    return { type: STATUS_TYPES.LOADING, msg: "Deleting User..." };
+    status = { type: STATUS_TYPES.LOADING, msg: msg.loading };
   } else if (error) {
-    return {
+    status = {
       type: STATUS_TYPES.FAILURE,
-      msg: "Problem while deleting user",
+      msg: msg.error,
       more: error
     };
   } else if (success) {
-    return { type: STATUS_TYPES.SUCCESS, msg: "Deleted successfully!" };
-  } else {
-    return null;
+    status = { type: STATUS_TYPES.SUCCESS, msg: msg.success };
   }
+
+  console.log("getStatus:", { status });
+  return status;
 };
 
 export const UserDetailsHeader = ({
@@ -123,36 +127,8 @@ export const UserDetailsHeader = ({
   }
 };
 
-export const UserDetails = ({
-  userId,
-  editMode,
-  onCancel,
-  onSave,
-  onEdit,
-  onDelete
-}) => {
-  console.log("UserDetails:", { userId });
-
-  if (!userId) return null;
-
-  // --------------------------- GRAPHQL ---------------------------
-  // GET_USER:
-  const variables = { id: userId };
-  const queryStatus = useQuery(GET_USER, { variables });
-  const user = (queryStatus.data && queryStatus.data.user) || {};
-
-  // DELETE_USER:
-  const [deleteUser, deleteStatus] = useMutation(DELETE_USER);
-
-  console.log("UserDetails: query:", queryStatus);
-  console.log("UserDetails: deleteStatus:", deleteStatus);
-  // --------------------------- STATE ---------------------------
-
-  const [editMode, setEditMode] = useState(false); // state: editMode or not
-  const [deleteConfirmed, setDeleteConfirmed] = useState(false);
+export const UserDetails = ({ user, hideActions, onEdit, onDelete }) => {
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  // --------------------------- Fns ---------------------------
 
   const openDeleteModal = (e, user) => {
     setDeleteModalOpen(true);
@@ -161,39 +137,12 @@ export const UserDetails = ({
     setDeleteModalOpen(false);
   };
 
-  const deleteConfirmed = e => {
-    console.log("UserDetails:: deleteConfirmed: user:", user);
-    setDeleteConfirmed(true);
-    closeDeleteModal();
-
-    const variables = { id: userId };
-    deleteUser({ variables });
-  };
-
-  // --------------------------- Render ---------------------------
-
   return (
-    <div>
-      <StatusBar
-        status={getStatusForQuery({
-          loading: queryStatus.loading,
-          error: queryStatus.error
-        })}
-      />
-      <StatusBar
-        status={getStatusForDelete({
-          loading: deleteStatus.loading,
-          error: deleteStatus.error,
-          success:
-            deleteStatus && deleteStatus.data && deleteStatus.data.deleteUser
-        })}
-      />
+    <>
       <UserDetailsHeader
-        mode={
-          editMode ? (user && user.id ? MODE.EDIT : MODE.CREATE) : MODE.READ
-        }
+        mode={MODE.READ}
         user={user}
-        hideActions={deleteStatus.loading}
+        hideActions={hideActions}
         onEdit={onEdit}
         onDelete={openDeleteModal}
       />
@@ -201,14 +150,67 @@ export const UserDetails = ({
       <ConfirmDeleteModal
         item={user}
         isOpen={isDeleteModalOpen}
-        onOk={deleteConfirmed}
+        onOk={() => {
+          closeDeleteModal();
+          onDelete();
+        }}
         onCancel={closeDeleteModal}
       />
-    </div>
+    </>
   );
 };
 
-export const EditUserDetails = ({
+export const UserDetailsStatus = ({
+  mode,
+  queryStatus,
+  updateStatus,
+  deleteStatus
+}) => {
+  let status = null;
+  let msg = null;
+  switch (mode) {
+    case STATUS_MODE.CREATE:
+      status = {
+        loading: updateStatus.loading,
+        error: updateStatus.error,
+        success: updateStatus.data && !!deleteStatus.data.updateUser
+      };
+      msg = STATUS_MSG.UPDATE_USER;
+      break;
+    case STATUS_MODE.UPDATE:
+      status = {
+        loading: updateStatus.loading,
+        error: updateStatus.error,
+        success: updateStatus.data && !!updateStatus.data.updateUser
+      };
+      msg = STATUS_MSG.UPDATE_USER;
+      break;
+    case STATUS_MODE.DELETE:
+      status = {
+        loading: deleteStatus.loading,
+        error: deleteStatus.error,
+        success: deleteStatus.data && !!deleteStatus.data.deleteUser
+      };
+      msg = STATUS_MSG.DELETE_USER;
+      break;
+    case STATUS_MODE.GET:
+      status = {
+        loading: queryStatus.loading,
+        error: queryStatus.error,
+
+      };
+      msg = STATUS_MSG.GET_USER;
+      break;
+  }
+
+  return (
+    <>
+      <StatusBar status={getStatus(status, STATUS_MSG.DELETE_USER)} />
+    </>
+  );
+};
+
+export const UserDetailsContainer = ({
   userId,
   editMode,
   onCancel,
@@ -216,184 +218,197 @@ export const EditUserDetails = ({
   onEdit,
   onDelete
 }) => {
-  console.log("UserDetails:", { status, userId });
+  console.log("UserDetailsContainer:", { userId });
 
   if (!userId) return null;
 
   // --------------------------- GRAPHQL ---------------------------
+  // GET_USER:
   const variables = { id: userId };
-  const { loading, error, data } = useQuery(GET_USER, { variables });
+  const queryStatus = useQuery(GET_USER, { variables });
 
-  console.log("UserDetails:", { loading, error, data });
-  const user = (data && data.user) || {};
-  const status = getStatus({ loading, error });
-  // ---------------------------
+  // UPDATE_USER:
+  const [updateUser, updateStatus] = useMutation(UPDATE_USER);
 
-  const {
-    loading: mutationLoading,
-    error: mutationError,
-    data: mutationData
-  } = useMutation(UPDATE_USER);
-  const [updateUser, { data }] = useMutation(UPDATE_USER);
+  // DELETE_USER:
+  const [deleteUser, deleteStatus] = useMutation(DELETE_USER);
 
-  console.log("UserDetails:", { mutationLoading, mutationError, mutationData });
-  // --------------------------- GRAPHQL ---------------------------
+  console.log("UserDetailsContainer: query:", queryStatus);
+  console.log("UserDetailsContainer: deleteStatus:", deleteStatus);
+  // --------------------------- LOCAL ---------------------------
 
+  const user = (queryStatus.data && queryStatus.data.user) || {};
+
+  // --------------------------- STATE ---------------------------
+
+  const [statusMode, setStatusMode] = useState(STATUS_MODE.GET); // state: setStatusMode [GET, CREATE, UPDATE, DELETE]
+  const [editMode, setEditMode] = useState(false); // state: editMode or not
+  const [statusReset, setStatusReset] = useState(false); // state: statusReset or not
+
+  // --------------------------- Fns ---------------------------
+
+  const handleSave = updatedUser => {
+    console.log("UserDetailsContainer:: handleSave: updatedUser:", updatedUser);
+    const variables = {
+      input: {
+        name: updatedUser.name,
+        username: updatedUser.email,
+        email: updatedUser.email
+      }
+    };
+
+    if (updatedUser && updatedUser.id) {
+      variables.id = updatedUser.id;
+      setStatusMode(STATUS_MODE.UPDATE);
+      updateUser({ variables });
+      // setEditMode(false);
+    } else {
+      console.log("createUser:", user);
+      setStatusMode(STATUS_MODE.CREATE);
+      // createUser(user);
+      // setEditMode(false);
+    }
+  };
+
+  const handleDelete = () => {
+    console.log("UserDetailsContainer:: handleDelete: user:", user);
+    setStatusMode(STATUS_MODE.DELETE);
+    const variables = { id: userId };
+    deleteUser({ variables });
+  };
+
+  const openEdit = () => {
+    console.log("UserDetailsContainer:: openEdit: user:", user);
+    setEditMode(true);
+  };
+
+  // --------------------------- Render ---------------------------
+  const hideDetailPage =
+    editMode ||
+    queryStatus.loading ||
+    deleteStatus.loading ||
+    (deleteStatus.data && deleteStatus.data.deleteUser);
+
+  return (
+    <div>
+      <UserDetailsStatus
+        mode={statusMode}
+        queryStatus={queryStatus}
+        updateStatus={updateStatus}
+        deleteStatus={deleteStatus}
+      />
+
+      {!hideDetailPage && (
+        <UserDetails
+          user={user}
+          hideActions={deleteStatus.loading}
+          onEdit={openEdit}
+          onDelete={handleDelete}
+        />
+      )}
+
+      {editMode && (
+        <EditUser
+          user={user}
+          hideActions={updateStatus.loading}
+          onSave={handleSave}
+          onCancel={() => setEditMode(false)}
+        />
+      )}
+    </div>
+  );
+};
+
+export const EditUser = ({ user, hideActions, onSave, onCancel }) => {
+  console.log("UserDetailsContainer:", { user });
   const [formVal, setFormVal] = useState({});
   useEffect(() => {
     console.log("user - changed", user);
     setFormVal(user || {});
   }, [user]);
 
-  const handleSave = (e, user) => {
-    console.log("handleSave:", user);
-    if (user && user.id) {
-      console.log("updateUser:", user);
-      const variables = {
-        id: user.id,
-        input: {
-          name: user.name,
-          username: user.email,
-          email: user.email
-        }
-      };
-      updateUser({ variables });
-      setEditMode(false);
-    } else {
-      console.log("createUser:", user);
-      createUser(user);
-      setEditMode(false);
-    }
-  };
-
   const handleSubmit = useCallback(
     e => {
-      console.log("UserDetails:: handleSubmit: formVal:", formVal);
       e.preventDefault();
-      handleSave(e, formVal);
+      onSave(formVal);
       setFormVal({});
     },
     [formVal, setFormVal, onSave]
   );
 
   const handleCancel = e => {
-    console.log("UserDetails:: handleCancel: formVal:", formVal);
+    console.log("UserDetailsContainer:: handleCancel: formVal:", formVal);
     setFormVal({});
     onCancel();
   };
 
-  const [deleteConfirmed, setDeleteConfirmed] = useState(false);
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-
-  const openDeleteModal = (e, user) => {
-    setDeleteModalOpen(true);
-  };
-  const closeDeleteModal = () => {
-    setDeleteModalOpen(false);
-  };
-
-  const deleteConfirmed = e => {
-    console.log("UserDetails:: deleteConfirmed: user:", user);
-    setDeleteConfirmed(true);
-    closeDeleteModal();
-    onDelete(user);
-  };
-
   return (
     <div>
-      <StatusBar status={status} />
+      <Form onSubmit={handleSubmit}>
+        {/* <p> {JSON.stringify(formVal)} </p> */}
 
-      {!(deleteConfirmed && status.type === STATUS_TYPES.SUCCESS) && (
-        <>
-          <UserDetailsHeader
-            mode={
-              editMode ? (user && user.id ? MODE.EDIT : MODE.CREATE) : MODE.READ
-            }
-            user={user}
-            status={status}
-            onEdit={onEdit}
-            onDelete={openDeleteModal}
+        {user && user.id && (
+          <FormGroup>
+            <label htmlFor="userId">ID:</label>
+            <Input
+              type="text"
+              id="userId"
+              name="id"
+              value={formVal.id || ""}
+              disabled
+            />
+          </FormGroup>
+        )}
+        <FormGroup>
+          <label htmlFor="name">Name:</label>
+          <Input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Name"
+            value={formVal.name || ""}
+            onChange={e => setFormVal({ ...formVal, name: e.target.value })}
           />
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="email">Email:</label>
+          <Input
+            type="text"
+            id="email"
+            name="email"
+            placeholder="Email"
+            value={formVal.email || ""}
+            onChange={e => setFormVal({ ...formVal, email: e.target.value })}
+          />
+        </FormGroup>
+        <FormGroup>
+          <label htmlFor="age">Age:</label>
+          <Input
+            type="number"
+            id="age"
+            name="age"
+            placeholder="Age"
+            value={formVal.age || ""}
+            onChange={e => setFormVal({ ...formVal, age: e.target.value })}
+          />
+        </FormGroup>
 
-          <Form onSubmit={handleSubmit}>
-            {/* <p> {JSON.stringify(formVal)} </p> */}
-
-            {user && user.id && (
-              <FormGroup>
-                <label htmlFor="userId">ID:</label>
-                <Input
-                  type="text"
-                  id="userId"
-                  name="id"
-                  value={formVal.id || ""}
-                  disabled
-                />
-              </FormGroup>
-            )}
-            <FormGroup>
-              <label htmlFor="name">Name:</label>
-              <Input
-                type="text"
-                id="name"
-                name="name"
-                placeholder="Name"
-                value={formVal.name || ""}
-                disabled={!editMode}
-                onChange={e => setFormVal({ ...formVal, name: e.target.value })}
-              />
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="email">Email:</label>
-              <Input
-                type="text"
-                id="email"
-                name="email"
-                placeholder="Email"
-                value={formVal.email || ""}
-                disabled={!editMode}
-                onChange={e =>
-                  setFormVal({ ...formVal, email: e.target.value })
-                }
-              />
-            </FormGroup>
-            <FormGroup>
-              <label htmlFor="age">Age:</label>
-              <Input
-                type="number"
-                id="age"
-                name="age"
-                placeholder="Age"
-                value={formVal.age || ""}
-                disabled={!editMode}
-                onChange={e => setFormVal({ ...formVal, age: e.target.value })}
-              />
-            </FormGroup>
-
-            {editMode && (
-              <div className="d-flex justify-content-end">
-                <Button
-                  type="button"
-                  color="secondary"
-                  className="mr-2"
-                  onClick={handleCancel}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit" color="primary">
-                  {user && user.id ? "Update User" : "Create User"}
-                </Button>
-              </div>
-            )}
-          </Form>
-        </>
-      )}
-
-      <ConfirmDeleteModal
-        item={user}
-        isOpen={isDeleteModalOpen}
-        onOk={deleteConfirmed}
-        onCancel={closeDeleteModal}
-      />
+        {!hideActions && (
+          <div className="d-flex justify-content-end">
+            <Button
+              type="button"
+              color="secondary"
+              className="mr-2"
+              onClick={onCancel}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" color="primary">
+              {user && user.id ? "Update User" : "Create User"}
+            </Button>
+          </div>
+        )}
+      </Form>
     </div>
   );
 };

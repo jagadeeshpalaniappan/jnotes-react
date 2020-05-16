@@ -153,17 +153,20 @@ export const List = ({ children }) => {
 };
 
 export function StatusBar({ status }) {
+  console.log("StatusBar:", { status });
+  if (!status) return null;
+
   let color = "light";
-  if (status && status.type === STATUS_TYPES.LOADING) {
+  if (status.type === STATUS_TYPES.LOADING) {
     color = "primary";
-  } else if (status && status.type === STATUS_TYPES.FAILURE) {
+  } else if (status.type === STATUS_TYPES.FAILURE) {
     color = "danger";
-  } else if (status && status.type === STATUS_TYPES.SUCCESS) {
+  } else if (status.type === STATUS_TYPES.SUCCESS) {
     color = "success";
   }
   return (
     <>
-      {status && status.msg && (
+      {status.msg && (
         <Alert color={color}>
           {status.msg} {status.more && `:: ${status.more}`}
         </Alert>

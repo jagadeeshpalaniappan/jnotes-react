@@ -18,7 +18,7 @@ import {
 
 // import { UserFormContainer } from "../../common/container/UserFormContainer";
 
-import { UserDetails } from "./UserDetails";
+import { UserDetailsContainer } from "./UserDetails";
 
 import {
   setUserSearchKeywordAction,
@@ -159,7 +159,7 @@ function UsersContainer({
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
-          <UserDetails userId={modalUser && modalUser.id} />
+          <UserDetailsContainer userId={modalUser && modalUser.id} />
         </AppCard>
       </AppModal>
     </div>

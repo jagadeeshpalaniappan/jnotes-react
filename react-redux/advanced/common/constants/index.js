@@ -9,3 +9,10 @@ export const MODE = {
   EDIT: "EDIT",
   CREATE: "CREATE"
 };
+
+export const STATUS_MODE = {
+  GET: "GET",
+  CREATE: "CREATE",
+  UPDATE: "UPDATE",
+  DELETE: "DELETE"
+};
