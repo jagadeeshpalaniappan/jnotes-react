@@ -44,9 +44,8 @@ const STATUS_MSG = {
 
 
 
-
-export default GetUserDetailsContainer = ({ userId, setMode }) => {
-  console.log("GetUserDetailsContainer:", { userId });
+const GetUserDetails = ({ userId, setMode }) => {
+  console.log("GetUserDetails:", { userId });
 
   if (!userId) return null;
 
@@ -58,8 +57,8 @@ export default GetUserDetailsContainer = ({ userId, setMode }) => {
   // DELETE_USER:
   const [deleteUser, deleteStatus] = useMutation(DELETE_USER);
 
-  console.log("GetUserDetailsContainer: query:", queryStatus);
-  console.log("GetUserDetailsContainer: deleteStatus:", deleteStatus);
+  console.log("GetUserDetails: query:", queryStatus);
+  console.log("GetUserDetails: deleteStatus:", deleteStatus);
   // --------------------------- LOCAL ---------------------------
 
   const user = (queryStatus.data && queryStatus.data.user) || {};
@@ -102,3 +101,6 @@ export default GetUserDetailsContainer = ({ userId, setMode }) => {
     </div>
   );
 };
+
+
+export default GetUserDetails;

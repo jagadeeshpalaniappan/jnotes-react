@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 
@@ -16,13 +14,11 @@ import {
   Container
 } from "reactstrap";
 
-
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { STATUS_MODE, MODE } from "../../common/constants";
 import { GET_USER, UPDATE_USER } from "../graphql";
 
 import { UserDetailsStatus, EditUser } from "./UserComponents";
-
 
 const STATUS_MSG = {
   GET_USER: {
@@ -42,12 +38,8 @@ const STATUS_MSG = {
   }
 };
 
-
-
-
-
-export default UpdateUserDetailsContainer = ({ userId, setMode }) => {
-  console.log("UpdateUserDetailsContainer:");
+const UpdateUserDetails = ({ userId, setMode }) => {
+  console.log("UpdateUserDetails:");
 
   // --------------------------- GRAPHQL ---------------------------
   // GET_USER:
@@ -58,15 +50,15 @@ export default UpdateUserDetailsContainer = ({ userId, setMode }) => {
   const [updateUser, updateStatus] = useMutation(UPDATE_USER);
 
   // --------------------------- LOCAL ---------------------------
-  console.log("UpdateUserDetailsContainer:", {queryStatus});
+  console.log("UpdateUserDetails:", { queryStatus });
 
   const user = (queryStatus.data && queryStatus.data.user) || {};
 
   // --------------------------- Fns ---------------------------
   const handleSave = updatedUser => {
-    console.log("UpdateUserDetailsContainer:: handleSave: updatedUser:", updatedUser);
+    console.log("UpdateUserDetails:: handleSave: updatedUser:", updatedUser);
     const variables = {
-      id:updatedUser.id,
+      id: updatedUser.id,
       input: {
         name: updatedUser.name,
         username: updatedUser.email,
@@ -80,10 +72,7 @@ export default UpdateUserDetailsContainer = ({ userId, setMode }) => {
 
   return (
     <div>
-      <UserDetailsStatus
-        mode={STATUS_MODE.GET}
-        queryStatus={queryStatus}
-      />
+      <UserDetailsStatus mode={STATUS_MODE.GET} queryStatus={queryStatus} />
       <UserDetailsStatus
         mode={STATUS_MODE.UPDATE}
         updateStatus={updateStatus}
@@ -98,3 +87,5 @@ export default UpdateUserDetailsContainer = ({ userId, setMode }) => {
     </div>
   );
 };
+
+export default UpdateUserDetails;

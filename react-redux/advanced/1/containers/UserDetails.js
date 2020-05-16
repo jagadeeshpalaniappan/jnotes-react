@@ -24,8 +24,8 @@ import UpdateUserDetails from "./UpdateUserDetails";
 import GetUserDetails from "./GetUserDetails";
 
 
-export const UserDetailsContainer = ({ userId, mode }) => {
-  console.log("UserDetailsContainer:", { userId, mode });
+const UserDetails = ({ userId, mode }) => {
+  console.log("UserDetails:", { userId, mode });
 
   const [currMode, setMode] = useState(mode);
 
@@ -38,3 +38,5 @@ export const UserDetailsContainer = ({ userId, mode }) => {
       return <GetUserDetails userId={userId} setMode={setMode} />;
   }
 };
+
+export default UserDetails;

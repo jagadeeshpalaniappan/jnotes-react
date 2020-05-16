@@ -42,7 +42,7 @@ const STATUS_MSG = {
 };
 
 
-export default CreateUserDetails = ({ setMode }) => {
+const CreateUserDetails = ({ setMode }) => {
   console.log("CreateUserDetailsContainer:");
 
   // --------------------------- GRAPHQL ---------------------------
@@ -80,3 +80,5 @@ export default CreateUserDetails = ({ setMode }) => {
     </div>
   );
 };
+
+export default CreateUserDetails;
