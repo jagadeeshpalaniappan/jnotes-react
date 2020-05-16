@@ -19,7 +19,7 @@ import {
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { STATUS_MODE, MODE } from "../../common/constants";
-import { GET_USER, UPDATE_USER } from "../graphql";
+import { GET_USER, DELETE_USER } from "../graphql";
 
 import { UserDetailsStatus, UserDetails } from "./UserComponents";
 
@@ -41,7 +41,6 @@ const STATUS_MSG = {
     success: "User deleted successfully!"
   }
 };
-
 
 
 const GetUserDetails = ({ userId, setMode }) => {

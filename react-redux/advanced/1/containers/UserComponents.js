@@ -176,7 +176,7 @@ export const UserDetailsStatus = ({
 
   return (
     <>
-      <StatusBar status={getStatus(status, STATUS_MSG.DELETE_USER)} />
+      <StatusBar status={getStatus(status, msg)} />
     </>
   );
 };
