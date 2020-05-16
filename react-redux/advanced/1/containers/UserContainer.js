@@ -146,7 +146,7 @@ function UsersContainer({
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
-          <UserDetailsContainer mode={mode} userId={modalUser && modalUser.id} />
+          <UserDetails mode={mode} userId={modalUser && modalUser.id} />
         </AppCard>
       </AppModal>
     </div>
