@@ -44,24 +44,13 @@ const UPDATE_USER = gql`
   }
 `;
 
-export const updateUser = async user => {
-  console.log("apollo::updateUser:: user:", user);
-  const mutation = UPDATE_USER;
-  const variables = {
-    id: user.id,
-    input: {
-      name: user.name,
-      username: user.email,
-      email: user.email
-    }
-  };
-  const response = await client.mutate({ mutation, variables });
+const DELETE_USER = gql`
+  mutation($id: ID!) {
+    deleteUser(id: $id)
+  }
+`;
 
-  console.log("apollo::updateUser:: response:", response);
-  return response.data.updateUser;
-};
-
-const getStatus = ({ loading, error }) => {
+const getStatusForQuery = ({ loading, error, success }) => {
   if (loading) {
     return { type: STATUS_TYPES.LOADING, msg: "Loading User..." };
   } else if (error) {
@@ -70,19 +59,43 @@ const getStatus = ({ loading, error }) => {
       msg: "Problem while getting user",
       more: error
     };
+  } else if (success) {
+    return { type: STATUS_TYPES.SUCCESS, msg: "User loaded successfully!" };
   } else {
-    return { type: STATUS_TYPES.SUCCESS, msg: "" };
+    return null;
   }
 };
 
+const getStatusForDelete = ({ loading, error, success }) => {
+  console.log("getStatusForDelete:", { loading, error, success });
+  if (loading) {
+    return { type: STATUS_TYPES.LOADING, msg: "Deleting User..." };
+  } else if (error) {
+    return {
+      type: STATUS_TYPES.FAILURE,
+      msg: "Problem while deleting user",
+      more: error
+    };
+  } else if (success) {
+    return { type: STATUS_TYPES.SUCCESS, msg: "Deleted successfully!" };
+  } else {
+    return null;
+  }
+};
 
-export const UserFormHeader = ({ mode, user, status, onEdit, onDelete }) => {
+export const UserDetailsHeader = ({
+  mode,
+  user,
+  hideActions,
+  onEdit,
+  onDelete
+}) => {
   switch (mode) {
     case MODE.READ:
       return (
         <div className="d-flex my-3">
           <h3 className="flex-grow-1 m-0">User</h3>
-          {!(status && status.type === STATUS_TYPES.LOADING) && (
+          {!hideActions && (
             <>
               <AppButton outline color="primary" onClick={() => onEdit(user)}>
                 Edit
@@ -118,11 +131,96 @@ export const UserDetails = ({
   onEdit,
   onDelete
 }) => {
+  console.log("UserDetails:", { userId });
+
+  if (!userId) return null;
+
+  // --------------------------- GRAPHQL ---------------------------
+  // GET_USER:
+  const variables = { id: userId };
+  const queryStatus = useQuery(GET_USER, { variables });
+  const user = (queryStatus.data && queryStatus.data.user) || {};
+
+  // DELETE_USER:
+  const [deleteUser, deleteStatus] = useMutation(DELETE_USER);
+
+  console.log("UserDetails: query:", queryStatus);
+  console.log("UserDetails: deleteStatus:", deleteStatus);
+  // --------------------------- STATE ---------------------------
+
+  const [editMode, setEditMode] = useState(false); // state: editMode or not
+  const [deleteConfirmed, setDeleteConfirmed] = useState(false);
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  // --------------------------- Fns ---------------------------
+
+  const openDeleteModal = (e, user) => {
+    setDeleteModalOpen(true);
+  };
+  const closeDeleteModal = () => {
+    setDeleteModalOpen(false);
+  };
+
+  const deleteConfirmed = e => {
+    console.log("UserDetails:: deleteConfirmed: user:", user);
+    setDeleteConfirmed(true);
+    closeDeleteModal();
+
+    const variables = { id: userId };
+    deleteUser({ variables });
+  };
+
+  // --------------------------- Render ---------------------------
+
+  return (
+    <div>
+      <StatusBar
+        status={getStatusForQuery({
+          loading: queryStatus.loading,
+          error: queryStatus.error
+        })}
+      />
+      <StatusBar
+        status={getStatusForDelete({
+          loading: deleteStatus.loading,
+          error: deleteStatus.error,
+          success:
+            deleteStatus && deleteStatus.data && deleteStatus.data.deleteUser
+        })}
+      />
+      <UserDetailsHeader
+        mode={
+          editMode ? (user && user.id ? MODE.EDIT : MODE.CREATE) : MODE.READ
+        }
+        user={user}
+        hideActions={deleteStatus.loading}
+        onEdit={onEdit}
+        onDelete={openDeleteModal}
+      />
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <ConfirmDeleteModal
+        item={user}
+        isOpen={isDeleteModalOpen}
+        onOk={deleteConfirmed}
+        onCancel={closeDeleteModal}
+      />
+    </div>
+  );
+};
+
+export const EditUserDetails = ({
+  userId,
+  editMode,
+  onCancel,
+  onSave,
+  onEdit,
+  onDelete
+}) => {
   console.log("UserDetails:", { status, userId });
 
   if (!userId) return null;
 
-  // --------------------------- GRAPHQL
+  // --------------------------- GRAPHQL ---------------------------
   const variables = { id: userId };
   const { loading, error, data } = useQuery(GET_USER, { variables });
 
@@ -131,7 +229,6 @@ export const UserDetails = ({
   const status = getStatus({ loading, error });
   // ---------------------------
 
-  // --------------------------- GRAPHQL
   const {
     loading: mutationLoading,
     error: mutationError,
@@ -140,9 +237,7 @@ export const UserDetails = ({
   const [updateUser, { data }] = useMutation(UPDATE_USER);
 
   console.log("UserDetails:", { mutationLoading, mutationError, mutationData });
-  // const user = (data && data.user) || {};
-  // const status = getStatus({ loading, error });
-  // ---------------------------
+  // --------------------------- GRAPHQL ---------------------------
 
   const [formVal, setFormVal] = useState({});
   useEffect(() => {
@@ -197,8 +292,8 @@ export const UserDetails = ({
     setDeleteModalOpen(false);
   };
 
-  const handleDelete = e => {
-    console.log("UserDetails:: handleDelete: user:", user);
+  const deleteConfirmed = e => {
+    console.log("UserDetails:: deleteConfirmed: user:", user);
     setDeleteConfirmed(true);
     closeDeleteModal();
     onDelete(user);
@@ -210,7 +305,7 @@ export const UserDetails = ({
 
       {!(deleteConfirmed && status.type === STATUS_TYPES.SUCCESS) && (
         <>
-          <UserFormHeader
+          <UserDetailsHeader
             mode={
               editMode ? (user && user.id ? MODE.EDIT : MODE.CREATE) : MODE.READ
             }
@@ -296,13 +391,9 @@ export const UserDetails = ({
       <ConfirmDeleteModal
         item={user}
         isOpen={isDeleteModalOpen}
-        onOk={handleDelete}
+        onOk={deleteConfirmed}
         onCancel={closeDeleteModal}
       />
     </div>
   );
-};
-
-UserDetails.propTypes = {
-  userId: PropTypes.string.isRequired
 };
