@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 
@@ -18,36 +16,23 @@ import {
 
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import { STATUS_MODE, MODE } from "../../common/constants";
-import { GET_USER, UPDATE_USER } from "../graphql";
+import { CREATE_USER } from "../graphql";
 
-import { UserDetailsStatus, EditUser } from "./UserComponents";
-
+import { getStatus, EditUser } from "./UserComponents";
+import { StatusBar } from "../../common/components";
 
 const STATUS_MSG = {
-  GET_USER: {
-    loading: "Loading User...",
-    error: "Problem while getting user",
-    success: "User loaded successfully!"
-  },
-  UPDATE_USER: {
-    loading: "Updating User...",
-    error: "Problem while updating user",
-    success: "User updated successfully!"
-  },
-  DELETE_USER: {
-    loading: "Deleting User...",
-    error: "Problem while deleting user",
-    success: "User deleted successfully!"
-  }
+  loading: "Creating User...",
+  error: "Problem while creating user",
+  success: "User created successfully!"
 };
-
 
 const CreateUserDetails = ({ setMode }) => {
   console.log("CreateUserDetailsContainer:");
 
   // --------------------------- GRAPHQL ---------------------------
-  // UPDATE_USER:
-  const [updateUser, updateStatus] = useMutation(UPDATE_USER);
+  // CREATE_USER:
+  const [createUser, createStatus] = useMutation(CREATE_USER);
 
   // --------------------------- Fns ---------------------------
 
@@ -60,20 +45,26 @@ const CreateUserDetails = ({ setMode }) => {
         email: updatedUser.email
       }
     };
-    updateUser({ variables });
+    createUser({ variables });
   };
 
   // --------------------------- Render ---------------------------
 
   return (
     <div>
-      <UserDetailsStatus
-        mode={STATUS_MODE.CREATE}
-        updateStatus={updateStatus}
+      <StatusBar
+        status={getStatus(
+          {
+            loading: createStatus.loading,
+            error: createStatus.error,
+            success: createStatus.data && !!createStatus.data.createUser
+          },
+          STATUS_MSG
+        )}
       />
 
       <EditUser
-        hideActions={updateStatus.loading}
+        hideActions={createStatus.loading}
         onSave={handleSave}
         onCancel={() => setMode(MODE.READ)}
       />

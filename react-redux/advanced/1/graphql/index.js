@@ -16,6 +16,16 @@ export const GET_USER = gql`
   }
 `;
 
+export const CREATE_USER = gql`
+   mutation($input: CreateUserInput!) {
+    createUser(input: $input) {
+      id
+      name
+      email
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation($id: ID!, $input: UpdateUserInput!) {
     updateUser(id: $id, input: $input) {

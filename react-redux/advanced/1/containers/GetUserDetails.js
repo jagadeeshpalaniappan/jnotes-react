@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 
@@ -21,27 +18,20 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { STATUS_MODE, MODE } from "../../common/constants";
 import { GET_USER, DELETE_USER } from "../graphql";
 
-import { UserDetailsStatus, UserDetails } from "./UserComponents";
+import { UserDetails } from "./UserComponents";
+import { StatusBar } from "../../common/components";
 
 
-const STATUS_MSG = {
-  GET_USER: {
-    loading: "Loading User...",
-    error: "Problem while getting user",
-    success: "User loaded successfully!"
-  },
-  UPDATE_USER: {
-    loading: "Updating User...",
-    error: "Problem while updating user",
-    success: "User updated successfully!"
-  },
-  DELETE_USER: {
-    loading: "Deleting User...",
-    error: "Problem while deleting user",
-    success: "User deleted successfully!"
-  }
+const GET_STATUS_MSG = {
+  loading: "Loading User...",
+  error: "Problem while getting user",
+  success: "User loaded successfully!"
 };
-
+const DELETE_STATUS_MSG = {
+  loading: "Loading User...",
+  error: "Problem while getting user",
+  success: "User loaded successfully!"
+};
 
 const GetUserDetails = ({ userId, setMode }) => {
   console.log("GetUserDetails:", { userId });
@@ -83,10 +73,25 @@ const GetUserDetails = ({ userId, setMode }) => {
 
   return (
     <div>
-      <UserDetailsStatus
-        mode={statusMode}
-        queryStatus={queryStatus}
-        deleteStatus={deleteStatus}
+      <StatusBar
+        status={getStatus(
+          {
+            loading: createStatus.loading,
+            error: createStatus.error,
+            success: createStatus.data && !!createStatus.data.createUser
+          },
+          GET_STATUS_MSG
+        )}
+      />
+      <StatusBar
+        status={getStatus(
+          {
+            loading: deleteStatus.loading,
+            error: deleteStatus.error,
+            success: deleteStatus.data && !!deleteStatus.data.deleteUser
+          },
+          DELETE_STATUS_MSG
+        )}
       />
 
       {!hideDetailPage && (
@@ -100,6 +105,5 @@ const GetUserDetails = ({ userId, setMode }) => {
     </div>
   );
 };
-
 
 export default GetUserDetails;

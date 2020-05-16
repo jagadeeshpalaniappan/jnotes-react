@@ -18,24 +18,18 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { STATUS_MODE, MODE } from "../../common/constants";
 import { GET_USER, UPDATE_USER } from "../graphql";
 
-import { UserDetailsStatus, EditUser } from "./UserComponents";
+import { EditUser } from "./UserComponents";
+import { StatusBar } from "../../common/components";
 
-const STATUS_MSG = {
-  GET_USER: {
-    loading: "Loading User...",
-    error: "Problem while getting user",
-    success: "User loaded successfully!"
-  },
-  UPDATE_USER: {
-    loading: "Updating User...",
-    error: "Problem while updating user",
-    success: "User updated successfully!"
-  },
-  DELETE_USER: {
-    loading: "Deleting User...",
-    error: "Problem while deleting user",
-    success: "User deleted successfully!"
-  }
+const GET_STATUS_MSG = {
+  loading: "Loading User...",
+  error: "Problem while getting user",
+  success: "User loaded successfully!"
+};
+const UPDATE_STATUS_MSG = {
+  loading: "Updating User...",
+  error: "Problem while updating user",
+  success: "User updated successfully!"
 };
 
 const UpdateUserDetails = ({ userId, setMode }) => {
@@ -72,10 +66,25 @@ const UpdateUserDetails = ({ userId, setMode }) => {
 
   return (
     <div>
-      <UserDetailsStatus mode={STATUS_MODE.GET} queryStatus={queryStatus} />
-      <UserDetailsStatus
-        mode={STATUS_MODE.UPDATE}
-        updateStatus={updateStatus}
+      <StatusBar
+        status={getStatus(
+          {
+            loading: createStatus.loading,
+            error: createStatus.error,
+            success: createStatus.data && !!createStatus.data.createUser
+          },
+          GET_STATUS_MSG
+        )}
+      />
+      <StatusBar
+        status={getStatus(
+          {
+            loading: deleteStatus.loading,
+            error: deleteStatus.error,
+            success: deleteStatus.data && !!deleteStatus.data.deleteUser
+          },
+          UPDATE_STATUS_MSG
+        )}
       />
 
       <EditUser

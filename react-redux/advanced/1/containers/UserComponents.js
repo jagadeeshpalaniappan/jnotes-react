@@ -40,7 +40,7 @@ const STATUS_MSG = {
   }
 };
 
-const getStatus = ({ loading, error, success }, msg) => {
+export const getStatus = ({ loading, error, success }, msg) => {
   console.log("getStatus:", { loading, error, success, msg });
   let status = null;
   if (loading) {
