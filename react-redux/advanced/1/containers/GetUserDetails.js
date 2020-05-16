@@ -18,7 +18,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { STATUS_MODE, MODE } from "../../common/constants";
 import { GET_USER, DELETE_USER } from "../graphql";
 
-import { UserDetails } from "./UserComponents";
+import { getStatus, UserDetails } from "./UserComponents";
 import { StatusBar } from "../../common/components";
 
 
@@ -76,9 +76,9 @@ const GetUserDetails = ({ userId, setMode }) => {
       <StatusBar
         status={getStatus(
           {
-            loading: createStatus.loading,
-            error: createStatus.error,
-            success: createStatus.data && !!createStatus.data.createUser
+            loading: queryStatus.loading,
+            error: queryStatus.error,
+            success: queryStatus.data && !!queryStatus.data.createUser
           },
           GET_STATUS_MSG
         )}

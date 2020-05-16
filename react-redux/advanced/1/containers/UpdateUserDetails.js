@@ -18,7 +18,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { STATUS_MODE, MODE } from "../../common/constants";
 import { GET_USER, UPDATE_USER } from "../graphql";
 
-import { EditUser } from "./UserComponents";
+import { getStatus, EditUser } from "./UserComponents";
 import { StatusBar } from "../../common/components";
 
 const GET_STATUS_MSG = {
@@ -69,9 +69,9 @@ const UpdateUserDetails = ({ userId, setMode }) => {
       <StatusBar
         status={getStatus(
           {
-            loading: createStatus.loading,
-            error: createStatus.error,
-            success: createStatus.data && !!createStatus.data.createUser
+            loading: queryStatus.loading,
+            error: queryStatus.error,
+            success: queryStatus.data && !!queryStatus.data.createUser
           },
           GET_STATUS_MSG
         )}
@@ -79,9 +79,9 @@ const UpdateUserDetails = ({ userId, setMode }) => {
       <StatusBar
         status={getStatus(
           {
-            loading: deleteStatus.loading,
-            error: deleteStatus.error,
-            success: deleteStatus.data && !!deleteStatus.data.deleteUser
+            loading: updateStatus.loading,
+            error: updateStatus.error,
+            success: updateStatus.data && !!updateStatus.data.deleteUser
           },
           UPDATE_STATUS_MSG
         )}

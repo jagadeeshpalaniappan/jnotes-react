@@ -27,12 +27,18 @@ const STATUS_MSG = {
   success: "User created successfully!"
 };
 
-const CreateUserDetails = ({ setMode }) => {
+const CreateUserDetails = ({ setMode, setUserId }) => {
   console.log("CreateUserDetailsContainer:");
 
   // --------------------------- GRAPHQL ---------------------------
   // CREATE_USER:
-  const [createUser, createStatus] = useMutation(CREATE_USER);
+  const [createUser, createStatus] = useMutation(CREATE_USER, {
+    onCompleted(resp) {
+      console.log("CreateUserDetailsContainer:onCompleted", resp.createUser);
+      setMode(MODE.READ);
+      setUserId(resp.createUser.id - 10);
+    }
+  });
 
   // --------------------------- Fns ---------------------------
 

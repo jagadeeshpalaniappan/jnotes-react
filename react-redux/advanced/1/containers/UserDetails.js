@@ -28,14 +28,17 @@ const UserDetails = ({ userId, mode }) => {
   console.log("UserDetails:", { userId, mode });
 
   const [currMode, setMode] = useState(mode);
+  const [currUserId, setUserId] = useState(userId);
+
+  console.log("currUserId", currUserId);
 
   switch (currMode) {
     case MODE.CREATE:
-      return <CreateUserDetails setMode={setMode} />;
+      return <CreateUserDetails setMode={setMode} setUserId={setUserId} />;
     case MODE.UPDATE:
-      return <UpdateUserDetails userId={userId} setMode={setMode} />;
+      return <UpdateUserDetails userId={currUserId} setMode={setMode} />;
     default:
-      return <GetUserDetails userId={userId} setMode={setMode} />;
+      return <GetUserDetails userId={currUserId} setMode={setMode} />;
   }
 };
 
