@@ -29,7 +29,7 @@ import {
   deleteUserAction
 } from "../redux/user/user.action";
 
-import { STATUS_TYPES } from "../../common/constants";
+import { STATUS_TYPES, MODE } from "../../common/constants";
 
 const GET_USERS = gql`
   {
@@ -101,10 +101,11 @@ function UsersContainer({
 
   const [modalUser, setModalUser] = useState(null); // state: modal is opened or not
   const [isModalOpen, setModalOpen] = useState(false); // state: modal is opened or not
-  const [editMode, setEditMode] = useState(false); // state: editMode or not
+  const [mode, setMode] = useState(MODE.READ);
 
   const openModal = user => {
     console.log("openModal: user", user);
+    setMode(MODE.READ);
     setModalUser(user || null);
     setModalOpen(true);
   };
@@ -116,28 +117,10 @@ function UsersContainer({
     setModalUser(null);
   };
 
-  const handleSave = (e, user) => {
-    console.log("AddUser:", user);
-    if (user && user.id) {
-      updateUser(user);
-      setEditMode(false);
-    } else {
-      createUser(user);
-      setEditMode(false);
-    }
-  };
   const handleAdd = () => {
     console.log("handleAdd:");
-    setEditMode(true);
+    setMode(MODE.CREATE);
     openModal(null);
-  };
-  const handleEdit = user => {
-    console.log("handleEdit:", user);
-    setEditMode(true);
-  };
-  const handleDelete = user => {
-    console.log("handleDelete:", user);
-    deleteUser(user);
   };
 
   const handleSearch = (e, keyword) => {
@@ -159,7 +142,7 @@ function UsersContainer({
 
       <AppModal isOpen={isModalOpen} toggle={handleCancel}>
         <AppCard>
-          <UserDetailsContainer userId={modalUser && modalUser.id} />
+          <UserDetailsContainer mode={mode} userId={modalUser && modalUser.id} />
         </AppCard>
       </AppModal>
     </div>
