@@ -1,5 +1,50 @@
 
 
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
+
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  FormText,
+  Card,
+  Container
+} from "reactstrap";
+
+
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import { STATUS_MODE, MODE } from "../../common/constants";
+import { GET_USER, UPDATE_USER } from "../graphql";
+
+import { UserDetailsStatus, EditUser } from "./UserComponents";
+
+
+const STATUS_MSG = {
+  GET_USER: {
+    loading: "Loading User...",
+    error: "Problem while getting user",
+    success: "User loaded successfully!"
+  },
+  UPDATE_USER: {
+    loading: "Updating User...",
+    error: "Problem while updating user",
+    success: "User updated successfully!"
+  },
+  DELETE_USER: {
+    loading: "Deleting User...",
+    error: "Problem while deleting user",
+    success: "User deleted successfully!"
+  }
+};
+
+
+
+
 
 export default UpdateUserDetailsContainer = ({ userId, setMode }) => {
   console.log("UpdateUserDetailsContainer:");

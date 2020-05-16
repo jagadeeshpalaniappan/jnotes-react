@@ -18,7 +18,7 @@ import {
 
 // import { UserFormContainer } from "../../common/container/UserFormContainer";
 
-import { UserDetailsContainer } from "./UserDetails";
+import UserDetails from "./UserDetails";
 
 import {
   setUserSearchKeywordAction,

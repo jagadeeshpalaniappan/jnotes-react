@@ -1,5 +1,8 @@
 
 
+
+import gql from "graphql-tag";
+
 export const GET_USER = gql`
   query GetUser($id: ID!) {
     user(id: $id) {
@@ -23,7 +26,7 @@ export const UPDATE_USER = gql`
   }
 `;
 
-const DELETE_USER = gql`
+export const DELETE_USER = gql`
   mutation($id: ID!) {
     deleteUser(id: $id)
   }

@@ -1,6 +1,29 @@
 
 
 
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import PropTypes from "prop-types";
+
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  FormText,
+  Card,
+  Container
+} from "reactstrap";
+
+import { MODE } from "../../common/constants";
+
+import CreateUserDetails from "./CreateUserDetails";
+import UpdateUserDetails from "./UpdateUserDetails";
+import GetUserDetails from "./GetUserDetails";
+
+
 export const UserDetailsContainer = ({ userId, mode }) => {
   console.log("UserDetailsContainer:", { userId, mode });
 
@@ -8,10 +31,10 @@ export const UserDetailsContainer = ({ userId, mode }) => {
 
   switch (currMode) {
     case MODE.CREATE:
-      return <CreateUserDetailsContainer setMode={setMode} />;
+      return <CreateUserDetails setMode={setMode} />;
     case MODE.UPDATE:
-      return <UpdateUserDetailsContainer userId={userId} setMode={setMode} />;
+      return <UpdateUserDetails userId={userId} setMode={setMode} />;
     default:
-      return <GetUserDetailsContainer userId={userId} setMode={setMode} />;
+      return <GetUserDetails userId={userId} setMode={setMode} />;
   }
 };
