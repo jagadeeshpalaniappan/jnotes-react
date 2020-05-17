@@ -20,7 +20,6 @@ import "./1-react-redux";
 
 // ------------------------ (without Redux) ------------------------------
 
-
 /*
 #### OPTION-2 ####
 Components: React (Functional Components - using Hooks)
