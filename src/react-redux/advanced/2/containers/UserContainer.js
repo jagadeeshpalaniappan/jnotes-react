@@ -11,7 +11,7 @@ import {
   AppModal,
   Loading,
   Error,
-  StatusBar
+  StatusBar,
 } from "../../common/components";
 
 import { UserFormContainer } from "../../common/container/UserFormContainer";
@@ -22,7 +22,7 @@ import {
   getUsersAction,
   createUserAction,
   updateUserAction,
-  deleteUserAction
+  deleteUserAction,
 } from "../redux/user/user.action";
 
 import { STATUS_TYPES } from "../../common/constants";
@@ -34,7 +34,7 @@ function UserList({ status, users, openModal }) {
       <StatusBar status={status} />
       {users && users.length > 0 && (
         <List>
-          {users.map(user => (
+          {users.map((user) => (
             <ListItem
               key={user.id}
               item={user}
@@ -59,7 +59,7 @@ function UsersContainer({
   getUsers,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
 }) {
   console.log("UsersContainer: users,searchKeyword:", { users, searchKeyword });
 
@@ -71,7 +71,7 @@ function UsersContainer({
   const [isModalOpen, setModalOpen] = useState(false); // state: modal is opened or not
   const [editMode, setEditMode] = useState(false); // state: editMode or not
 
-  const openModal = user => {
+  const openModal = (user) => {
     setModalUser(user || null);
     setModalOpen(true);
   };
@@ -98,11 +98,11 @@ function UsersContainer({
     setEditMode(true);
     openModal(null);
   };
-  const handleEdit = user => {
+  const handleEdit = (user) => {
     console.log("handleEdit:", user);
     setEditMode(true);
   };
-  const handleDelete = user => {
+  const handleDelete = (user) => {
     console.log("handleDelete:", user);
     deleteUser(user);
   };
@@ -157,9 +157,9 @@ const getVisibleTodos = (todos, filter) => {
     case VisibilityFilters.SHOW_ALL:
       return todos;
     case VisibilityFilters.SHOW_COMPLETED:
-      return todos.filter(t => t.completed);
+      return todos.filter((t) => t.completed);
     case VisibilityFilters.SHOW_ACTIVE:
-      return todos.filter(t => !t.completed);
+      return todos.filter((t) => !t.completed);
     default:
       throw new Error("Unknown filter: " + filter);
   }
@@ -170,9 +170,9 @@ const getFilteredUsers = (users, keyword) => {
 
   if (keyword && keyword.length > 0 && users && users.length > 0) {
     const searchKey = keyword && keyword.toLowerCase();
-    const searchResults = users.filter(user => {
+    const searchResults = users.filter((user) => {
       return Object.values(user).some(
-        item =>
+        (item) =>
           item &&
           typeof item === "string" &&
           item.toLowerCase().startsWith(searchKey)
@@ -186,7 +186,7 @@ const getFilteredUsers = (users, keyword) => {
   return users;
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     status: state.userState.users.status,
     // users: state.userState.users.data,
@@ -195,21 +195,18 @@ const mapStateToProps = state => {
       state.userState.searchKeyword
     ),
     modalUser: state.userState.modalUser,
-    searchKeyword: state.userState.searchKeyword
+    searchKeyword: state.userState.searchKeyword,
   };
 };
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setModalUser: user => dispatch(setModalUserAction(user)),
-    searchUser: user => dispatch(setUserSearchKeywordAction(user)),
+    setModalUser: (user) => dispatch(setModalUserAction(user)),
+    searchUser: (user) => dispatch(setUserSearchKeywordAction(user)),
     getUsers: () => dispatch(getUsersAction()),
-    createUser: user => dispatch(createUserAction(user)),
-    updateUser: user => dispatch(updateUserAction(user)),
-    deleteUser: user => dispatch(deleteUserAction(user))
+    createUser: (user) => dispatch(createUserAction(user)),
+    updateUser: (user) => dispatch(updateUserAction(user)),
+    deleteUser: (user) => dispatch(deleteUserAction(user)),
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UsersContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);

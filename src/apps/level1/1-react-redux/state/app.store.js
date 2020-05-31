@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import logger from "redux-logger";
 import thunk from "redux-thunk";
 
-// import { userReducer } from "./user/user.reducer";
+import { userReducer } from "./user/user.reducer";
 // import { postReducer } from "./post/post.reducer";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -10,7 +10,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 //--------------------------------- Redux: Store -----------------------------------
 
 const rootReducer = combineReducers({
-  //   userState: userReducer,
+  userState: userReducer,
   //   postState: postReducer,
 });
 

@@ -1,7 +1,8 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
-import UserRoutes from "./modules/user/routes";
+import UserModule from "./modules/user";
+import PostModule from "./modules/post";
 import NotFoundView from "./modules/common/views/NotFound";
 // import PostsView from "./views/Posts";
 // import NotFoundView from "./views/Users";
@@ -11,13 +12,11 @@ const AppRoutes = () => {
     <Switch>
       <Redirect exact from="/" to="/users" />
       <Route path="/users">
-        <UserRoutes />
+        <UserModule />
       </Route>
-      {/* 
       <Route path="/posts">
-        <PostsView />
+        <PostModule />
       </Route>
-       */}
       <Route path="/404">
         <NotFoundView />
       </Route>
