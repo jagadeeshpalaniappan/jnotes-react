@@ -1,3 +1,3 @@
-# jnotes-react
+# Jag (React App Notes)
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/jnotes-react)
+[React App Notes ⚡️](https://jnotes-react.stackblitz.io)
