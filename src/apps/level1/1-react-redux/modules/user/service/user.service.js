@@ -28,7 +28,7 @@ export const createUser = async (user) => {
     email: user.email,
     age: user.age,
   };
-  const response = await axios.user(USER_REST_API, body);
+  const response = await axios.post(USER_REST_API, body);
 
   console.log("fetch::createUser:: response:", response);
   return response.data;
