@@ -222,6 +222,7 @@ export const userReducer = (userState = initialUserState, action) => {
           data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
+            code: API_DELETE_USER_SUCCESS,
             msg: "User Deleted Successfully",
           },
         },
