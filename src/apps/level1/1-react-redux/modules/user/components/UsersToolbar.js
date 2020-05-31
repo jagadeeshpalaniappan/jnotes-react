@@ -1,11 +1,18 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import { useRouteMatch, NavLink } from "react-router-dom";
+import { useRouteMatch, NavLink, useHistory } from "react-router-dom";
 import { Button } from "../../../../../designsystem";
 import SearchInput from "../../common/components/SearchInput";
 
-const UsersToolbar = (props) => {
+const UsersToolbar = ({ resetUser }) => {
   let { path } = useRouteMatch();
+  let history = useHistory();
+
+  const gotoCreateUser = () => {
+    resetUser();
+    history.push(`/users/create`);
+  };
+
   return (
     <div>
       <div className="d-flex align-items-center my-3">
@@ -13,6 +20,9 @@ const UsersToolbar = (props) => {
         <Button className="ml-2">Import</Button>
         <Button className="ml-2">Export</Button>
         <Button className="ml-2">Delete All</Button>
+        <Button className="ml-2" onClick={() => gotoCreateUser()}>
+          New user
+        </Button>
         <Button
           tag={NavLink}
           to={`${path}/create`}

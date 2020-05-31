@@ -2,6 +2,7 @@
 
 // SET_MODAL_USER:
 export const SET_MODAL_USER = "SET_MODAL_USER";
+export const RESET_USER = "RESET_USER";
 export const SET_USER_SEARCH_KEYWORD = "SET_USER_SEARCH_KEYWORD";
 
 // GET_USERS:

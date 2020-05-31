@@ -147,10 +147,11 @@ export const userReducer = (userState = initialUserState, action) => {
         ...userState,
         user: {
           ...userState.user,
-          data: action.payload,
+          // data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
             msg: "User Created Successfully",
+            userId: action.payload.id,
           },
         },
       };

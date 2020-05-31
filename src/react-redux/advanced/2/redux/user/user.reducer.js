@@ -12,7 +12,7 @@ import {
   API_DELETE_USER_SUCCESS,
   API_DELETE_USER_FAILURE,
   SET_MODAL_USER,
-  SET_USER_SEARCH_KEYWORD
+  SET_USER_SEARCH_KEYWORD,
 } from "./user.actionTypes";
 
 import { STATUS_TYPES } from "../../../common/constants";
@@ -23,16 +23,16 @@ const initialUserState = {
     data: [],
     status: {
       type: null,
-      msg: ""
-    }
+      msg: "",
+    },
   },
   modalUser: {
     data: {},
     status: {
       type: null,
-      msg: ""
-    }
-  }
+      msg: "",
+    },
+  },
 };
 
 export const userReducer = (userState = initialUserState, action) => {
@@ -45,14 +45,14 @@ export const userReducer = (userState = initialUserState, action) => {
           data: action.payload,
           status: {
             type: null,
-            msg: ""
-          }
-        }
+            msg: "",
+          },
+        },
       };
     case SET_USER_SEARCH_KEYWORD:
       return {
         ...userState,
-        searchKeyword: action.payload
+        searchKeyword: action.payload,
       };
     case API_GET_USERS_START:
       return {
@@ -64,9 +64,9 @@ export const userReducer = (userState = initialUserState, action) => {
             msg:
               action.payload.config && action.payload.config.reload
                 ? "Reloading Users.."
-                : "Loading Users..."
-          }
-        }
+                : "Loading Users...",
+          },
+        },
       };
     case API_GET_USERS_SUCCESS:
       return {
@@ -75,9 +75,9 @@ export const userReducer = (userState = initialUserState, action) => {
           ...userState.users,
           data: action.payload.users,
           status: {
-            type: STATUS_TYPES.SUCCESS
-          }
-        }
+            type: STATUS_TYPES.SUCCESS,
+          },
+        },
       };
     case API_GET_USERS_FAILURE:
       return {
@@ -90,9 +90,9 @@ export const userReducer = (userState = initialUserState, action) => {
               action.payload.config && action.payload.config.reload
                 ? "Problem while reloading users."
                 : "Problem while getting users",
-            more: action.payload.error
-          }
-        }
+            more: action.payload.error,
+          },
+        },
       };
     case API_CREATE_USER_START:
       return {
@@ -101,9 +101,9 @@ export const userReducer = (userState = initialUserState, action) => {
           ...userState.modalUser,
           status: {
             type: STATUS_TYPES.LOADING,
-            msg: "Creating User..."
-          }
-        }
+            msg: "Creating User...",
+          },
+        },
       };
     case API_CREATE_USER_SUCCESS:
       return {
@@ -113,9 +113,9 @@ export const userReducer = (userState = initialUserState, action) => {
           data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
-            msg: "User Created Successfully"
-          }
-        }
+            msg: "User Created Successfully",
+          },
+        },
       };
     case API_CREATE_USER_FAILURE:
       return {
@@ -126,9 +126,9 @@ export const userReducer = (userState = initialUserState, action) => {
           status: {
             type: STATUS_TYPES.FAILURE,
             msg: "User Creation Failed",
-            more: action.payload
-          }
-        }
+            more: action.payload,
+          },
+        },
       };
     case API_UPDATE_USER_START:
       return {
@@ -137,9 +137,9 @@ export const userReducer = (userState = initialUserState, action) => {
           ...userState.modalUser,
           status: {
             type: STATUS_TYPES.LOADING,
-            msg: "Updating User..."
-          }
-        }
+            msg: "Updating User...",
+          },
+        },
       };
     case API_UPDATE_USER_SUCCESS:
       return {
@@ -149,9 +149,9 @@ export const userReducer = (userState = initialUserState, action) => {
           data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
-            msg: "User Updated Successfully"
-          }
-        }
+            msg: "User Updated Successfully",
+          },
+        },
       };
     case API_UPDATE_USER_FAILURE:
       return {
@@ -161,9 +161,9 @@ export const userReducer = (userState = initialUserState, action) => {
           status: {
             type: STATUS_TYPES.FAILURE,
             msg: "User Updation Failed",
-            more: action.payload
-          }
-        }
+            more: action.payload,
+          },
+        },
       };
     case API_DELETE_USER_START:
       return {
@@ -172,9 +172,9 @@ export const userReducer = (userState = initialUserState, action) => {
           ...userState.modalUser,
           status: {
             type: STATUS_TYPES.LOADING,
-            msg: "Deleting User..."
-          }
-        }
+            msg: "Deleting User...",
+          },
+        },
       };
     case API_DELETE_USER_SUCCESS:
       return {
@@ -184,9 +184,9 @@ export const userReducer = (userState = initialUserState, action) => {
           data: action.payload,
           status: {
             type: STATUS_TYPES.SUCCESS,
-            msg: "User Deleted Successfully"
-          }
-        }
+            msg: "User Deleted Successfully",
+          },
+        },
       };
     case API_DELETE_USER_FAILURE:
       return {
@@ -196,9 +196,9 @@ export const userReducer = (userState = initialUserState, action) => {
           status: {
             type: STATUS_TYPES.FAILURE,
             msg: "User Deletion Failed",
-            more: action.payload
-          }
-        }
+            more: action.payload,
+          },
+        },
       };
     default:
       return userState;

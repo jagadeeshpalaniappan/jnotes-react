@@ -8,12 +8,16 @@ import { apiCreateUserAction } from "./api/user.createUser.action";
 import { apiUpdateUserAction } from "./api/user.updateUser.action";
 import { apiDeleteUserAction } from "./api/user.deleteUser.action";
 
-import { SET_MODAL_USER, SET_USER_SEARCH_KEYWORD } from "./user.actionTypes";
+import { RESET_USER, SET_USER_SEARCH_KEYWORD } from "./user.actionTypes";
 
 // LOCAL-ACTIONS:
 
-export const setModalUserAction = (user) => {
-  return { type: SET_MODAL_USER, payload: user };
+// export const setModalUserAction = (user) => {
+//   return { type: SET_MODAL_USER, payload: user };
+// };
+
+export const resetUserAction = () => {
+  return { type: RESET_USER };
 };
 
 export const setUserSearchKeywordAction = (keyword) => {
