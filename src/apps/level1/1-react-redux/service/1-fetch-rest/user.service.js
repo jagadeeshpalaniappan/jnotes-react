@@ -17,7 +17,7 @@ export const getUser = async (user) => {
   const response = await axios.get(`${USER_REST_API}/${user.id}`);
   console.log("fetch::getUsers:: response:", response);
 
-  return response;
+  return response.data;
 };
 
 export const createUser = async (user) => {
@@ -37,12 +37,14 @@ export const createUser = async (user) => {
 export const updateUser = async (user) => {
   console.log("fetch::updateUser:: user:", user);
 
-  const body = {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    age: user.age,
-  };
+  // const body = {
+  //   id: user.id,
+  //   name: user.name,
+  //   email: user.email,
+  //   age: user.age,
+  // };
+
+  const body = user;
   const response = await axios.put(`${USER_REST_API}/${user.id}`, body);
 
   console.log("fetch::updateUser:: response:", response);

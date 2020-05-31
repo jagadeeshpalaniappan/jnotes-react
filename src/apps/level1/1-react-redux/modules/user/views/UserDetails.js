@@ -1,20 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { getUserAction } from "../../../state/user/user.action";
+import { StatusBar } from "../../../components";
+import {
+  getUserAction,
+  deleteUserAction,
+} from "../../../state/user/user.action";
+import UserDetailsToolbar from "../components/UserDetailsToolbar";
 
-function UserDetails({ user, getUser }) {
+function UserDetails({ user, status, getUser, deleteUser }) {
   let { id } = useParams();
   useEffect(() => {
     // onInit:
     getUser({ id });
   }, []);
+
+  const handleDelete = () => {
+    deleteUser(user);
+  };
+
   return (
-    <div>
-      <h2>UserDetails</h2>
-      <p>userId:{id}</p>
+    <div className="container-fluid">
+      <StatusBar status={status} />
+      <UserDetailsToolbar user={user} status={status} onDelete={handleDelete} />
       <pre>{JSON.stringify(user, null, 2)}</pre>
     </div>
   );
@@ -32,6 +42,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getUser: (user) => dispatch(getUserAction(user)),
+    deleteUser: (user) => dispatch(deleteUserAction(user)),
   };
 };
 

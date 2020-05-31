@@ -9,7 +9,7 @@ const UsersToolbar = (props) => {
   return (
     <div>
       <div className="d-flex align-items-center my-3">
-        <h3 class="flex-grow-1 m-0">Users</h3>
+        <h3 className="flex-grow-1 m-0">Users</h3>
         <Button className="ml-2">Import</Button>
         <Button className="ml-2">Export</Button>
         <Button className="ml-2">Delete All</Button>
