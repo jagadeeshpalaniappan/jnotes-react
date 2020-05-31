@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { Button } from "../../../../../designsystem";
 import UserDeleteModal from "./UserDeleteModal";
@@ -13,7 +13,7 @@ const UserDetailsToolbar = ({ user, status, onDelete }) => {
   const deleteSuccess = status.msg === "User Deleted Successfully";
   return (
     <div className="d-flex align-items-center my-3">
-      <h3 class="flex-grow-1 m-0">User</h3>
+      <h3 className="flex-grow-1 m-0">User</h3>
       {!deleteSuccess && (
         <>
           <Button tag={NavLink} to={`/users`} className="ml-2">

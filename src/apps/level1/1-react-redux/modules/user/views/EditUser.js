@@ -15,7 +15,7 @@ function EditUser({ user, status, getUser, updateUser }) {
   useEffect(() => {
     // onInit:
     getUser({ id });
-  }, []);
+  }, [id, getUser]);
 
   const handleSave = () => {
     const updatedUser = { ...user, name: user.name + "111" }; // TODO: handle form
@@ -48,7 +48,12 @@ function EditUser({ user, status, getUser, updateUser }) {
   );
 }
 
-EditUser.propTypes = {};
+EditUser.propTypes = {
+  user: PropTypes.object.isRequired,
+  status: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+  updateUser: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   console.log("EditUser", state);

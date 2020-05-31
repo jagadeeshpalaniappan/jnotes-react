@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import { List } from "../../../components";
 import UserListItem from "./UserListItem";
 
-const UserList = (props) => {
-  const { users, ...rest } = props;
+const UserList = ({ users }) => {
   return (
     <div>
       {users && users.length > 0 && (

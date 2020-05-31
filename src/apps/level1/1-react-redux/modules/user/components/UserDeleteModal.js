@@ -37,6 +37,10 @@ export const UserDeleteModal = ({ item, onOk, onCancel, ...rest }) => {
   );
 };
 
-UserDeleteModal.propTypes = {};
+UserDeleteModal.propTypes = {
+  item: PropTypes.array.isRequired,
+  onOk: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+};
 
 export default UserDeleteModal;

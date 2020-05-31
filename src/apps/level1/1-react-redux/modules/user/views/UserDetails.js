@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -15,7 +15,7 @@ function UserDetails({ user, status, getUser, deleteUser }) {
   useEffect(() => {
     // onInit:
     getUser({ id });
-  }, []);
+  }, [id, getUser]);
 
   const handleDelete = () => {
     deleteUser(user);
@@ -30,13 +30,17 @@ function UserDetails({ user, status, getUser, deleteUser }) {
   );
 }
 
-UserDetails.propTypes = {};
+UserDetails.propTypes = {
+  user: PropTypes.object.isRequired,
+  status: PropTypes.object.isRequired,
+  getUser: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   console.log("UserDetails", state);
   return {
-    status: state.userState.user.status,
     user: state.userState.user.data,
+    status: state.userState.user.status,
   };
 };
 const mapDispatchToProps = (dispatch) => {

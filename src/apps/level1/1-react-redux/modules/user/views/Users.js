@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { UsersToolbar, UsersList } from "../components";
 import { StatusBar } from "../../../components";
 import { getUsersAction } from "../../../state/user/user.action";
+
+import UsersList from "../components/UsersList";
+import UsersToolbar from "../components/UsersToolbar";
 
 // const users = [{ id: 101, name: "Jag1" }];
 
@@ -10,7 +13,7 @@ const Users = ({ users, status, searchKeyword, getUsers }) => {
   useEffect(() => {
     // onInit:
     getUsers();
-  }, []);
+  }, [getUsers]);
 
   return (
     <div className="container-fluid">
@@ -23,7 +26,11 @@ const Users = ({ users, status, searchKeyword, getUsers }) => {
   );
 };
 
-// export default Users;
+Users.propTypes = {
+  users: PropTypes.array.isRequired,
+  status: PropTypes.object.isRequired,
+  getUsers: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   console.log(state);
