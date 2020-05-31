@@ -29,7 +29,7 @@ function EditUser({ user, status, getUser, updateUser }) {
       <div className="d-flex justify-content-end align-items-center my-3">
         <Button
           tag={NavLink}
-          to={`/users`}
+          to={`/users/${id}`}
           className="ml-2"
           disabled={status.type === STATUS_TYPES.LOADING}
         >
