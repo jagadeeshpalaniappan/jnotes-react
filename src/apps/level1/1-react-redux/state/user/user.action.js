@@ -3,6 +3,7 @@
 
 // Recommended Approach (I personally like this approach)
 import { apiGetUsersAction } from "./api/user.getUsers.action";
+import { apiGetUserAction } from "./api/user.getUser.action";
 import { apiCreateUserAction } from "./api/user.createUser.action";
 import { apiUpdateUserAction } from "./api/user.updateUser.action";
 import { apiDeleteUserAction } from "./api/user.deleteUser.action";
@@ -23,6 +24,10 @@ export const setUserSearchKeywordAction = (keyword) => {
 
 export const getUsersAction = () => {
   return apiGetUsersAction();
+};
+
+export const getUserAction = (user) => {
+  return apiGetUserAction(user);
 };
 
 export const createUserAction = (user) => {

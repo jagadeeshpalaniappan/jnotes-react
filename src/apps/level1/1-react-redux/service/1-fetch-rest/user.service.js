@@ -11,13 +11,22 @@ export const getUsers = async () => {
   return response;
 };
 
-export const createUser = async user => {
+export const getUser = async (user) => {
+  console.log("fetch::getUser::");
+
+  const response = await axios.get(`${USER_REST_API}/${user.id}`);
+  console.log("fetch::getUsers:: response:", response);
+
+  return response;
+};
+
+export const createUser = async (user) => {
   console.log("fetch::createUser:: user:", user);
 
   const body = {
     name: user.name,
     email: user.email,
-    age: user.age
+    age: user.age,
   };
   const response = await axios.user(USER_REST_API, body);
 
@@ -25,14 +34,14 @@ export const createUser = async user => {
   return response.data;
 };
 
-export const updateUser = async user => {
+export const updateUser = async (user) => {
   console.log("fetch::updateUser:: user:", user);
 
   const body = {
     id: user.id,
     name: user.name,
     email: user.email,
-    age: user.age
+    age: user.age,
   };
   const response = await axios.put(`${USER_REST_API}/${user.id}`, body);
 
@@ -40,7 +49,7 @@ export const updateUser = async user => {
   return response.data;
 };
 
-export const deleteUser = async user => {
+export const deleteUser = async (user) => {
   console.log("fetch::deleteUser:: user:", user);
 
   const response = await axios.delete(`${USER_REST_API}/${user.id}`);

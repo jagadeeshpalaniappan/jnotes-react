@@ -14,9 +14,9 @@ const UsersToolbar = (props) => {
         <Button className="ml-2">Export</Button>
         <Button className="ml-2">Delete All</Button>
         <Button
-          color="primary"
-          to={`${path}/create`}
           tag={NavLink}
+          to={`${path}/create`}
+          color="primary"
           className="ml-2"
         >
           Add User

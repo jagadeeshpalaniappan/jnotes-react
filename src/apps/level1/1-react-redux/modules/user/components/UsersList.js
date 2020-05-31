@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { List, ListItem } from "../../../components";
+import { List } from "../../../components";
+import UserListItem from "./UserListItem";
 
 const UserList = (props) => {
   const { users, ...rest } = props;
@@ -10,13 +11,7 @@ const UserList = (props) => {
       {users && users.length > 0 && (
         <List>
           {users.map((user) => (
-            <ListItem
-              key={user.id}
-              item={user}
-              tag="button"
-              action
-              onClick={() => console.log(user)}
-            />
+            <UserListItem key={user.id} item={user} action />
           ))}
         </List>
       )}

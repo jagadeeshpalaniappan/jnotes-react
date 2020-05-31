@@ -2,6 +2,9 @@ import {
   API_GET_USERS_START,
   API_GET_USERS_SUCCESS,
   API_GET_USERS_FAILURE,
+  API_GET_USER_START,
+  API_GET_USER_SUCCESS,
+  API_GET_USER_FAILURE,
   API_CREATE_USER_START,
   API_CREATE_USER_SUCCESS,
   API_CREATE_USER_FAILURE,
@@ -21,6 +24,13 @@ import { STATUS_TYPES } from "../../constants";
 const initialUserState = {
   users: {
     data: [],
+    status: {
+      type: null,
+      msg: "",
+    },
+  },
+  user: {
+    data: {},
     status: {
       type: null,
       msg: "",
@@ -90,6 +100,40 @@ export const userReducer = (userState = initialUserState, action) => {
               action.payload.config && action.payload.config.reload
                 ? "Problem while reloading users."
                 : "Problem while getting users",
+            more: action.payload.error,
+          },
+        },
+      };
+    case API_GET_USER_START:
+      return {
+        ...userState,
+        user: {
+          ...userState.user,
+          status: {
+            type: STATUS_TYPES.LOADING,
+            msg: "Loading User...",
+          },
+        },
+      };
+    case API_GET_USER_SUCCESS:
+      return {
+        ...userState,
+        user: {
+          ...userState.user,
+          data: action.payload,
+          status: {
+            type: STATUS_TYPES.SUCCESS,
+          },
+        },
+      };
+    case API_GET_USER_FAILURE:
+      return {
+        ...userState,
+        user: {
+          ...userState.user,
+          status: {
+            type: STATUS_TYPES.FAILURE,
+            msg: "Problem while getting user",
             more: action.payload.error,
           },
         },
