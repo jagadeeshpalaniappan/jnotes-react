@@ -2,7 +2,7 @@ import React from "react";
 // import PropTypes from "prop-types";
 import { useRouteMatch, NavLink } from "react-router-dom";
 import { Button } from "../../../../../designsystem";
-import SearchInput from "../../../components/SearchInput";
+import SearchInput from "../../common/components/SearchInput";
 
 const UsersToolbar = (props) => {
   let { path } = useRouteMatch();

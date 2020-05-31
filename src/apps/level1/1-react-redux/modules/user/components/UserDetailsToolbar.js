@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "../../../../../designsystem";
 import UserDeleteModal from "./UserDeleteModal";
-import { STATUS_TYPES } from "../../../constants";
+import { STATUS_TYPES } from "../../common/constants";
 
 const UserDetailsToolbar = ({ user, status, onDelete }) => {
   const [delModalOpen, setDelModalOpen] = useState(false);

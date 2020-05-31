@@ -5,8 +5,8 @@ import {
 } from "../user.actionTypes";
 
 import { apiGetUsersAction } from "./user.getUsers.action";
-import { deleteUser } from "../../../service/user.service";
-import AppError from "../../../modules/common/utils/AppError";
+import { deleteUser } from "../../service/user.service";
+import AppError from "../../../common/utils/AppError";
 
 // ACTION-CREATORS:
 export const apiDeleteUserStartAction = () => {

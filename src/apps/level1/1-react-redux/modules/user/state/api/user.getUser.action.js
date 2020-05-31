@@ -4,7 +4,7 @@ import {
   API_GET_USER_FAILURE,
 } from "../user.actionTypes";
 
-import { getUser } from "../../../service/user.service";
+import { getUser } from "../../service/user.service";
 
 // ACTION-CREATORS:
 export const apiGetUserStartAction = () => {

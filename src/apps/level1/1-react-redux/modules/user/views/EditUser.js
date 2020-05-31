@@ -3,12 +3,9 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useParams, NavLink } from "react-router-dom";
 import { Button } from "../../../../../designsystem";
-import { StatusBar } from "../../../components";
-import { STATUS_TYPES } from "../../../constants";
-import {
-  getUserAction,
-  updateUserAction,
-} from "../../../state/user/user.action";
+import { StatusBar } from "../../common/components";
+import { STATUS_TYPES } from "../../common/constants";
+import { getUserAction, updateUserAction } from "../state/user.action";
 
 function EditUser({ user, status, getUser, updateUser }) {
   let { id } = useParams();
@@ -24,8 +21,13 @@ function EditUser({ user, status, getUser, updateUser }) {
   return (
     <div className="container-fluid">
       <StatusBar status={status} />
-      <h3 className="flex-grow-1 m-0">Edit User</h3>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+
+      {status.type !== STATUS_TYPES.LOADING && (
+        <>
+          <h3 className="flex-grow-1 m-0">Edit User</h3>
+          <pre>{JSON.stringify(user, null, 2)}</pre>
+        </>
+      )}
       <div className="d-flex justify-content-end align-items-center my-3">
         <Button
           tag={NavLink}

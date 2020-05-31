@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { StatusBar } from "../../../components";
-import { getUsersAction } from "../../../state/user/user.action";
+import { StatusBar } from "../../common/components";
+import { getUsersAction } from "../state/user.action";
 
 import UsersList from "../components/UsersList";
 import UsersToolbar from "../components/UsersToolbar";

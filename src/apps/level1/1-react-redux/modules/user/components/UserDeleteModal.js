@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { AppModal, AppCard } from "../../../components";
+import { AppModal, AppCard } from "../../common/components";
 
 import { Button, Form } from "reactstrap";
 
@@ -38,7 +38,7 @@ export const UserDeleteModal = ({ item, onOk, onCancel, ...rest }) => {
 };
 
 UserDeleteModal.propTypes = {
-  item: PropTypes.array.isRequired,
+  item: PropTypes.object.isRequired,
   onOk: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
 };

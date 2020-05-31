@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Input } from "../../../designsystem";
+import { Input } from "reactstrap";
 
 const SearchInput = ({ onChange, ...rest }) => {
   const handleChange = (e) => {

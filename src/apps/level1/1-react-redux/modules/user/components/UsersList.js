@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { List } from "../../../components";
+import { List } from "../../common/components";
 import UserListItem from "./UserListItem";
 
 const UserList = ({ users }) => {
