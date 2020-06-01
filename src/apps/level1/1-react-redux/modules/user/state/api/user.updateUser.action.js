@@ -1,10 +1,9 @@
+import { push } from "connected-react-router";
 import {
   API_UPDATE_USER_START,
   API_UPDATE_USER_SUCCESS,
   API_UPDATE_USER_FAILURE,
 } from "../user.actionTypes";
-
-import { apiGetUsersAction } from "./user.getUsers.action";
 import { updateUser } from "../../service/user.service";
 
 // ACTION-CREATORS:
@@ -34,7 +33,7 @@ export const apiUpdateUserAction = (user) => async (dispatch) => {
     dispatch(apiUpdateUserStartAction());
     const data = await updateUser(user);
     dispatch(apiUpdateUserSuccessAction(data));
-    dispatch(apiGetUsersAction({ reload: true }));
+    dispatch(push(`/users/${data.id}`));
   } catch (e) {
     dispatch(apiUpdateUserFailureAction(e.message));
   }

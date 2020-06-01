@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { StatusBar } from "../../common/components";
+import LoadingIndicator from "../../common/components/LoadingIndicator";
 import { getUsersAction } from "../state/user.action";
 
 import UsersList from "../components/UsersList";
 import UsersToolbar from "../components/UsersToolbar";
+import UserLayout from "../layout/UserLayout";
 
 // const users = [{ id: 101, name: "Jag1" }];
 
@@ -16,13 +17,11 @@ const Users = ({ users, status, searchKeyword, getUsers }) => {
   }, [getUsers]);
 
   return (
-    <div className="container-fluid">
+    <UserLayout>
       <UsersToolbar />
-      <div>
-        <StatusBar status={status} />
-        <UsersList users={users} />
-      </div>
-    </div>
+      <LoadingIndicator status={status} />
+      <UsersList users={users} />
+    </UserLayout>
   );
 };
 

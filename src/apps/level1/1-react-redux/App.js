@@ -1,17 +1,17 @@
 import React, { Component } from "react";
-import { BrowserRouter } from "react-router-dom";
 import AppStateProvider from "./AppStateProvider";
 import AppNav from "./AppNav";
 import AppRoutes from "./AppRoutes";
 import AppContainer from "./AppContainer";
+import AppRouteProvider from "./AppRouteProvider";
 
 export default class App extends Component {
   render() {
     return (
       <AppStateProvider>
-        <BrowserRouter>
+        <AppRouteProvider>
           <AppContainer nav={<AppNav />} main={<AppRoutes />} />
-        </BrowserRouter>
+        </AppRouteProvider>
       </AppStateProvider>
     );
   }

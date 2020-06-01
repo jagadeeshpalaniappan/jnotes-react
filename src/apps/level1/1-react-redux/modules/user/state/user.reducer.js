@@ -14,14 +14,18 @@ import {
   API_DELETE_USER_START,
   API_DELETE_USER_SUCCESS,
   API_DELETE_USER_FAILURE,
-  SET_MODAL_USER,
   SET_USER_SEARCH_KEYWORD,
+  RESET_USER_MUTATION_STATUS,
 } from "./user.actionTypes";
 
 import { STATUS_TYPES } from "../../common/constants";
 
 // REDUCER:
 const initialUserState = {
+  mutationStatus: {
+    type: null,
+    msg: "",
+  },
   users: {
     data: [],
     status: {
@@ -40,17 +44,10 @@ const initialUserState = {
 
 export const userReducer = (userState = initialUserState, action) => {
   switch (action.type) {
-    case SET_MODAL_USER:
+    case RESET_USER_MUTATION_STATUS:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          data: action.payload,
-          status: {
-            type: null,
-            msg: "",
-          },
-        },
+        mutationStatus: initialUserState.mutationStatus,
       };
     case SET_USER_SEARCH_KEYWORD:
       return {
@@ -102,6 +99,7 @@ export const userReducer = (userState = initialUserState, action) => {
         ...userState,
         user: {
           ...userState.user,
+          data: {},
           status: {
             type: STATUS_TYPES.LOADING,
             msg: "Loading User...",
@@ -134,109 +132,79 @@ export const userReducer = (userState = initialUserState, action) => {
     case API_CREATE_USER_START:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          status: {
-            type: STATUS_TYPES.LOADING,
-            msg: "Creating User...",
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.LOADING,
+          msg: "Creating User...",
         },
       };
     case API_CREATE_USER_SUCCESS:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          // data: action.payload,
-          status: {
-            type: STATUS_TYPES.SUCCESS,
-            msg: "User Created Successfully",
-            userId: action.payload.id,
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.SUCCESS,
+          msg: "User Created Successfully",
         },
       };
     case API_CREATE_USER_FAILURE:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          data: null,
-          status: {
-            type: STATUS_TYPES.FAILURE,
-            msg: "User Creation Failed",
-            more: action.payload,
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.FAILURE,
+          msg: "User Creation Failed",
+          more: action.payload,
         },
       };
     case API_UPDATE_USER_START:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          status: {
-            type: STATUS_TYPES.LOADING,
-            msg: "Updating User...",
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.LOADING,
+          msg: "Updating User...",
         },
       };
     case API_UPDATE_USER_SUCCESS:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          data: action.payload,
-          status: {
-            type: STATUS_TYPES.SUCCESS,
-            msg: "User Updated Successfully",
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.SUCCESS,
+          msg: "User Updated Successfully",
         },
       };
     case API_UPDATE_USER_FAILURE:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          status: {
-            type: STATUS_TYPES.FAILURE,
-            msg: "User Updation Failed",
-            more: action.payload,
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.FAILURE,
+          msg: "User Updation Failed",
+          more: action.payload,
         },
       };
     case API_DELETE_USER_START:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          status: {
-            type: STATUS_TYPES.LOADING,
-            msg: "Deleting User...",
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.LOADING,
+          msg: "Deleting User...",
         },
       };
     case API_DELETE_USER_SUCCESS:
       return {
         ...userState,
-        user: {
-          ...userState.user,
-          data: action.payload,
-          status: {
-            type: STATUS_TYPES.SUCCESS,
-            code: API_DELETE_USER_SUCCESS,
-            msg: "User Deleted Successfully",
-          },
+        mutationStatus: {
+          type: STATUS_TYPES.SUCCESS,
+          msg: "User Deleted Successfully",
         },
       };
     case API_DELETE_USER_FAILURE:
       return {
         ...userState,
         user: {
-          ...userState.user,
-          status: {
-            type: STATUS_TYPES.FAILURE,
-            msg: "User Deletion Failed",
-            more: action.payload,
-          },
+          data: null,
+        },
+        mutationStatus: {
+          type: STATUS_TYPES.FAILURE,
+          msg: "User Deletion Failed",
+          more: action.payload,
         },
       };
     default:

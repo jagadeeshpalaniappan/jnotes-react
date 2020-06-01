@@ -10,6 +10,7 @@ import {
   Input,
   Card,
   Container,
+  Spinner,
 } from "reactstrap";
 
 import { STATUS_TYPES } from "../constants";
@@ -89,26 +90,3 @@ export const ListItem = ({ item, onEdit, onDelete, ...rest }) => {
 export const List = ({ children }) => {
   return <ListGroup>{children}</ListGroup>;
 };
-
-export function StatusBar({ status }) {
-  console.log("StatusBar:", { status });
-  if (!status) return null;
-
-  let color = "light";
-  if (status.type === STATUS_TYPES.LOADING) {
-    color = "primary";
-  } else if (status.type === STATUS_TYPES.FAILURE) {
-    color = "danger";
-  } else if (status.type === STATUS_TYPES.SUCCESS) {
-    color = "success";
-  }
-  return (
-    <>
-      {status.msg && (
-        <Alert color={color}>
-          {status.msg} {status.more && `:: ${status.more}`}
-        </Alert>
-      )}
-    </>
-  );
-}

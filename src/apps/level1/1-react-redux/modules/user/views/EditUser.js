@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useParams, NavLink } from "react-router-dom";
 import { Button } from "../../../../../designsystem";
-import { StatusBar } from "../../common/components";
+import LoadingIndicator from "../../common/components/LoadingIndicator";
+import StatusBar from "../../common/components/StatusBar";
 import { STATUS_TYPES } from "../../common/constants";
 import { getUserAction, updateUserAction } from "../state/user.action";
+import UserLayout from "../layout/UserLayout";
 
-function EditUser({ user, status, getUser, updateUser }) {
+function EditUser({ user, status, mutationStatus, getUser, updateUser }) {
   let { id } = useParams();
   useEffect(() => {
     // onInit:
@@ -19,34 +21,35 @@ function EditUser({ user, status, getUser, updateUser }) {
     updateUser(updatedUser);
   };
   return (
-    <div className="container-fluid">
-      <StatusBar status={status} />
+    <UserLayout>
+      <LoadingIndicator status={status} />
 
-      {status.type !== STATUS_TYPES.LOADING && (
+      {user && Object.keys(user).length > 0 && (
         <>
           <h3 className="flex-grow-1 m-0">Edit User</h3>
           <pre>{JSON.stringify(user, null, 2)}</pre>
+
+          <div className="d-flex justify-content-end align-items-center my-3">
+            <Button
+              tag={NavLink}
+              to={`/users/${id}`}
+              className="ml-2"
+              disabled={mutationStatus.type === STATUS_TYPES.LOADING}
+            >
+              Cancel
+            </Button>
+            <Button
+              color="primary"
+              className="ml-2"
+              onClick={handleSave}
+              disabled={mutationStatus.type === STATUS_TYPES.LOADING}
+            >
+              Save
+            </Button>
+          </div>
         </>
       )}
-      <div className="d-flex justify-content-end align-items-center my-3">
-        <Button
-          tag={NavLink}
-          to={`/users/${id}`}
-          className="ml-2"
-          disabled={status.type === STATUS_TYPES.LOADING}
-        >
-          Cancel
-        </Button>
-        <Button
-          color="primary"
-          className="ml-2"
-          onClick={handleSave}
-          disabled={status.type === STATUS_TYPES.LOADING}
-        >
-          Save
-        </Button>
-      </div>
-    </div>
+    </UserLayout>
   );
 }
 
@@ -60,6 +63,7 @@ EditUser.propTypes = {
 const mapStateToProps = (state) => {
   console.log("EditUser", state);
   return {
+    mutationStatus: state.userState.mutationStatus,
     status: state.userState.user.status,
     user: state.userState.user.data,
   };

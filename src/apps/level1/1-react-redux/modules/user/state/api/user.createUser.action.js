@@ -1,3 +1,4 @@
+import { push } from "connected-react-router";
 import {
   API_CREATE_USER_START,
   API_CREATE_USER_SUCCESS,
@@ -34,7 +35,7 @@ export const apiCreateUserAction = (user) => async (dispatch) => {
     dispatch(apiCreateUserStartAction());
     const data = await createUser(user);
     dispatch(apiCreateUserSuccessAction(data));
-    dispatch(apiGetUsersAction({ reload: true }));
+    dispatch(push(`/users/${data.id}`));
   } catch (e) {
     dispatch(apiCreateUserFailureAction(e.message));
   }

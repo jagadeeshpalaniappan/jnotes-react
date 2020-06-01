@@ -1,3 +1,4 @@
+import { push } from "connected-react-router";
 import {
   API_DELETE_USER_START,
   API_DELETE_USER_SUCCESS,
@@ -36,7 +37,7 @@ export const apiDeleteUserAction = (user) => async (dispatch) => {
     if (data) {
       // SUCCESS
       dispatch(apiDeleteUserSuccessAction(data));
-      dispatch(apiGetUsersAction({ reload: true }));
+      dispatch(push("/users"));
     } else {
       // FAILURE
       throw new AppError("Failed to Delete");
