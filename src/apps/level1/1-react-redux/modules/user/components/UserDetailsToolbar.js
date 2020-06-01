@@ -12,8 +12,7 @@ const UserDetailsToolbar = ({ user, status, onDelete }) => {
 
   const deleteSuccess = status.msg === "User Deleted Successfully";
   return (
-    <div className="d-flex align-items-center my-3">
-      <h3 className="flex-grow-1 m-0">User</h3>
+    <div className="d-flex align-items-center">
       {!deleteSuccess && (
         <>
           <Button tag={NavLink} to={`/users`} className="ml-2">
@@ -45,11 +44,6 @@ const UserDetailsToolbar = ({ user, status, onDelete }) => {
             onCancel={closeDeleteModal}
           />
         </>
-      )}
-      {deleteSuccess && (
-        <Button tag={NavLink} to={`/users`}>
-          Back
-        </Button>
       )}
     </div>
   );

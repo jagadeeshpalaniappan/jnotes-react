@@ -11,8 +11,7 @@ function CreateUser({ mutationStatus, createUser }) {
   };
 
   return (
-    <UserLayout>
-      <h3 className="flex-grow-1 m-0">Create User</h3>
+    <UserLayout title="Create User">
       <UserForm status={mutationStatus} onSave={handleSave} />
     </UserLayout>
   );

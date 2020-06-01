@@ -5,13 +5,25 @@ import StatusBar from "../../common/components/StatusBar";
 
 import { resetMutationStatusAction } from "../state/user.action";
 
-const UserLayout = ({ mutationStatus, resetMutationStatus, children }) => {
+const UserLayout = ({
+  children,
+  title,
+  actions,
+  mutationStatus,
+  resetMutationStatus,
+}) => {
   const handleClose = () => {
     resetMutationStatus();
   };
   return (
     <div className="container-fluid">
       <StatusBar status={mutationStatus} onClose={handleClose} />
+      <div>
+        <div className="d-flex align-items-center my-3">
+          <h3 className="flex-grow-1 m-0">{title}</h3>
+          {actions}
+        </div>
+      </div>
       {children}
     </div>
   );

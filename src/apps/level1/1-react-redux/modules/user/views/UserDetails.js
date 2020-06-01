@@ -22,15 +22,19 @@ function UserDetails({ user, status, getUser, deleteUser }) {
   };
 
   return (
-    <UserLayout>
+    <UserLayout
+      title="User"
+      actions={
+        <UserDetailsToolbar
+          user={user}
+          status={status}
+          onDelete={handleDelete}
+        />
+      }
+    >
       <LoadingIndicator status={status} />
       {user && Object.keys(user).length > 0 && (
         <>
-          <UserDetailsToolbar
-            user={user}
-            status={status}
-            onDelete={handleDelete}
-          />
           <pre>{JSON.stringify(user, null, 2)}</pre>
         </>
       )}

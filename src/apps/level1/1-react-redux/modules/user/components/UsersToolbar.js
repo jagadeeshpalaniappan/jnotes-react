@@ -7,24 +7,18 @@ import SearchInput from "../../common/components/SearchInput";
 const UsersToolbar = ({ resetUser }) => {
   let { path } = useRouteMatch();
   return (
-    <div>
-      <div className="d-flex align-items-center my-3">
-        <h3 className="flex-grow-1 m-0">Users</h3>
-        <Button className="ml-2">Import</Button>
-        <Button className="ml-2">Export</Button>
-        <Button className="ml-2">Delete All</Button>
-        <Button
-          tag={NavLink}
-          to={`${path}/create`}
-          color="primary"
-          className="ml-2"
-        >
-          Add User
-        </Button>
-      </div>
-      <div className="my-3">
-        <SearchInput placeholder="Search user" />
-      </div>
+    <div className="d-flex align-items-center">
+      <Button className="ml-2">Import</Button>
+      <Button className="ml-2">Export</Button>
+      <Button className="ml-2">Delete All</Button>
+      <Button
+        tag={NavLink}
+        to={`${path}/create`}
+        color="primary"
+        className="ml-2"
+      >
+        Add User
+      </Button>
     </div>
   );
 };

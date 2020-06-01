@@ -7,6 +7,7 @@ import { getUsersAction } from "../state/user.action";
 import UsersList from "../components/UsersList";
 import UsersToolbar from "../components/UsersToolbar";
 import UserLayout from "../layout/UserLayout";
+import SearchInput from "../../common/components/SearchInput";
 
 // const users = [{ id: 101, name: "Jag1" }];
 
@@ -17,8 +18,10 @@ const Users = ({ users, status, searchKeyword, getUsers }) => {
   }, [getUsers]);
 
   return (
-    <UserLayout>
-      <UsersToolbar />
+    <UserLayout title="Users" actions={<UsersToolbar />}>
+      <div className="my-3">
+        <SearchInput placeholder="Search user" />
+      </div>
       <LoadingIndicator status={status} />
       <UsersList users={users} />
     </UserLayout>

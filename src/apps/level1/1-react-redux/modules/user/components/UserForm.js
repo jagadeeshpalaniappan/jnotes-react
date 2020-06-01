@@ -31,21 +31,15 @@ function UserForm({ user, status, onSave }) {
       e.preventDefault();
       onSave(e, formVal);
     },
-    [formVal, setFormVal, onSave]
+    [formVal, onSave]
   );
-
-  //   const handleCancel = (e) => {
-  //     console.log("UserFormContainer:: handleCancel: formVal:", formVal);
-  //     setFormVal({});
-  //     onCancel();
-  //   };
 
   return (
     <div>
       <Form onSubmit={handleSubmit}>
         {/* <p> {JSON.stringify(formVal)} </p> */}
 
-        {user && user.id && (
+        {/* {user && user.id && (
           <FormGroup>
             <label htmlFor="userId">ID:</label>
             <Input
@@ -57,6 +51,7 @@ function UserForm({ user, status, onSave }) {
             />
           </FormGroup>
         )}
+         */}
         <FormGroup>
           <label htmlFor="name">Name:</label>
           <Input
@@ -94,7 +89,7 @@ function UserForm({ user, status, onSave }) {
         <div className="d-flex justify-content-end align-items-center my-3">
           <Button
             tag={NavLink}
-            to={`/users`}
+            to={user && user.id ? `/users/${user.id}` : `/users`}
             className="ml-2"
             disabled={status.type === STATUS_TYPES.LOADING}
           >

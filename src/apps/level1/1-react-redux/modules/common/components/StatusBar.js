@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Alert } from "reactstrap";
 
 import { STATUS_TYPES } from "../constants";
 
-function StatusBar({ status, onClose }) {
+function StatusBar({ status, onClose, timeout }) {
   const [visible, setVisible] = useState(true);
-  const onDismiss = () => {
+  const onDismiss = useCallback(() => {
     setVisible(false);
     onClose();
-  };
+  }, [onClose]);
+
   let color = "light";
   if (status.type === STATUS_TYPES.LOADING) {
     color = "primary";
@@ -18,6 +19,21 @@ function StatusBar({ status, onClose }) {
   } else if (status.type === STATUS_TYPES.SUCCESS) {
     color = "success";
   }
+
+  useEffect(() => {
+    let myTimer = null;
+    if (status.type === STATUS_TYPES.SUCCESS) {
+      // call: onDismiss after '1000ms'
+      myTimer = setTimeout(onDismiss, timeout);
+    }
+    return () => {
+      if (myTimer) {
+        // clears: myTimer (setTimeout) when component unmount
+        clearTimeout(myTimer);
+      }
+    };
+  }, [status.type, onDismiss, timeout]);
+
   return (
     <>
       {status.msg && (
@@ -36,6 +52,10 @@ function StatusBar({ status, onClose }) {
 StatusBar.propTypes = {
   status: PropTypes.object.isRequired,
   onClose: PropTypes.func,
+  timeout: PropTypes.number,
+};
+StatusBar.defaultProps = {
+  timeout: 6000,
 };
 
 export default StatusBar;
