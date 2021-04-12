@@ -4,11 +4,12 @@ import React, { useState, useCallback } from "react";
 
 // https://www.youtube.com/watch?v=RkBg0gDTLU8&list=PLN3n1USn4xlmyw3ebYuZmGp60mcENitdM&index=6
 
-
 // WhenToUse? useCallback
 /*
-useCallback
-  - when we do not want to create a newFn everytime component render
+useCallback:  // to memoize function creations
+  - when we do not want to creat a newFn everytime component render
+  - Since javascript compares equality by reference, the function you create the first time a component renders will be different than the one created in subsequent renders
+  - If you try passing a function as `props` or `state`, this means that it will be treated as a prop change every single time. By wrapping it in useCallback, React will know that it's the same function. You can still add a dependency array to trigger a recalculation if the dependencies change.
 */
 
 // ---------------------------------------------------------------------------
@@ -38,7 +39,6 @@ const SimpleSlowComp = () => {
     </div>
   );
 };
-
 
 const SimpleFastComp = () => {
   console.log("SimpleFastComp:: render");

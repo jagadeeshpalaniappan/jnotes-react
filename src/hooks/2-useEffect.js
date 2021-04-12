@@ -9,6 +9,22 @@ import React, { useEffect, useState } from "react";
 useEffect:
   - use in place of componentDidMount, componentDidUpdate, and componentWillUnmount
   - run something whenever particularProp changes (Shallow Compare)
+
+
+  #usecase1:
+  - if we wanted to execute a `fn` whenever some 'prop' or 'state' changes
+  - useEffect(myFn, [dependency1, dependency2])
+
+  #usecase2:
+  - if we wanted to execute a `fn` whenever component mount or unmount
+  - useEffect(()=> {
+    console.log("executed only once -during componentDidMount")
+    return () => {
+      // cleanup
+      console.log("executed only once -during componentWillUnMount")
+    }
+  }, [])
+  
 */
 
 // ---------------------------------------------------------------------------
@@ -58,7 +74,6 @@ const MyComp2 = ({ state1, state2 }) => {
 };
 
 const MyComp3 = ({ state1, state2 }) => {
-
   const _state2Changed = () => {
     console.log("MyComp3:: 'state2' changed");
     const cleanUp = () => {

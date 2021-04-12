@@ -6,16 +6,44 @@ import React, { useState, useMemo, useEffect } from "react";
 
 // WhenToUse? useCallback vs useMemo vs useEffect
 /*
-useCallback
+useCallback:  // to memoize function creations
   - when we do not want to creat a newFn everytime component render
+  - Since javascript compares equality by reference, the function you create the first time a component renders will be different than the one created in subsequent renders
+  - If you try passing a function as `props` or `state`, this means that it will be treated as a prop change every single time. By wrapping it in useCallback, React will know that it's the same function. You can still add a dependency array to trigger a recalculation if the dependencies change.
 
-useMemo
-  - when we have 'pureFn' which is supposed to call only when dependency prop change // NOT every render
 
-useEffect
-  - when we have 'fn: that uses useState' which is supposed to call only when dependency prop change // NOT every render
+useEffect:
+
+  #usecase1:
+  - if we wanted to execute a `fn` whenever some 'prop' or 'state' changes
+  - useEffect(myFn, [dependency1, dependency2])
+
+  #usecase2:
+  - if we wanted to execute a `fn` whenever component mount or unmount
+  - useEffect(()=> {
+    console.log("executed only once -during componentDidMount")
+    return () => {
+      // cleanup
+      console.log("executed only once -during componentWillUnMount")
+    }
+  }, [])
+
+  when we have 'fn: that uses useState' which is supposed to call only when dependency prop change // NOT every render
   - asyncCall
   - pub/sub (dom listeners)
+
+useMemo:
+  - Unlike `useEffect`, React.useMemo does not trigger every time you change one of its dependencies.
+  - A memoized function will first check to see if the dependencies have changed since the last render. 
+  - If so, it executes the function and returns the result. 
+  - If false, it simply returns the cached result from the last execution.
+  
+  - This is good place for expensive operations like 
+    - 'transforming API data 'or doing 'major calculations' 
+    - that you don't want to be re-doing unnecessarily
+  
+  E.g. longestUserId
+
 */
 
 // ---------------------------------------------------------------------------
