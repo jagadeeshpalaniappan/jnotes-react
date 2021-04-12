@@ -9,7 +9,7 @@ import React, { useReducer, useState } from "react";
 /*
 useReducer
   - when we have more complex logic to handle use 'useReducer'
-  - this helps to seperate the logic out of Component
+  - this helps to 'seperate the logic out of Component'
 
 useState
 - when we have simple logic to handle use 'useReducer'

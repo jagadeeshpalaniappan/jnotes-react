@@ -32,11 +32,11 @@ useEffect:
   - asyncCall
   - pub/sub (dom listeners)
 
-useMemo:
+useMemo: // memoizedResults
   - Unlike `useEffect`, React.useMemo does not trigger every time you change one of its dependencies.
   - A memoized function will first check to see if the dependencies have changed since the last render. 
   - If so, it executes the function and returns the result. 
-  - If false, it simply returns the cached result from the last execution.
+  - If false, it simply returns the "cached result" from the last execution.
   
   - This is good place for expensive operations like 
     - 'transforming API data 'or doing 'major calculations' 
