@@ -10,4 +10,6 @@ import "./index.css";
 
 // LEARN: React Redux
 // import './react-redux/beginner/index';
-import "./react-redux/advanced/index";
+// import "./react-redux/advanced/index";
+
+import "./react-redux/quick-overview/index";

@@ -3,12 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
     "@apollo/react-hooks": "3.1.5",
     "@types/react": "16.9.35",
     "apollo-boost": "0.4.8",
@@ -20,7 +14,9 @@
     "graphql-tag": "2.10.3",
     "jquery": "3.5.1",
     "popper.js": "1.16.1",
-    "prop-types": "^15.7.2",
+    "prop-types": "15.7.2",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "react-redux": "7.2.0",
     "react-router-dom": "5.2.0",
     "reactstrap": "8.4.1",
@@ -28,6 +24,7 @@
     "redux-logger": "4.0.0",
     "redux-thunk": "2.3.0",
     "redux-undo": "1.0.1",
+    "reselect": "^4.0.0",
     "uuid": "8.0.0"
   },
   "scripts": {
