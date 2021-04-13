@@ -48,7 +48,7 @@ const Counter = ({ counter, increment, decrement }) => {
 const CounterMzd = React.memo(Counter);
 
 // connect: AppContext
-const CounterContainer = () => {
+function CounterContainer() {
   const { state, dispatch } = useContext(AppContext);
   return (
     <CounterMzd
@@ -57,14 +57,13 @@ const CounterContainer = () => {
       decrement={payload => dispatch(decrementAction(payload))}
     />
   );
-};
+}
 
 //------------------ App -------------
 const initialState = { counter: 5 };
 
 const App = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
-  console.log({ state, dispatch });
   const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   return (
     <AppContext.Provider value={value}>
