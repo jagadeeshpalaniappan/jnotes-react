@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useReducer, useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useMemo,
+  useCallback
+} from "react";
 // import { Provider, connect } from "react-redux";
 // import { createStore, combineReducers } from "redux";
 import {
@@ -87,12 +93,29 @@ const todosReducer = (state = defaultTodosState, action) => {
 // const appStore = createStore(rootReducer);
 
 const combineReducers = rootState => {
-  return (state, action) =>
-    Object.entries(rootState).forEach(([stateKey, fn]) =>
-      fn(state[stateKey], action)
-    );
-};
+  return (state, action) => {
+    let newState = state;
+    for (const [moduleKey, moduleReducer] of Object.entries(rootState)) {
+      console.log("START", {
+        moduleKey,
+        moduleState: newState[moduleKey],
+        newState
+      });
 
+      const currModuleState = newState[moduleKey];
+      const newModuleState = moduleReducer(newState[moduleKey], action);
+      console.log(`${moduleKey}-changed:`, currModuleState !== newModuleState);
+      if (currModuleState !== newModuleState)
+        newState = { ...newState, [moduleKey]: newModuleState };
+      console.log("END:", {
+        moduleKey,
+        moduleState: newState[moduleKey],
+        newState
+      });
+    }
+    return newState;
+  };
+};
 const appReducer = combineReducers({
   countState: countReducer, // Count Module
   todoState: todosReducer // Todos Module
@@ -105,37 +128,59 @@ const CounterMzd = React.memo(Counter);
 // connect: AppContext
 function CounterContainer() {
   const { state, dispatch } = useContext(AppContext);
+  console.log("CounterContainer", { state, dispatch });
+  const increment = useCallback(payload => dispatch(incrementAction(payload)), [
+    dispatch
+  ]);
+  const decrement = useCallback(payload => dispatch(decrementAction(payload)), [
+    dispatch
+  ]);
   return (
     <CounterMzd
       counter={state.countState.counter}
-      increment={payload => dispatch(incrementAction(payload))}
-      decrement={payload => dispatch(decrementAction(payload))}
+      increment={increment}
+      decrement={decrement}
     />
   );
 }
 
-//------------ AddTodo:
+//------------ AddTodoContainer:
+
+const AddTodoFormMzd = React.memo(AddTodoForm);
 
 // connect: AppContext
-function AddTodo() {
-  const { dispatch } = useContext(AppContext);
-  return <AddTodoForm addTodo={payload => dispatch(addTodoAction(payload))} />;
-}
-
-//------------ Filters:
-
-// connect: AppContext
-function Filters() {
+function AddTodoContainer() {
   const { state, dispatch } = useContext(AppContext);
+  console.log("AddTodoContainer", { state, dispatch });
+  const addTodo = useCallback(payload => dispatch(addTodoAction(payload)), [
+    dispatch
+  ]);
+  return <AddTodoFormMzd addTodo={addTodo} />;
+}
+
+//------------ FiltersContainer:
+
+const FiltersFormMzd = React.memo(FiltersForm);
+
+// connect: AppContext
+function FiltersContainer() {
+  const { state, dispatch } = useContext(AppContext);
+  console.log("FiltersContainer", { state, dispatch });
+  const setVisibilityFilter = useCallback(
+    payload => dispatch(setVisibilityFilterAction(payload)),
+    [dispatch]
+  );
   return (
-    <FiltersForm
+    <FiltersFormMzd
       filter={state.todoState.visibilityFilter}
-      setVisibilityFilter={dispatch(setVisibilityFilterAction(payload))}
+      setVisibilityFilter={setVisibilityFilter}
     />
   );
 }
 
-//------------ VisibleTodoList:
+//------------ VisibleTodoListContainer:
+
+const TodoListMzd = React.memo(TodoList);
 
 const getVisibleTodos = (todos, filter) => {
   console.log("getVisibleTodos");
@@ -158,18 +203,19 @@ const getVisibleTodos = (todos, filter) => {
   SOLN:
   - Reselect can help to avoid these unnecessary recalculations.
   */
-function VisibleTodoList() {
+function VisibleTodoListContainer() {
   const { state, dispatch } = useContext(AppContext);
+  console.log("VisibleTodoListContainer", { state, dispatch });
   const todos = getVisibleTodos(
     state.todoState.todos,
     state.todoState.visibilityFilter
   );
-  return (
-    <TodoList
-      todos={todos}
-      toggleTodo={payload => dispatch(toggleTodoAction({ id: payload }))}
-    />
+
+  const toggleTodo = useCallback(
+    payload => dispatch(toggleTodoAction({ id: payload })),
+    [dispatch]
   );
+  return <TodoListMzd todos={todos} toggleTodo={toggleTodo} />;
 }
 
 //------------ App:
@@ -181,12 +227,13 @@ const initialState = {
 const App = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  console.log("App", { value });
   return (
     <AppContext.Provider value={value}>
       <CounterContainer />
-      <AddTodo />
-      <VisibleTodoList />
-      <Filters />
+      <AddTodoContainer />
+      <VisibleTodoListContainer />
+      <FiltersContainer />
     </AppContext.Provider>
   );
 };
