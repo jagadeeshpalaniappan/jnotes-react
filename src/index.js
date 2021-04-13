@@ -12,5 +12,6 @@ import "./index.css";
 // import './x--more-redux/react-redux/beginner/index';
 // import "./x--more-redux/react-redux/advanced/index";
 
-// import "./react-redux-pattern/with-redux/index";
-import "./react-redux-pattern/without-redux/index";
+// LEARN: React Redux Pattern
+// import "./react-redux-pattern/with-redux/index"; // redux, reselect
+import "./react-redux-pattern/without-redux/index"; // using: useReducer, useContext, useMemo, useCallback
