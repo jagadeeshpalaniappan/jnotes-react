@@ -1,8 +1,12 @@
-import React from "react";
+import React, { createContext, useContext, useReducer, useMemo } from "react";
 import { Provider, connect } from "react-redux";
 import { createStore, combineReducers } from "redux";
 
-// ###################################### REDUX #####################################
+// ################################## NO-REDUX (useContext + useReducer) ##################################
+
+//------------------ Context -------------
+const AppContext = createContext();
+
 //------------------ Actions -------------
 // ACTION-TYPES:
 const INCREMENT = "INCREMENT";
@@ -15,7 +19,7 @@ const decrementAction = payload => ({ type: DECREMENT, payload });
 //------------------ Reducers -------------
 const defaultState = { counter: 0 };
 
-const appReducer = (state = defaultState, action) => {
+const appReducer = (state, action) => {
   console.log("appReducer:", { state, action });
   switch (action.type) {
     case INCREMENT:
@@ -26,10 +30,6 @@ const appReducer = (state = defaultState, action) => {
       return state;
   }
 };
-
-//------------------ Store -------------
-const rootReducer = combineReducers({ appState: appReducer });
-const appStore = createStore(rootReducer);
 
 // #################################### REACT-COMP ####################################
 
@@ -47,31 +47,29 @@ const Counter = ({ counter, increment, decrement }) => {
 // memoizeCompProps: shallow compare props and decide re-render
 const CounterMzd = React.memo(Counter);
 
-// extractData: from Redux State
-const mapStateToProps = (state, ownProps) => {
-  return {
-    counter: state.appState.counter
-  };
+// connect: AppContext
+const CounterContainer = () => {
+  const { state, dispatch } = useContext(AppContext);
+  return (
+    <CounterMzd
+      counter={state.counter}
+      increment={payload => dispatch(incrementAction(payload))}
+      decrement={payload => dispatch(decrementAction(payload))}
+    />
+  );
 };
-
-// dispatchReduxActions:
-const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    increment: payload => dispatch(incrementAction(payload)),
-    decrement: payload => dispatch(decrementAction(payload))
-  };
-};
-
-// connectReduxStore:
-// prettier-ignore
-const CounterContainer = connect(mapStateToProps,mapDispatchToProps)(CounterMzd);
 
 //------------------ App -------------
+const initialState = { counter: 5 };
+
 const App = () => {
+  const [state, dispatch] = useReducer(appReducer, initialState);
+  console.log({ state, dispatch });
+  const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   return (
-    <Provider store={appStore}>
+    <AppContext.Provider value={value}>
       <CounterContainer />
-    </Provider>
+    </AppContext.Provider>
   );
 };
 
