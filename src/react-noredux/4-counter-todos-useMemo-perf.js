@@ -11,6 +11,7 @@ import {
   Counter,
   AddTodoForm,
   TodoList,
+  
   FiltersForm,
   VisibilityFilters
 } from "../components";
@@ -54,8 +55,44 @@ const countReducer = (state = defaultCountState, action) => {
   }
 };
 
+// const defaultTodosState = {
+//   todos: [{ id: "101", text: "One", completed: false }],
+//   visibilityFilter: VisibilityFilters.SHOW_ALL
+// };
+// const todosReducer = (state = defaultTodosState, action) => {
+//   console.log("todosReducer:", { state, action });
+//   const { payload } = action;
+//   switch (action.type) {
+//     case ADD_TODO:
+//       return {
+//         ...state,
+//         todos: [
+//           ...state.todos,
+//           { id: payload.id, text: payload.text, completed: false }
+//         ]
+//       };
+//     case TOGGLE_TODO:
+//       return {
+//         ...state,
+//         todos: state.todos.map(todo =>
+//           todo.id === payload.id
+//             ? { ...todo, completed: !todo.completed }
+//             : todo
+//         )
+//       };
+//     case SET_VISIBILITY_FILTER:
+//       return { ...state, visibilityFilter: payload.filter };
+//     default:
+//       return state;
+//   }
+// };
+
 const defaultTodosState = {
-  todos: [{ id: "101", text: "One", completed: false }],
+  // todos: [{ id: "101", text: "One", completed: false }],
+  todoIds: ["101"],
+  todoMap: {
+    "101": { id: "101", text: "One", completed: false }
+  },
   visibilityFilter: VisibilityFilters.SHOW_ALL
 };
 const todosReducer = (state = defaultTodosState, action) => {
@@ -65,19 +102,20 @@ const todosReducer = (state = defaultTodosState, action) => {
     case ADD_TODO:
       return {
         ...state,
-        todos: [
-          ...state.todos,
-          { id: payload.id, text: payload.text, completed: false }
-        ]
+        todoIds: [...state.todoIds, payload.id],
+        todoMap: {
+          ...state.todoMap,
+          [payload.id]: { id: payload.id, text: payload.text, completed: false }
+        }
       };
     case TOGGLE_TODO:
+      const todo = state.todoMap[payload.id];
       return {
         ...state,
-        todos: state.todos.map(todo =>
-          todo.id === payload.id
-            ? { ...todo, completed: !todo.completed }
-            : todo
-        )
+        todoMap: {
+          ...state.todoMap,
+          [payload.id]: { ...todo, completed: !todo.completed }
+        }
       };
     case SET_VISIBILITY_FILTER:
       return { ...state, visibilityFilter: payload.filter };
@@ -180,19 +218,39 @@ function FiltersContainer() {
 
 //------------ VisibleTodoListContainer:
 
+function TodoListItemContainer({ id }) {
+  const { state, dispatch } = useContext(AppContext);
+  console.log("TodoListItemContainer", { state, dispatch });
+  const toggleTodo = useCallback(() => dispatch(toggleTodoAction({ id })), [
+    dispatch
+  ]);
+
+  return <Todo todo={state.todoState.todoMap[id]} onClick={toggleTodo} />;
+}
+
+const TodoList = ({ todoIds }) => {
+  console.log("TodoList");
+  return (
+    <ul>
+      {todoIds.map(todoId => (
+        <TodoListItemContainer key={todoId} id={todoId} />
+      ))}
+    </ul>
+  );
+};
 const TodoListMzd = React.memo(TodoList);
 
-const getVisibleTodos = (todos, filter) => {
+const getVisibleTodos = (filter, todoIds, todoMap) => {
   console.log("getVisibleTodos");
   switch (filter) {
     case VisibilityFilters.SHOW_ALL:
-      return todos;
+      return todoIds;
     case VisibilityFilters.SHOW_COMPLETED:
-      return todos.filter(t => t.completed);
+      return todoIds.filter(todoId => todoMap[todoId].completed);
     case VisibilityFilters.SHOW_ACTIVE:
-      return todos.filter(t => !t.completed);
+      return todoIds.filter(todoId => !todoMap[todoId].completed);
     default:
-      throw new Error("Unknown filter: " + filter);
+      return todoIds;
   }
 };
 
@@ -206,18 +264,16 @@ const getVisibleTodos = (todos, filter) => {
 function VisibleTodoListContainer() {
   const { state, dispatch } = useContext(AppContext);
   console.log("VisibleTodoListContainer", { state, dispatch });
-  const todos = useMemo(() => {
-    return getVisibleTodos(
-      state.todoState.todos,
-      state.todoState.visibilityFilter
-    );
-  }, [state.todoState.todos, state.todoState.visibilityFilter]);
+  const { visibilityFilter, todoIds, todoMap } = state.todoState;
+  const visibleTodoIds = useMemo(() => {
+    return getVisibleTodos(visibilityFilter, todoIds, todoMap);
+  }, [visibilityFilter, todoIds, todoMap]);
 
   const toggleTodo = useCallback(
     payload => dispatch(toggleTodoAction({ id: payload })),
     [dispatch]
   );
-  return <TodoListMzd todos={todos} toggleTodo={toggleTodo} />;
+  return <TodoListMzd todoIds={visibleTodoIds} toggleTodo={toggleTodo} />;
 }
 
 //------------ App:
