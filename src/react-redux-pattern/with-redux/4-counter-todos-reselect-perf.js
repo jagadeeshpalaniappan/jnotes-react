@@ -9,7 +9,7 @@ import {
   Todo,
   FiltersForm,
   VisibilityFilters
-} from "./components";
+} from "../components";
 
 // ###################################### REDUX #####################################
 

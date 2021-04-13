@@ -12,5 +12,5 @@ import "./index.css";
 // import './react-redux/beginner/index';
 // import "./react-redux/advanced/index";
 
-// import "./react-redux/quick-overview/index";
-import "./react-noredux/index";
+// import "./react-redux-pattern/with-redux/index";
+// import "./react-redux-pattern/without-redux/index";

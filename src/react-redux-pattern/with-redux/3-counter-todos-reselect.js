@@ -2,7 +2,13 @@ import React, { useState, useRef } from "react";
 import { createStore, combineReducers } from "redux";
 import { Provider, connect } from "react-redux";
 import { createSelector } from "reselect";
-import { Counter, AddTodoForm, TodoList, FiltersForm, VisibilityFilters } from "./components";
+import {
+  Counter,
+  AddTodoForm,
+  TodoList,
+  FiltersForm,
+  VisibilityFilters
+} from "../components";
 
 // ###################################### REDUX #####################################
 
@@ -20,7 +26,10 @@ const decrementAction = payload => ({ type: DECREMENT, payload });
 
 const addTodoAction = payload => ({ type: ADD_TODO, payload });
 const toggleTodoAction = payload => ({ type: TOGGLE_TODO, payload });
-const setVisibilityFilterAction = payload => ({ type: SET_VISIBILITY_FILTER, payload });
+const setVisibilityFilterAction = payload => ({
+  type: SET_VISIBILITY_FILTER,
+  payload
+});
 
 // REDUCERS:
 const defaultCountState = { counter: 0 };
@@ -48,12 +57,19 @@ const todosReducer = (state = defaultTodosState, action) => {
     case ADD_TODO:
       return {
         ...state,
-        todos: [...state.todos, { id: payload.id, text: payload.text, completed: false }]
+        todos: [
+          ...state.todos,
+          { id: payload.id, text: payload.text, completed: false }
+        ]
       };
     case TOGGLE_TODO:
       return {
         ...state,
-        todos: state.todos.map(todo => (todo.id === payload.id ? { ...todo, completed: !todo.completed } : todo))
+        todos: state.todos.map(todo =>
+          todo.id === payload.id
+            ? { ...todo, completed: !todo.completed }
+            : todo
+        )
       };
     case SET_VISIBILITY_FILTER:
       return { ...state, visibilityFilter: payload.filter };
