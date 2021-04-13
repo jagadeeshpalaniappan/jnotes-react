@@ -174,8 +174,12 @@ function VisibleTodoList() {
 
 //------------ App:
 
+const initialState = {
+  countState: defaultCountState,
+  todoState: defaultTodosState
+};
 const App = () => {
-  const [state, dispatch] = useReducer(appReducer);
+  const [state, dispatch] = useReducer(appReducer, initialState);
   const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
   return (
     <AppContext.Provider value={value}>
