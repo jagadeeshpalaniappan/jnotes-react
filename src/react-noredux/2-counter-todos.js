@@ -8,7 +8,6 @@ import {
   FiltersForm,
   VisibilityFilters
 } from "../react-redux/quick-overview/components";
-import { connect } from "react-redux";
 
 // ###################################### REDUX #####################################
 
@@ -120,7 +119,7 @@ function CounterContainer() {
 // connect: AppContext
 function AddTodo() {
   const { dispatch } = useContext(AppContext);
-  return <AddTodo addTodo={payload => dispatch(addTodoAction(payload))} />;
+  return <AddTodoF addTodo={payload => dispatch(addTodoAction(payload))} />;
 }
 
 //------------ Filters:
