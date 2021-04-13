@@ -116,22 +116,22 @@ const CounterContainer = (() => {
   return CounterContainer;
 })();
 
-//------------ AddTodo:
+//------------ AddTodoContainer:
 
-const AddTodo = (() => {
+const AddTodoContainer = (() => {
   const mapDispatchToProps = (dispatch, ownProps) => ({
     addTodo: payload => dispatch(addTodoAction(payload))
   });
 
   // connectReduxStore:
   // prettier-ignore
-  const AddTodo = connect(null, mapDispatchToProps)(AddTodoForm);
-  return AddTodo;
+  const AddTodoContainer = connect(null, mapDispatchToProps)(AddTodoForm);
+  return AddTodoContainer;
 })();
 
-//------------ Filters:
+//------------ FiltersContainer:
 
-const Filters = (() => {
+const FiltersContainer = (() => {
   const mapStateToProps = (state, ownProps) => ({
     filter: state.todoState.visibilityFilter
   });
@@ -141,11 +141,11 @@ const Filters = (() => {
   });
 
   // prettier-ignore
-  const Filters = connect(mapStateToProps, mapDispatchToProps)(FiltersForm);
-  return Filters;
+  const FiltersContainer = connect(mapStateToProps, mapDispatchToProps)(FiltersForm);
+  return FiltersContainer;
 })();
 
-//------------ Filters:
+//------------ FiltersContainer:
 
 const TodoContainer = (() => {
   const mapStateToProps = (state, ownProps) => ({
@@ -161,7 +161,7 @@ const TodoContainer = (() => {
   return TodoContainer;
 })();
 
-//------------ VisibleTodoList:
+//------------ VisibleTodoListContainer:
 
 const TodoList = ({ todoIds }) => {
   console.log("TodoList");
@@ -174,7 +174,7 @@ const TodoList = ({ todoIds }) => {
   );
 };
 
-const VisibleTodoList = (() => {
+const VisibleTodoListContainer = (() => {
   const getVisibilityFilter = state => state.todoState.visibilityFilter;
   const getTodoIds = state => state.todoState.todoIds;
   const getTodoMap = state => state.todoState.todoMap;
@@ -207,8 +207,8 @@ const VisibleTodoList = (() => {
   });
 
   // prettier-ignore
-  const VisibleTodoList = connect(mapStateToProps,mapDispatchToProps)(TodoList);
-  return VisibleTodoList;
+  const VisibleTodoListContainer = connect(mapStateToProps,mapDispatchToProps)(TodoList);
+  return VisibleTodoListContainer;
 })();
 
 //------------ App:
@@ -216,9 +216,9 @@ const VisibleTodoList = (() => {
 const App = () => (
   <Provider store={appStore}>
     <CounterContainer />
-    <AddTodo />
-    <VisibleTodoList />
-    <Filters />
+    <AddTodoContainer />
+    <VisibleTodoListContainer />
+    <FiltersContainer />
   </Provider>
 );
 
