@@ -119,7 +119,7 @@ function CounterContainer() {
 // connect: AppContext
 function AddTodo() {
   const { dispatch } = useContext(AppContext);
-  return <AddTodoF addTodo={payload => dispatch(addTodoAction(payload))} />;
+  return <AddTodoForm addTodo={payload => dispatch(addTodoAction(payload))} />;
 }
 
 //------------ Filters:
