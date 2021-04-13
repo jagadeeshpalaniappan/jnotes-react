@@ -7,7 +7,7 @@ import {
   TodoList,
   FiltersForm,
   VisibilityFilters
-} from "../react-redux/quick-overview/components";
+} from "../components";
 
 // ###################################### REDUX #####################################
 
