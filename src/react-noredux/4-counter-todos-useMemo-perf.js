@@ -11,7 +11,7 @@ import {
   Counter,
   AddTodoForm,
   TodoList,
-  
+  Todo,
   FiltersForm,
   VisibilityFilters
 } from "../components";
@@ -218,6 +218,7 @@ function FiltersContainer() {
 
 //------------ VisibleTodoListContainer:
 
+const TodoMzd = React.memo(Todo);
 function TodoListItemContainer({ id }) {
   const { state, dispatch } = useContext(AppContext);
   console.log("TodoListItemContainer", { state, dispatch });
@@ -225,7 +226,7 @@ function TodoListItemContainer({ id }) {
     dispatch
   ]);
 
-  return <Todo todo={state.todoState.todoMap[id]} onClick={toggleTodo} />;
+  return <TodoMzd todo={state.todoState.todoMap[id]} onClick={toggleTodo} />;
 }
 
 const TodoList = ({ todoIds }) => {
