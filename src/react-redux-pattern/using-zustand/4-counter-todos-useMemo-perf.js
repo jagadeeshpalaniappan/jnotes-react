@@ -57,7 +57,6 @@ const todosStore = (set) => ({
   toggleTodo: (payload) => {
     // update the state
     set((state) => {
-
       const todo = state.todoMap[payload.id];
       const updatedTodoMap = {
         ...state.todoMap,
