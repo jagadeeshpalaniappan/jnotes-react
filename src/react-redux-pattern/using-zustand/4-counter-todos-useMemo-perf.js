@@ -16,177 +16,84 @@ import {
   VisibilityFilters,
 } from '../components';
 
-// ###################################### REDUX #####################################
+// ################################## STATE-MGMNT (using zustand) ##################################
 
-//------------------ Context -------------
-const AppContext = createContext();
-
-// ACTION-TYPES:
-const INCREMENT = 'INCREMENT';
-const DECREMENT = 'DECREMENT';
-
-const ADD_TODO = 'ADD_TODO';
-const TOGGLE_TODO = 'TOGGLE_TODO';
-const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
-
-// ACTION-CREATORS:
-const incrementAction = (payload) => ({ type: INCREMENT, payload });
-const decrementAction = (payload) => ({ type: DECREMENT, payload });
-
-const addTodoAction = (payload) => ({ type: ADD_TODO, payload });
-const toggleTodoAction = (payload) => ({ type: TOGGLE_TODO, payload });
-const setVisibilityFilterAction = (payload) => ({
-  type: SET_VISIBILITY_FILTER,
-  payload,
+//------------------ counterStore -------------
+const counterStore = (set) => ({
+  counter: 0,
+  incrementCounter: ({ amount }) => {
+    // update the state
+    set((state) => ({ counter: state.counter + amount }));
+  },
+  decrementCounter: ({ amount }) => {
+    // update the state
+    set((state) => ({ counter: state.counter - amount }));
+  },
 });
+const useCounterStore = create(counterStore);
 
-// REDUCERS:
-const defaultCountState = { counter: 0 };
-const countReducer = (state = defaultCountState, action) => {
-  console.log('countReducer:', { state, action });
-  const { payload } = action;
-  switch (action.type) {
-    case INCREMENT:
-      return { ...state, counter: state.counter + action.payload.amount };
-    case DECREMENT:
-      return { ...state, counter: state.counter - action.payload.amount };
-    default:
-      return state;
-  }
-};
-
-// const defaultTodosState = {
-//   todos: [{ id: "101", text: "One", completed: false }],
-//   visibilityFilter: VisibilityFilters.SHOW_ALL
-// };
-// const todosReducer = (state = defaultTodosState, action) => {
-//   console.log("todosReducer:", { state, action });
-//   const { payload } = action;
-//   switch (action.type) {
-//     case ADD_TODO:
-//       return {
-//         ...state,
-//         todos: [
-//           ...state.todos,
-//           { id: payload.id, text: payload.text, completed: false }
-//         ]
-//       };
-//     case TOGGLE_TODO:
-//       return {
-//         ...state,
-//         todos: state.todos.map(todo =>
-//           todo.id === payload.id
-//             ? { ...todo, completed: !todo.completed }
-//             : todo
-//         )
-//       };
-//     case SET_VISIBILITY_FILTER:
-//       return { ...state, visibilityFilter: payload.filter };
-//     default:
-//       return state;
-//   }
-// };
-
-const defaultTodosState = {
-  // todos: [{ id: "101", text: "One", completed: false }],
+//------------------ todosStore -------------
+const todosStore = (set) => ({
+  // todos: [],
   todoIds: ['101'],
   todoMap: {
     101: { id: '101', text: 'One', completed: false },
   },
   visibilityFilter: VisibilityFilters.SHOW_ALL,
-};
-const todosReducer = (state = defaultTodosState, action) => {
-  console.log('todosReducer:', { state, action });
-  const { payload } = action;
-  switch (action.type) {
-    case ADD_TODO:
+  setVisibilityFilter: (payload) => {
+    // update the state
+    set((state) => ({ ...state, visibilityFilter: payload.filter }));
+  },
+  addTodo: (payload) => {
+    const newTodo = { id: payload.id, text: payload.text, completed: false };
+    // update the state
+    set((state) => {
+      const updatedTodoIds = [...state.todoIds, payload.id];
+      const updatedTodoMap = {
+        ...state.todoMap,
+        [payload.id]: newTodo,
+      };
       return {
         ...state,
-        todoIds: [...state.todoIds, payload.id],
-        todoMap: {
-          ...state.todoMap,
-          [payload.id]: {
-            id: payload.id,
-            text: payload.text,
-            completed: false,
-          },
-        },
+        todoIds: updatedTodoIds,
+        todoMap: updatedTodoMap,
       };
-    case TOGGLE_TODO:
-      const todo = state.todoMap[payload.id];
-      return {
-        ...state,
-        todoMap: {
-          ...state.todoMap,
-          [payload.id]: { ...todo, completed: !todo.completed },
-        },
+    }));
+  },
+  toggleTodo: (selectedTodoId) => {
+    // update the state
+    set((state) => {
+      const todo = state.todoMap[selectedTodoId];
+      const updatedTodoMap = {
+        ...state.todoMap,
+        [selectedTodoId]: { ...todo, completed: !todo.completed },
       };
-    case SET_VISIBILITY_FILTER:
-      return { ...state, visibilityFilter: payload.filter };
-    default:
-      return state;
-  }
-};
-
-// const rootReducer = combineReducers({
-//   countState: countReducer, // Count Module
-//   todoState: todosReducer // Todos Module
-// });
-// const appStore = createStore(rootReducer);
-
-const combineReducers = (rootState) => {
-  return (state, action) => {
-    let newState = state;
-    for (const [moduleKey, moduleReducer] of Object.entries(rootState)) {
-      console.log('START', {
-        moduleKey,
-        moduleState: newState[moduleKey],
-        newState,
-      });
-
-      const currModuleState = newState[moduleKey];
-      const newModuleState = moduleReducer(newState[moduleKey], action);
-      console.log(`${moduleKey}-changed:`, currModuleState !== newModuleState);
-      if (currModuleState !== newModuleState)
-        newState = { ...newState, [moduleKey]: newModuleState };
-      console.log('END:', {
-        moduleKey,
-        moduleState: newState[moduleKey],
-        newState,
-      });
-    }
-    return newState;
-  };
-};
-const appReducer = combineReducers({
-  countState: countReducer, // Count Module
-  todoState: todosReducer, // Todos Module
+      return { ...state, todos: updatedTodos };
+    });
+  },
 });
+const useTodosStore = create(todosStore);
 
-// ############################### CONTEXT-CONNECTED-COMPS #################################
+// ############################### HOOK-CONNECTED-COMPS #################################
 
 // memoizeCompProps: shallow compare props and decide re-render
 const CounterMzd = React.memo(Counter);
-// connect: AppContext
+
+// connect: zustand store hook
 function CounterContainer() {
-  const { state, dispatch } = useContext(AppContext);
-  console.log('CounterContainer', { state, dispatch });
-  const increment = useCallback(
-    (payload) => dispatch(incrementAction(payload)),
-    [dispatch]
-  );
-  const decrement = useCallback(
-    (payload) => dispatch(decrementAction(payload)),
-    [dispatch]
-  );
+  console.log('CounterContainer');
+  const counter = useCounterStore((state) => state.counter);
+  const incrementCounter = useCounterStore((state) => state.incrementCounter);
+  const decrementCounter = useCounterStore((state) => state.decrementCounter);
   return (
     <CounterMzd
-      counter={state.countState.counter}
-      increment={increment}
-      decrement={decrement}
+      counter={counter}
+      increment={incrementCounter}
+      decrement={decrementCounter}
     />
   );
 }
+
 
 //------------ AddTodoContainer:
 
@@ -194,12 +101,8 @@ const AddTodoFormMzd = React.memo(AddTodoForm);
 
 // connect: AppContext
 function AddTodoContainer() {
-  const { state, dispatch } = useContext(AppContext);
-  console.log('AddTodoContainer', { state, dispatch });
-  const addTodo = useCallback(
-    (payload) => dispatch(addTodoAction(payload)),
-    [dispatch]
-  );
+  console.log('AddTodoContainer');
+  const addTodo = useTodosStore((state) => state.addTodo);
   return <AddTodoFormMzd addTodo={addTodo} />;
 }
 
@@ -209,32 +112,30 @@ const FiltersFormMzd = React.memo(FiltersForm);
 
 // connect: AppContext
 function FiltersContainer() {
-  const { state, dispatch } = useContext(AppContext);
-  console.log('FiltersContainer', { state, dispatch });
-  const setVisibilityFilter = useCallback(
-    (payload) => dispatch(setVisibilityFilterAction(payload)),
-    [dispatch]
+  console.log('FiltersContainer');
+  const visibilityFilter = useTodosStore((state) => state.visibilityFilter);
+  const setVisibilityFilter = useTodosStore(
+    (state) => state.setVisibilityFilter
   );
   return (
     <FiltersFormMzd
-      filter={state.todoState.visibilityFilter}
+      filter={visibilityFilter}
       setVisibilityFilter={setVisibilityFilter}
     />
   );
 }
 
+
+
 //------------ VisibleTodoListContainer:
 
 const TodoMzd = React.memo(Todo);
 function TodoListItemContainer({ id }) {
-  const { state, dispatch } = useContext(AppContext);
-  console.log('TodoListItemContainer', { state, dispatch });
-  const toggleTodo = useCallback(
-    () => dispatch(toggleTodoAction({ id })),
-    [dispatch]
-  );
+  console.log('TodoListItemContainer');
+  const todoMap = useTodosStore((state) => state.todoMap);
+  const toggleTodo = useTodosStore((state) => state.toggleTodo);
 
-  return <TodoMzd todo={state.todoState.todoMap[id]} onClick={toggleTodo} />;
+  return <TodoMzd todo={todoMap[id]} onClick={toggleTodo} />;
 }
 
 const TodoList = ({ todoIds }) => {
@@ -268,20 +169,18 @@ const getVisibleTodos = (filter, todoIds, todoMap) => {
   - `todos` is calculated every time the state tree is updated.
   - if `getVisibleTodos` fn is expensive // it cause performance issues
   SOLN:
-  - Reselect can help to avoid these unnecessary recalculations.
+  - use useMemo to cache the visibleTodos results
   */
 function VisibleTodoListContainer() {
-  const { state, dispatch } = useContext(AppContext);
-  console.log('VisibleTodoListContainer', { state, dispatch });
-  const { visibilityFilter, todoIds, todoMap } = state.todoState;
+  console.log('VisibleTodoListContainer');
+  const todoIds = useTodosStore((state) => state.todoIds);
+  const todoMap = useTodosStore((state) => state.todoMap);
+  const visibilityFilter = useTodosStore((state) => state.visibilityFilter);
   const visibleTodoIds = useMemo(() => {
     return getVisibleTodos(visibilityFilter, todoIds, todoMap);
   }, [visibilityFilter, todoIds, todoMap]);
 
-  const toggleTodo = useCallback(
-    (payload) => dispatch(toggleTodoAction({ id: payload })),
-    [dispatch]
-  );
+  const toggleTodo = useTodosStore((state) => state.toggleTodo);
   return <TodoListMzd todoIds={visibleTodoIds} toggleTodo={toggleTodo} />;
 }
 
@@ -292,16 +191,14 @@ const initialState = {
   todoState: defaultTodosState,
 };
 const App = () => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
-  const value = useMemo(() => ({ state, dispatch }), [state, dispatch]);
-  console.log('App', { value });
+  console.log('App');
   return (
-    <AppContext.Provider value={value}>
+    <div>
       <CounterContainer />
       <AddTodoContainer />
       <VisibleTodoListContainer />
       <FiltersContainer />
-    </AppContext.Provider>
+    </div>
   );
 };
 

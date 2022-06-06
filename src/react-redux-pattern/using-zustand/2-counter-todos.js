@@ -58,6 +58,7 @@ const CounterMzd = React.memo(Counter);
 
 // connect: zustand store hook
 function CounterContainer() {
+  console.log('CounterContainer');
   const counter = useCounterStore((state) => state.counter);
   const incrementCounter = useCounterStore((state) => state.incrementCounter);
   const decrementCounter = useCounterStore((state) => state.decrementCounter);
@@ -76,6 +77,7 @@ const AddTodoFormMzd = React.memo(AddTodoForm);
 
 // connect: AppContext
 function AddTodoContainer() {
+  console.log('AddTodoContainer');
   const addTodo = useTodosStore((state) => state.addTodo);
   return <AddTodoFormMzd addTodo={addTodo} />;
 }
@@ -86,6 +88,7 @@ const FiltersFormMzd = React.memo(FiltersForm);
 
 // connect: AppContext
 function FiltersContainer() {
+  console.log('FiltersContainer');
   const visibilityFilter = useTodosStore((state) => state.visibilityFilter);
   const setVisibilityFilter = useTodosStore(
     (state) => state.setVisibilityFilter
@@ -124,6 +127,7 @@ const getVisibleTodos = (todos, filter) => {
   - use useMemo to cache the visibleTodos results
   */
 function VisibleTodoListContainer() {
+  console.log('VisibleTodoListContainer');
   const todos = useTodosStore((state) => state.todos);
   const visibilityFilter = useTodosStore((state) => state.visibilityFilter);
   const visibleTodos = getVisibleTodos(todos, visibilityFilter);
