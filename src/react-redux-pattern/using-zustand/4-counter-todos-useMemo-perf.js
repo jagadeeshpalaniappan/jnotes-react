@@ -1,12 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useReducer,
-  useMemo,
-  useCallback,
-} from 'react';
-// import { Provider, connect } from "react-redux";
-// import { createStore, combineReducers } from "redux";
+import React, { useMemo, useCallback } from 'react';
+import create from 'zustand';
+
 import {
   Counter,
   AddTodoForm,
@@ -58,17 +52,18 @@ const todosStore = (set) => ({
         todoIds: updatedTodoIds,
         todoMap: updatedTodoMap,
       };
-    }));
+    });
   },
-  toggleTodo: (selectedTodoId) => {
+  toggleTodo: (payload) => {
     // update the state
     set((state) => {
-      const todo = state.todoMap[selectedTodoId];
+
+      const todo = state.todoMap[payload.id];
       const updatedTodoMap = {
         ...state.todoMap,
-        [selectedTodoId]: { ...todo, completed: !todo.completed },
+        [payload.id]: { ...todo, completed: !todo.completed },
       };
-      return { ...state, todos: updatedTodos };
+      return { ...state, todoMap: updatedTodoMap };
     });
   },
 });
@@ -93,7 +88,6 @@ function CounterContainer() {
     />
   );
 }
-
 
 //------------ AddTodoContainer:
 
@@ -125,8 +119,6 @@ function FiltersContainer() {
   );
 }
 
-
-
 //------------ VisibleTodoListContainer:
 
 const TodoMzd = React.memo(Todo);
@@ -134,8 +126,9 @@ function TodoListItemContainer({ id }) {
   console.log('TodoListItemContainer');
   const todoMap = useTodosStore((state) => state.todoMap);
   const toggleTodo = useTodosStore((state) => state.toggleTodo);
+  const handleClick = useCallback(() => toggleTodo({ id }), [toggleTodo]);
 
-  return <TodoMzd todo={todoMap[id]} onClick={toggleTodo} />;
+  return <TodoMzd todo={todoMap[id]} onClick={handleClick} />;
 }
 
 const TodoList = ({ todoIds }) => {
@@ -180,16 +173,11 @@ function VisibleTodoListContainer() {
     return getVisibleTodos(visibilityFilter, todoIds, todoMap);
   }, [visibilityFilter, todoIds, todoMap]);
 
-  const toggleTodo = useTodosStore((state) => state.toggleTodo);
-  return <TodoListMzd todoIds={visibleTodoIds} toggleTodo={toggleTodo} />;
+  return <TodoListMzd todoIds={visibleTodoIds} />;
 }
 
 //------------ App:
 
-const initialState = {
-  countState: defaultCountState,
-  todoState: defaultTodosState,
-};
 const App = () => {
   console.log('App');
   return (
