@@ -1,6 +1,6 @@
 // console.log("Jag React (Notes)");
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
 // LEARN: React Hooks
 // import './hooks/index';
@@ -14,4 +14,5 @@ import "./index.css";
 
 // LEARN: React Redux Pattern
 // import "./react-redux-pattern/with-redux/index"; // redux, reselect
-import "./react-redux-pattern/without-redux/index"; // using: useReducer, useContext, useMemo, useCallback
+// import "./react-redux-pattern/without-redux/index"; // using: useReducer, useContext, useMemo, useCallback
+import './react-redux-pattern/using-zustand/index'; // using zustand, useMemo
