@@ -1,11 +1,10 @@
 import React from 'react';
-import create from 'zustand';
 
 import { signal } from '@preact/signals-react';
 
-// ################################## STATE-MGMNT (using zustand) ##################################
+// ################################## STATE-MGMNT (using preact-signals) ##################################
 
-//------------------ counterStore -------------
+//------------------ counterSignal -------------
 let counterSignal = signal(4);
 const incrementCounter = ({ amount }) => {
   counterSignal.value = counterSignal.value + amount;
@@ -15,6 +14,13 @@ const decrementCounter = ({ amount }) => {
 };
 
 // #################################### REACT-COMP ####################################
+
+//------------------ DisplayCounter -------------
+// use: signals directly
+function DisplayCounter() {
+  console.log('Counter');
+  return <h1>Counter: ## {counterSignal} ## </h1>;
+}
 
 //------------------ Counter -------------
 const Counter = ({ counter, increment, decrement }) => {
@@ -30,11 +36,11 @@ const Counter = ({ counter, increment, decrement }) => {
 // memoizeCompProps: shallow compare props and decide re-render
 const CounterMzd = React.memo(Counter);
 
-// connect: zustand store hook
+// pass: signals as props
 function CounterContainer() {
   return (
     <CounterMzd
-      counter={counterSignal}
+      counter={counterSignal.value}
       increment={incrementCounter}
       decrement={decrementCounter}
     />
@@ -42,11 +48,11 @@ function CounterContainer() {
 }
 
 //------------------ App -------------
-const initialState = { counterSignal: 5 };
 
 const App = () => {
   return (
     <div>
+      <DisplayCounter />
       <CounterContainer />
     </div>
   );
