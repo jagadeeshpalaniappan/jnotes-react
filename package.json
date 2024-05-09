@@ -4,7 +4,8 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "3.1.5",
-    "@types/react": "16.9.35",
+    "@types/react": "^18.0.8",
+    "@types/react-dom": "^18.0.2",
     "apollo-boost": "0.4.8",
     "apollo-client": "2.6.10",
     "axios": "0.19.2",
@@ -15,8 +16,9 @@
     "jquery": "3.5.1",
     "popper.js": "1.16.1",
     "prop-types": "15.7.2",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
+    "@preact/signals-react": "^1.1.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-redux": "7.2.0",
     "react-router-dom": "5.2.0",
     "reactstrap": "8.4.1",
@@ -37,11 +39,7 @@
     "extends": "react-app"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

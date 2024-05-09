@@ -1,6 +1,10 @@
 import React from 'react';
 import create from 'zustand';
 
+import { signal } from '@preact/signals-react';
+
+const count = signal(0);
+
 // ################################## STATE-MGMNT (using zustand) ##################################
 
 //------------------ counterStore -------------
