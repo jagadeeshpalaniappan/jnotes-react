@@ -6,12 +6,12 @@ import { signal } from '@preact/signals-react';
 // ################################## STATE-MGMNT (using zustand) ##################################
 
 //------------------ counterStore -------------
-let counter = signal(0);
+let counterSignal = signal(4);
 const incrementCounter = ({ amount }) => {
-  counter = counter + amount;
+  counterSignal.value = counterSignal.value + amount;
 };
 const decrementCounter = ({ amount }) => {
-  counter = counter - amount;
+  counterSignal.value = counterSignal.value - amount;
 };
 
 // #################################### REACT-COMP ####################################
@@ -34,7 +34,7 @@ const CounterMzd = React.memo(Counter);
 function CounterContainer() {
   return (
     <CounterMzd
-      counter={counter}
+      counter={counterSignal}
       increment={incrementCounter}
       decrement={decrementCounter}
     />
@@ -42,7 +42,7 @@ function CounterContainer() {
 }
 
 //------------------ App -------------
-const initialState = { counter: 5 };
+const initialState = { counterSignal: 5 };
 
 const App = () => {
   return (
