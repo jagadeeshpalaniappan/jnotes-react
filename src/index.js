@@ -13,7 +13,7 @@ import './index.css';
 // import "./x--more-redux/react-redux/advanced/index";
 
 // LEARN: React Redux Pattern
-// import "./2-state-management/1-using-redux/index"; // redux, reselect
+// import './2-state-management/1-using-redux/index'; // redux, reselect
 // import "./2-state-management/2-using-react-context/index"; // using: useReducer, useContext, useMemo, useCallback
 import './2-state-management/3-using-zustand/index'; // using zustand, useMemo
 
